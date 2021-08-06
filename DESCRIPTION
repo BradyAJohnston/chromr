@@ -1,11 +1,11 @@
 Package: chromr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Read and Plot FPLC Chromatograms
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Brady Johnston
+Maintainer: Brady Johnston <brady.johnston@me.com>
+Description: For reading files from BioRad QuadTec machines and making plots of 
+    the charomatograms.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -14,7 +14,8 @@ BugReports: https://github.com/BradyAJohnston/chromr/issues
 RoxygenNote: 7.1.1
 Imports: 
     dplyr,
+    ggplot2,
     magrittr,
+    scales,
+    stringr,
     tidyr
-Depends: 
-    ggplot2
