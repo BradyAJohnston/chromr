@@ -15,7 +15,7 @@ chrom_read <- function(
   header = NULL
 ) {
   if (is.null(header)){
-    header <- max(stringr::str_which(readLines(fl), "[:alpha:]"))
+    header <- max(stringr::str_which(readLines(file), "[:alpha:]"))
   }
   # print(header)
 
