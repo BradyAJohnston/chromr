@@ -4,6 +4,8 @@
 #' @param file Path to file.
 #' @param tidy Logical, whether or not to return a "tidy" tibble.
 #' @param header Position of header values (NULL attempts to auto-detect).
+#' @param ID String to identify the particular chromatogram / run.
+#' @param df Return just dataframe, or list containing dataframe and other run details.
 #'
 #' @return
 #' @export
@@ -11,6 +13,8 @@
 #' @examples
 chrom_read <- function(
   file,
+  ID = NULL,
+  df = FALSE,
   tidy = TRUE,
   header = NULL
 ) {
@@ -63,7 +67,16 @@ chrom_read <- function(
       )
   }
 
+  if (!is.null(ID)) {
+    run$data$ID <- ID
+  }
+
   run$wl <- wavelengths
-  run
+
+  if (df) {
+    run$data
+  } else {
+    df
+  }
 
 }

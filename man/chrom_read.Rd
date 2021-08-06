@@ -4,10 +4,14 @@
 \alias{chrom_read}
 \title{Read chromatogram file.}
 \usage{
-chrom_read(file, tidy = TRUE, header = NULL)
+chrom_read(file, ID = NULL, df = FALSE, tidy = TRUE, header = NULL)
 }
 \arguments{
 \item{file}{Path to file.}
+
+\item{ID}{String to identify the particular chromatogram / run.}
+
+\item{df}{Return just dataframe, or list containing dataframe and other run details.}
 
 \item{tidy}{Logical, whether or not to return a "tidy" tibble.}
 
