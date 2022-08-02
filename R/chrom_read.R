@@ -1,82 +1,106 @@
-
-#' Read chromatogram file.
+#' Interpolate Volume from Time
 #'
-#' @param file Path to file.
-#' @param tidy Logical, whether or not to return a "tidy" tibble.
-#' @param header Position of header values (NULL attempts to auto-detect).
-#' @param ID String to identify the particular chromatogram / run.
-#' @param df Return just dataframe, or list containing dataframe and other run details.
+#' Interpolates the volume column values, based on the time column values.
+#'
+#' Some FPLC systems don't report accurate volume data, but do report accurate
+#' timing data. This function takes the time and volume data and interpolates
+#' the otherwise constant volume data in accordance with the time points.
+#'
+#' @param df
+#'
+#' @importFrom rlang :=
+#' @return
+#' @export
+#'
+#' @examples
+chrom_interp_volume <- function(df, time, volume) {
+  df |>
+    dplyr::select({{ time }}, {{ volume }}) |>
+    unique() |>
+    dplyr::mutate(
+      same = {{ volume }} != dplyr::lag({{ volume }}),
+      same = dplyr::if_else(is.na(same), TRUE, FALSE),
+      group = cumsum(same)
+    ) |>
+    dplyr::group_by(group, {{ volume }}) |>
+    tidyr::nest() |>
+    dplyr::ungroup() |>
+    dplyr::mutate(vol_new = dplyr::lead({{ volume }})) |>
+    tidyr::unnest(data) |>
+    dplyr::group_by({{ volume }}) |>
+    dplyr::mutate(
+      row = dplyr::row_number(),
+      factor = row / max(row),
+      vol_adjusted = {{ volume }} + factor * (vol_new - {{ volume }})
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::select({{ time }}, {{ volume }} := vol_adjusted)
+}
+
+#' Read BioRad QuadTech Chromatogram Files
+#'
+#' @param file Exported `.TXT` chromatogram file from the BioRad QuadTech.
+#' @param interp_volume Logical. If TRUE, interpolates the values in the volume column based on the values in the time column.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-chrom_read <- function(
-  file,
-  ID = NULL,
-  df = FALSE,
-  tidy = TRUE,
-  header = NULL
-) {
-  if (is.null(header)){
-    header <- max(stringr::str_which(readLines(file), "[:alpha:]"))
-  }
-  # print(header)
+chrom_read_quadtech <- function(file, interp_volume = TRUE) {
+  start_line <- readr::read_lines(file, n_max = 50) |>
+    stringr::str_trim() |>
+    stringr::str_which("^\\d") |>
+    min()
 
-  head_info <- readLines(file, n = header-1)
+  data <-
+    readr::read_csv(file, skip = start_line - 2, col_types = readr::cols())
 
-  splits <- stringr::str_split(head_info, ",")
+  met <-
+    readr::read_csv(
+      file,
+      n_max = start_line - 3,
+      col_names = FALSE,
+      col_types = readr::cols()
+    ) |>
+    dplyr::rename(category = 1, meta = 2)
 
-  details <- as.data.frame(do.call(rbind, splits))
+  met <- met |>
+    dplyr::filter(stringr::str_detect(category, "Quad")) |>
+    dplyr::mutate(
+      wl = as.numeric(stringr::str_extract(meta, "\\d{3}")),
+      channel = as.numeric(stringr::str_extract(category, "\\d$"))
+    )
 
-  colnames(details) <- c("detail", "value", "extra")
 
-  data <- read.csv(file, skip = header - 1)
+  data <- data |>
+    janitor::clean_names() |>
+    tidyr::pivot_longer(cols = dplyr::contains("quad")) |>
+    dplyr::mutate(name = as.numeric(stringr::str_extract(name, "\\d$"))) |>
+    dplyr::rename(channel = name) |>
+    dplyr::left_join(met,
+                     by = c("channel" = "channel"))
 
+  if (interp_volume) {
+    volume_interp <- chrom_interp_volume(data, time, volume)
 
-  run <- list(
-    details = details,
-    data = data
-  )
-
-  # print(colnames(run$data))
-
-  wavelengths <- run$details[grep("Quadtec", run$details$detail, ignore.case = TRUE), ]
-
-  wavelengths$channel <- as.numeric(stringr::str_extract(wavelengths$detail, "\\d"))
-
-  wavelengths$wl <- as.numeric(stringr::str_extract(wavelengths$value, "\\d+(?=.)"))
-
-  colnames(run$data) <- ifelse(
-    stringr::str_detect(colnames(run$data), "QuadTec.\\d"),
-    wavelengths$wl[as.numeric(stringr::str_extract(colnames(run$data), "\\d"))],
-    colnames(data)
-  )
-
-  print(paste("Detected Column names are as follows:", colnames(run$data)))
-
-  if (tidy) {
-    run$data <- run$data %>%
-      tidyr::pivot_longer(
-        cols = stringr::str_which(
-          colnames(.),
-          "\\d\\d\\d"
-        ),
-        values_to = "abs",
-        names_to = "wl"
-      )
+    data <- data |>
+      dplyr::select(-volume) |>
+      dplyr::left_join(volume_interp, by = c("time" = "time"))
   }
 
-  if (!is.null(ID)) {
-    run$data$ID <- ID
-  }
+  data <- data |>
+    dplyr::select(
+      time,
+      volume,
+      wl,
+      abs = value,
+      gradient = gradient_pump,
+      pressure = gp_pressure,
+      cond = conductivity,
+      dplyr::everything(),
+      -category,
+      -meta
+    )
 
-  run$wl <- wavelengths
-
-  if (df) {
-    run$data
-  } else {
-    df
-  }
-
+  data
 }
