@@ -9,7 +9,8 @@ chrom_read_quadtech(file, interp_volume = TRUE)
 \arguments{
 \item{file}{Exported `.TXT` chromatogram file from the BioRad QuadTech.}
 
-\item{interp_volume}{Logical. If TRUE, interpolates the values in the volume column based on the values in the time column.}
+\item{interp_volume}{Logical. If TRUE, interpolates the values in the volume
+column based on the values in the time column.}
 }
 \description{
 Read BioRad QuadTech Chromatogram Files
