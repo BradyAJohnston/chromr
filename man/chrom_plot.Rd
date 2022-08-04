@@ -4,15 +4,12 @@
 \alias{chrom_plot}
 \title{Create basic plot of chromatogram.}
 \usage{
-chrom_plot(chrom, channels = NULL)
+chrom_plot(data, channels = NULL, xlim = NULL, ylim = NULL)
 }
 \arguments{
-\item{chrom}{Chrom object from \code{read_chrom()}.}
-
 \item{channels}{Character vector of valengths to plot (e.g. \code{c("280", "260")}).}
-}
-\value{
 
+\item{chrom}{Chrom object from \code{read_chrom()}.}
 }
 \description{
 Create basic plot of chromatogram.
