@@ -2,13 +2,17 @@
 % Please edit documentation in R/chrom_read.R
 \name{chrom_find_data_start_line}
 \alias{chrom_find_data_start_line}
-\title{Title}
+\title{Find the Line Where Data Begins}
 \usage{
 chrom_find_data_start_line(file, n_lines = 50)
 }
 \arguments{
-\item{n_lines}{}
+\item{file}{File path to the file to read.}
+
+\item{n_lines}{Number of lines to search for the start of the data.}
 }
 \description{
-Title
+Finds the line where the tabular data begins. This is then used to
+start the reading of the data with `readr::read_csv()` and end the reading
+of the metadata.
 }

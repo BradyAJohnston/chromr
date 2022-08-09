@@ -18,4 +18,5 @@ Imports:
     magrittr,
     scales,
     stringr,
+    tibble,
     tidyr

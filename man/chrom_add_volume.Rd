@@ -2,13 +2,18 @@
 % Please edit documentation in R/chrom_read.R
 \name{chrom_add_volume}
 \alias{chrom_add_volume}
-\title{Title}
+\title{Add Volume Column From Time Units}
 \usage{
-chrom_add_volume(df, flow_rate = 0.5, time = "second")
+chrom_add_volume(.data, flow_rate = 0.5, time = "second")
 }
 \arguments{
-\item{time}{}
+\item{.data}{Data frame or tibble with a column called 'time'.}
+
+\item{flow_rate}{Flow rate in ml/min.}
+
+\item{time}{Time unit when exported.}
 }
 \description{
-Title
+Adds a column with calculated volums from the time column given a particular
+flow rate. Currently only constant flow rates are supported.
 }

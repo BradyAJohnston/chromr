@@ -4,10 +4,14 @@
 \alias{chrom_interp_volume}
 \title{Interpolate Volume from Time}
 \usage{
-chrom_interp_volume(df, time, volume)
+chrom_interp_volume(.data, time, volume)
 }
 \arguments{
-\item{df}{}
+\item{.data}{Data frame with a volume column to be interpolated.}
+
+\item{time}{Name of the time column to use for interpolation.}
+
+\item{volume}{Name of the volumn column to interpolate along the time.}
 }
 \description{
 Interpolates the volume column values, based on the time column values.

@@ -2,13 +2,16 @@
 % Please edit documentation in R/chrom_read.R
 \name{chrom_get_meta_quadtech}
 \alias{chrom_get_meta_quadtech}
-\title{Title}
+\title{Reads Metadata from QuadTech Chromatogram}
 \usage{
 chrom_get_meta_quadtech(file, start_line)
 }
 \arguments{
-\item{file}{}
+\item{file}{Path to the chromatogram file.}
+
+\item{start_line}{Start of the data and thus end of the metadata. Determined
+with `chromr::chrom_find_data_start_line()`}
 }
 \description{
-Title
+Reads Metadata from QuadTech Chromatogram
 }

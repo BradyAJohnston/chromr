@@ -6,15 +6,17 @@
 #' timing data. This function takes the time and volume data and interpolates
 #' the otherwise constant volume data in accordance with the time points.
 #'
-#' @param df
+#' @param .data Data frame with a volume column to be interpolated.
+#' @param time Name of the time column to use for interpolation.
+#' @param volume Name of the volumn column to interpolate along the time.
 #'
 #' @importFrom rlang :=
 #' @return
 #' @export
 #'
 #' @examples
-chrom_interp_volume <- function(df, time, volume) {
-  df |>
+chrom_interp_volume <- function(.data, time, volume) {
+  .data |>
     dplyr::select({{ time }}, {{ volume }}) |>
     unique() |>
     dplyr::mutate(
@@ -78,8 +80,8 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     dplyr::left_join(wavelengths,
                      by = c("channel" = "channel"))
 
-  volume_present <- sum(stringr::str_detect(colnames(data), "volume"))
-
+  volume_present <- as.logical(sum(stringr::str_detect(colnames(data), "volume")))
+  print(volume_present)
   if (interp_volume & volume_present) {
     volume_interp <- chrom_interp_volume(data, time, volume)
 
@@ -95,9 +97,6 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
         volume,
         wl,
         abs,
-        gradient = gradient_pump,
-        pressure = gp_pressure,
-        cond = conductivity,
         dplyr::everything(),
         -meta,
         -value
@@ -106,12 +105,8 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     data <- data |>
       dplyr::select(
         time,
-        volume,
         wl,
         abs,
-        gradient = gradient_pump,
-        pressure = gp_pressure,
-        cond = conductivity,
         dplyr::everything(),
         -meta,
         -value
@@ -122,14 +117,13 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 }
 
 
-#' Title
+#' Reads Metadata from QuadTech Chromatogram
 #'
-#' @param file
+#' @param file Path to the chromatogram file.
+#' @param start_line Start of the data and thus end of the metadata. Determined
+#'   with `chromr::chrom_find_data_start_line()`
 #'
 #' @return
-#' @export
-#'
-#' @examples
 chrom_get_meta_quadtech <- function(file, start_line) {
   met <-
     readr::read_csv(
@@ -144,40 +138,46 @@ chrom_get_meta_quadtech <- function(file, start_line) {
 }
 
 
-#' Title
+#' Find the Line Where Data Begins
 #'
-#' @param file
-#' @param n_lines
+#' Finds the line where the tabular data begins. This is then used to
+#' start the reading of the data with `readr::read_csv()` and end the reading
+#' of the metadata.
+#'
+#' @param file File path to the file to read.
+#' @param n_lines Number of lines to search for the start of the data.
 #'
 #' @return
-#' @export
-#'
-#' @examples
 chrom_find_data_start_line <- function(file, n_lines = 50) {
   start_line <- readr::read_lines(file, n_max = n_lines) |>
     stringr::str_trim() |>
     stringr::str_which("^\\d") |>
     min()
+
+  start_line
 }
 
-#' Title
+#' Add Volume Column From Time Units
 #'
-#' @param df
-#' @param flow_rate
-#' @param time
+#' Adds a column with calculated volums from the time column given a particular
+#' flow rate. Currently only constant flow rates are supported.
+#'
+#' @param .data Data frame or tibble with a column called 'time'.
+#' @param flow_rate Flow rate in ml/min.
+#' @param time Time unit when exported.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-chrom_add_volume <- function(df, flow_rate = 0.5, time = "second") {
+chrom_add_volume <- function(.data, flow_rate = 0.5, time = "second") {
 
   time_adjust <- switch(time,
                         "second" = 60,
                         "minute" = 1,
                         "hour" = 1 / 60)
 
-  df |>
+  .data |>
     dplyr::mutate(
       volume = time / time_adjust * flow_rate
     )
