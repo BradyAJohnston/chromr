@@ -11,6 +11,9 @@ chrom_find_data_start_line(file, n_lines = 50)
 
 \item{n_lines}{Number of lines to search for the start of the data.}
 }
+\value{
+Single integer of the start of the data.
+}
 \description{
 Finds the line where the tabular data begins. This is then used to
 start the reading of the data with `readr::read_csv()` and end the reading

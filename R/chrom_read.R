@@ -11,10 +11,24 @@
 #' @param volume Name of the volumn column to interpolate along the time.
 #'
 #' @importFrom rlang :=
-#' @return
+#' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
 #' @examples
+#' fl <- system.file(
+#'   "extdata",
+#'   "sec.txt",
+#'   package = "chromr"
+#' )
+#'
+#' dat <- fl |>
+#'   chrom_read_quadtech(interp_volume = FALSE)
+#'
+#' dat
+#'
+#' dat |>
+#'   chrom_interp_volume(time, volume)
+#'
 chrom_interp_volume <- function(.data, time, volume) {
   .data |>
     dplyr::select({{ time }}, {{ volume }}) |>
@@ -45,10 +59,24 @@ chrom_interp_volume <- function(.data, time, volume) {
 #' @param interp_volume Logical. If TRUE, interpolates the values in the volume
 #'   column based on the values in the time column.
 #'
-#' @return
+#' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
 #' @examples
+#' fl <- system.file("extdata",
+#'                   "sec.txt",
+#'                   package = "chromr")
+#' # just read
+#' fl |>
+#'   chrom_read_quadtech()
+#'
+#' # read without interpolating volume
+#' fl |>
+#'   chrom_read_quadtech(interp_volume = FALSE)
+#' # read then plot
+#' fl |>
+#'   chrom_read_quadtech() |>
+#'   chrom_plot()
 chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   start_line <- chrom_find_data_start_line(file, n_lines = 50)
 
@@ -81,7 +109,7 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     )
 
   volume_present <- as.logical(sum(stringr::str_detect(colnames(data), "volume")))
-  print(volume_present)
+
   if (interp_volume & volume_present) {
     volume_interp <- chrom_interp_volume(data, time, volume)
 
@@ -123,15 +151,17 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 #' @param start_line Start of the data and thus end of the metadata. Determined
 #'   with `chromr::chrom_find_data_start_line()`
 #'
-#' @return
+#' @return a [tibble][tibble::tibble-package]
 chrom_get_meta_quadtech <- function(file, start_line) {
   met <-
-    readr::read_csv(
+    purrr::quietly(readr::read_csv)(
       file,
       n_max = start_line - 3,
       col_names = FALSE,
       col_types = readr::cols()
-    ) |>
+    )
+
+  met <- met$result |>
     dplyr::rename(meta = 1, value = 2)
 
   met
@@ -147,7 +177,7 @@ chrom_get_meta_quadtech <- function(file, start_line) {
 #' @param file File path to the file to read.
 #' @param n_lines Number of lines to search for the start of the data.
 #'
-#' @return
+#' @return Single integer of the start of the data.
 chrom_find_data_start_line <- function(file, n_lines = 50) {
   start_line <- readr::read_lines(file, n_max = n_lines) |>
     stringr::str_trim() |>
@@ -166,10 +196,22 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #' @param flow_rate Flow rate in ml/min.
 #' @param time Time unit when exported.
 #'
-#' @return
+#' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
 #' @examples
+#' fl <- system.file(
+#'   "extdata",
+#'   "sec_no_volume.txt",
+#'   package = "chromr"
+#' )
+#' # read just the data
+#' dat <- fl |>
+#'   chrom_read_quadtech()
+#' dat
+#' # add a volume given a constant flow rate
+#' dat |>
+#'   chrom_add_volume(0.3)
 chrom_add_volume <- function(.data, flow_rate = 0.5, time = "second") {
   time_adjust <- switch(time,
     "second" = 60,

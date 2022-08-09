@@ -12,6 +12,25 @@ chrom_read_quadtech(file, interp_volume = TRUE)
 \item{interp_volume}{Logical. If TRUE, interpolates the values in the volume
 column based on the values in the time column.}
 }
+\value{
+a [tibble][tibble::tibble-package]
+}
 \description{
 Read BioRad QuadTech Chromatogram Files
+}
+\examples{
+fl <- system.file("extdata",
+                  "sec.txt",
+                  package = "chromr")
+# just read
+fl |>
+  chrom_read_quadtech()
+
+# read without interpolating volume
+fl |>
+  chrom_read_quadtech(interp_volume = FALSE)
+# read then plot
+fl |>
+  chrom_read_quadtech() |>
+  chrom_plot()
 }

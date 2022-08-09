@@ -16,6 +16,7 @@ Imports:
     glue,
     lifecycle,
     magrittr,
+    purrr,
     rlang,
     scales,
     stringr,

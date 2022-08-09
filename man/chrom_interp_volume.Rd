@@ -13,6 +13,9 @@ chrom_interp_volume(.data, time, volume)
 
 \item{volume}{Name of the volumn column to interpolate along the time.}
 }
+\value{
+a [tibble][tibble::tibble-package]
+}
 \description{
 Interpolates the volume column values, based on the time column values.
 }
@@ -20,4 +23,20 @@ Interpolates the volume column values, based on the time column values.
 Some FPLC systems don't report accurate volume data, but do report accurate
 timing data. This function takes the time and volume data and interpolates
 the otherwise constant volume data in accordance with the time points.
+}
+\examples{
+fl <- system.file(
+  "extdata",
+  "sec.txt",
+  package = "chromr"
+)
+
+dat <- fl |>
+  chrom_read_quadtech(interp_volume = FALSE)
+
+dat
+
+dat |>
+  chrom_interp_volume(time, volume)
+
 }
