@@ -1,9 +1,0 @@
-chrom_add_volume        Add Volume Column From Time Units
-chrom_find_data_start_line
-                        Find the Line Where Data Begins
-chrom_get_meta_quadtech
-                        Reads Metadata from QuadTech Chromatogram
-chrom_interp_volume     Interpolate Volume from Time
-chrom_plot              Plot a Chromatogram
-chrom_read_ngc          Read .csv Chromatogram from the BioRad NGC
-chrom_read_quadtech     Read BioRad QuadTech Chromatogram Files
