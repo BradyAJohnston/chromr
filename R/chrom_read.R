@@ -50,14 +50,13 @@ chrom_interp_volume <- function(.data, time, volume) {
 #'
 #' @examples
 chrom_read_quadtech <- function(file, interp_volume = TRUE) {
-
   start_line <- chrom_find_data_start_line(file, n_lines = 50)
 
   data <- readr::read_csv(
     file = file,
     skip = start_line - 2,
     col_types = readr::cols()
-    )
+  )
 
   met <- chrom_get_meta_quadtech(file, start_line = start_line)
 
@@ -74,11 +73,12 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     tidyr::pivot_longer(
       cols = dplyr::contains("quad"),
       values_to = "abs"
-      ) |>
+    ) |>
     dplyr::mutate(name = as.numeric(stringr::str_extract(name, "\\d$"))) |>
     dplyr::rename(channel = name) |>
     dplyr::left_join(wavelengths,
-                     by = c("channel" = "channel"))
+      by = c("channel" = "channel")
+    )
 
   volume_present <- as.logical(sum(stringr::str_detect(colnames(data), "volume")))
   print(volume_present)
@@ -171,15 +171,14 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #'
 #' @examples
 chrom_add_volume <- function(.data, flow_rate = 0.5, time = "second") {
-
   time_adjust <- switch(time,
-                        "second" = 60,
-                        "minute" = 1,
-                        "hour" = 1 / 60)
+    "second" = 60,
+    "minute" = 1,
+    "hour" = 1 / 60
+  )
 
   .data |>
     dplyr::mutate(
       volume = time / time_adjust * flow_rate
     )
-
 }

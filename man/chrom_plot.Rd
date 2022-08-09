@@ -2,15 +2,36 @@
 % Please edit documentation in R/chrom_plot.R
 \name{chrom_plot}
 \alias{chrom_plot}
-\title{Create basic plot of chromatogram.}
+\title{Plot a Chromatogram}
 \usage{
 chrom_plot(data, channels = NULL, xlim = NULL, ylim = NULL)
 }
 \arguments{
-\item{channels}{Character vector of valengths to plot (e.g. \code{c("280", "260")}).}
+\item{channels}{Character vector of wavelengths to plot (e.g. \code{c("280",
+"260")}). If none supplied, all wavelengths plotted.}
 
-\item{chrom}{Chrom object from \code{read_chrom()}.}
+\item{xlim}{Limits for the x axis.}
+
+\item{ylim}{Limits for the y axis.}
+
+\item{.data}{Data frame that contains columns for wavelength ('wl'), volume
+('volume') and absorbance ('abs').}
+}
+\value{
+a `ggplot2::ggplot()` plot.
 }
 \description{
-Create basic plot of chromatogram.
+Plot a Chromatogram
+}
+\examples{
+fl <- system.file(
+  "extdata",
+  "sec_no_volume.txt",
+  package = "chromr"
+)
+
+fl |>
+  chrom_read_quadtech() |>
+  chrom_add_volume(0.3) |>
+  chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 }
