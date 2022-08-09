@@ -56,9 +56,7 @@ fl <- system.file(
 fl |> 
   chrom_read_quadtech() |> 
   chrom_add_volume(0.3) |> 
-  chrom_plot() + 
-  ggplot2::coord_cartesian(xlim = c(0, 3), ylim = c(NA, 0.01))
-#> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
+  chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />

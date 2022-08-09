@@ -63,8 +63,7 @@ fl <- system.file(
 fl |> 
   chrom_read_quadtech() |> 
   chrom_add_volume(0.3) |> 
-  chrom_plot() + 
-  ggplot2::coord_cartesian(xlim = c(0, 3), ylim = c(NA, 0.01))
+  chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 
 ```
 
