@@ -27,10 +27,10 @@ fl <- system.file(
   package = "chromr"
 )
 # read just the data
-dat <- fl |>
+dat <- fl %>%
   chrom_read_quadtech()
 dat
 # add a volume given a constant flow rate
-dat |>
+dat %>%
   chrom_add_volume(0.3)
 }

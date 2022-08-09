@@ -26,9 +26,9 @@ test_that("read quadtech file no volume", {
       package = "chromr"
     )
 
-    fl |>
-      chrom_read_quadtech() |>
-      chrom_add_volume(0.3) |>
+    fl %>%
+      chrom_read_quadtech() %>%
+      chrom_add_volume(0.3) %>%
       head()
 
   },
@@ -53,8 +53,8 @@ test_that("read quadtech file with volume", {
       package = "chromr"
     )
 
-    fl |>
-      chrom_read_quadtech() |>
+    fl %>%
+      chrom_read_quadtech() %>%
       head()
 
   },
@@ -77,8 +77,8 @@ test_that("read quadtech file with volume", {
       package = "chromr"
     )
 
-    fl |>
-      chrom_read_quadtech(interp_volume = FALSE) |>
+    fl %>%
+      chrom_read_quadtech(interp_volume = FALSE) %>%
       head()
 
   },

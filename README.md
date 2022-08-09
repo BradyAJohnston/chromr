@@ -38,8 +38,8 @@ fl <- system.file(
   package = "chromr"
 )
 
-fl |> 
-  chrom_read_quadtech() |> 
+fl %>% 
+  chrom_read_quadtech() %>% 
   chrom_plot()
 #> Warning: Removed 40 row(s) containing missing values (geom_path).
 ```
@@ -53,9 +53,9 @@ fl <- system.file(
   package = "chromr"
 )
 
-fl |> 
-  chrom_read_quadtech() |> 
-  chrom_add_volume(0.3) |> 
+fl %>% 
+  chrom_read_quadtech() %>% 
+  chrom_add_volume(0.3) %>% 
   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 ```
 
