@@ -33,7 +33,7 @@ devtools::install_github("BradyAJohnston/chromr")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Reading of chromatogram files and plotting from the BioRad QuadTech.
 
 ```{r example}
 library(chromr)

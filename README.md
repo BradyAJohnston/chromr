@@ -24,7 +24,7 @@ devtools::install_github("BradyAJohnston/chromr")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Reading of chromatogram files and plotting from the BioRad QuadTech.
 
 ``` r
 library(chromr)
@@ -41,11 +41,7 @@ fl <- system.file(
 fl |> 
   chrom_read_quadtech() |> 
   chrom_plot()
-#> Warning: One or more parsing issues, see `problems()` for
-#> details
-#> [1] TRUE
-#> Warning: Removed 40 row(s) containing missing values
-#> (geom_path).
+#> Warning: Removed 40 row(s) containing missing values (geom_path).
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
@@ -62,9 +58,6 @@ fl |>
   chrom_add_volume(0.3) |> 
   chrom_plot() + 
   ggplot2::coord_cartesian(xlim = c(0, 3), ylim = c(NA, 0.01))
-#> Warning: One or more parsing issues, see `problems()` for
-#> details
-#> [1] FALSE
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 ```
 
