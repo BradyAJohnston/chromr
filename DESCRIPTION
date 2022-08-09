@@ -17,6 +17,7 @@ Imports:
     lifecycle,
     magrittr,
     purrr,
+    readr,
     rlang,
     scales,
     stringr,
