@@ -53,6 +53,49 @@ chrom_interp_volume <- function(.data, time, volume) {
     dplyr::select({{ time }}, {{ volume }} := .data$vol_adjusted)
 }
 
+#' Read .csv Chromatogram from the BioRad NGC
+#'
+#' @param file File path to the `.csv` file.
+#' @param skip Number of lines to skip before begin reading. Usually 1 line.
+#' @importFrom rlang .data
+#' @return a [tibble][tibble::tibble-package]
+#' @export
+#'
+#' @examples
+#' fl <- system.file(
+#'   "extdata",
+#'   "ngc_sec.csv",
+#'   package = "chromr"
+#' )
+#'
+#' dat <- chrom_read_ngc(fl)
+#' dat
+
+chrom_read_ngc <- function(file, skip = 1) {
+  dat <- readr::read_csv(
+    file = file,
+    skip = skip,
+    col_types = readr::cols()
+  )
+
+  dat <- janitor::clean_names(dat)
+
+  dat <- dat |>
+    dplyr::mutate(id = dplyr::row_number()) |>
+    tidyr::pivot_longer(-.data$id) |>
+    dplyr::mutate(
+      type = stringr::str_extract(.data$name, "^[^\\_]+"),
+      volume = stringr::str_detect(.data$name, "volume")
+    ) |>
+    dplyr::group_by(.data$type, .data$id) |>
+    dplyr::mutate(volume = dplyr::if_else(.data$volume, .data$value, NaN)) |>
+    tidyr::fill(.data$volume) |>
+    dplyr::filter(stringr::str_detect(.data$name, "volume", negate = TRUE)) |>
+    dplyr::select(.data$volume, .data$type, .data$value, .data$name)
+
+  dat
+}
+
 #' Read BioRad QuadTech Chromatogram Files
 #'
 #' @param file Exported `.TXT` chromatogram file from the BioRad QuadTech.

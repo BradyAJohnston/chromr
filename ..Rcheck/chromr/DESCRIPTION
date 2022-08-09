@@ -1,0 +1,18 @@
+Type: Package
+Package: chromr
+Title: Read and Plot FPLC Chromatograms
+Version: 0.1.0
+Author: Brady Johnston
+Maintainer: Brady Johnston <brady.johnston@me.com>
+Description: For reading files from BioRad QuadTec machines and making
+    plots of the charomatograms.
+License: MIT + file LICENSE
+URL: https://github.com/BradyAJohnston/chromr
+BugReports: https://github.com/BradyAJohnston/chromr/issues
+Imports: dplyr, ggplot2, glue, janitor, lifecycle, magrittr, purrr,
+        readr, rlang, scales, stringr, tibble, tidyr
+Suggests: covr, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+Built: R 4.2.1; ; 2022-08-09 09:23:52 UTC; unix

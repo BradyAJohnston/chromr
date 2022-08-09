@@ -1,0 +1,8 @@
+* using log directory ‘/Users/brady/git/chromr/inst/extdata/..Rcheck’
+* using R version 4.2.1 (2022-06-23)
+* using platform: x86_64-apple-darwin17.0 (64-bit)
+* using session charset: UTF-8
+* checking for file ‘./DESCRIPTION’ ... ERROR
+File DESCRIPTION does not exist
+* DONE
+Status: 1 ERROR

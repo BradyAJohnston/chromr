@@ -1,0 +1,10 @@
+chromr-package	chromr-package
+%>%	pipe
+chromr	chromr-package
+chrom_add_volume	chrom_add_volume
+chrom_find_data_start_line	chrom_find_data_start_line
+chrom_get_meta_quadtech	chrom_get_meta_quadtech
+chrom_interp_volume	chrom_interp_volume
+chrom_plot	chrom_plot
+chrom_read_ngc	chrom_read_ngc
+chrom_read_quadtech	chrom_read_quadtech
