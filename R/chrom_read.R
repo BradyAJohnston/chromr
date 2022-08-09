@@ -35,22 +35,22 @@ chrom_interp_volume <- function(.data, time, volume) {
     unique() |>
     dplyr::mutate(
       same = {{ volume }} != dplyr::lag({{ volume }}),
-      same = dplyr::if_else(is.na(same), TRUE, FALSE),
-      group = cumsum(same)
+      same = dplyr::if_else(is.na(.data$same), TRUE, FALSE),
+      group = cumsum(.data$same)
     ) |>
-    dplyr::group_by(group, {{ volume }}) |>
+    dplyr::group_by(.data$group, {{ volume }}) |>
     tidyr::nest() |>
     dplyr::ungroup() |>
     dplyr::mutate(vol_new = dplyr::lead({{ volume }})) |>
-    tidyr::unnest(data) |>
+    tidyr::unnest(.data$data) |>
     dplyr::group_by({{ volume }}) |>
     dplyr::mutate(
       row = dplyr::row_number(),
-      factor = row / max(row),
-      vol_adjusted = {{ volume }} + factor * (vol_new - {{ volume }})
+      factor = .data$row / max(.data$row),
+      vol_adjusted = {{ volume }} + .data$factor * (.data$vol_new - {{ volume }})
     ) |>
     dplyr::ungroup() |>
-    dplyr::select({{ time }}, {{ volume }} := vol_adjusted)
+    dplyr::select({{ time }}, {{ volume }} := .data$vol_adjusted)
 }
 
 #' Read BioRad QuadTech Chromatogram Files
@@ -58,7 +58,7 @@ chrom_interp_volume <- function(.data, time, volume) {
 #' @param file Exported `.TXT` chromatogram file from the BioRad QuadTech.
 #' @param interp_volume Logical. If TRUE, interpolates the values in the volume
 #'   column based on the values in the time column.
-#'
+#' @importFrom rlang .data
 #' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
@@ -89,10 +89,10 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   met <- chrom_get_meta_quadtech(file, start_line = start_line)
 
   wavelengths <- met |>
-    dplyr::filter(stringr::str_detect(meta, "Quad")) |>
+    dplyr::filter(stringr::str_detect(.data$meta, "Quad")) |>
     dplyr::mutate(
-      wl = as.numeric(stringr::str_extract(value, "\\d{3}")),
-      channel = as.numeric(stringr::str_extract(meta, "\\d$"))
+      wl = as.numeric(stringr::str_extract(.data$value, "\\d{3}")),
+      channel = as.numeric(stringr::str_extract(.data$meta, "\\d$"))
     )
 
 
@@ -102,8 +102,8 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
       cols = dplyr::contains("quad"),
       values_to = "abs"
     ) |>
-    dplyr::mutate(name = as.numeric(stringr::str_extract(name, "\\d$"))) |>
-    dplyr::rename(channel = name) |>
+    dplyr::mutate(name = as.numeric(stringr::str_extract(.data$name, "\\d$"))) |>
+    dplyr::rename(channel = .data$name) |>
     dplyr::left_join(wavelengths,
       by = c("channel" = "channel")
     )
@@ -114,30 +114,30 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     volume_interp <- chrom_interp_volume(data, time, volume)
 
     data <- data |>
-      dplyr::select(-volume) |>
+      dplyr::select(-.data$volume) |>
       dplyr::left_join(volume_interp, by = c("time" = "time"))
   }
 
   if (volume_present) {
     data <- data |>
       dplyr::select(
-        time,
-        volume,
-        wl,
-        abs,
+        .data$time,
+        .data$volume,
+        .data$wl,
+        .data$abs,
         dplyr::everything(),
-        -meta,
-        -value
+        -.data$meta,
+        -.data$value
       )
   } else {
     data <- data |>
       dplyr::select(
-        time,
-        wl,
-        abs,
+        .data$time,
+        .data$wl,
+        .data$abs,
         dplyr::everything(),
-        -meta,
-        -value
+        -.data$meta,
+        -.data$value
       )
   }
 
@@ -221,6 +221,6 @@ chrom_add_volume <- function(.data, flow_rate = 0.5, time = "second") {
 
   .data |>
     dplyr::mutate(
-      volume = time / time_adjust * flow_rate
+      volume = .data$time / time_adjust * flow_rate
     )
 }

@@ -1,6 +1,6 @@
 #' Plot a Chromatogram
 #'
-#' @param .data Data frame that contains columns for wavelength ('wl'), volume
+#' @param data Data frame that contains columns for wavelength ('wl'), volume
 #'   ('volume') and absorbance ('abs').
 #' @param channels Character vector of wavelengths to plot (e.g. \code{c("280",
 #'   "260")}). If none supplied, all wavelengths plotted.
@@ -32,7 +32,7 @@ chrom_plot <-
     }
 
     data %>%
-      dplyr::filter(wl %in% channels) %>%
+      dplyr::filter(.data$wl %in% channels) %>%
       ggplot2::ggplot(ggplot2::aes(.data$volume, .data$abs, colour = factor(.data$wl))) +
       ggplot2::geom_line() +
       ggplot2::theme_bw() +

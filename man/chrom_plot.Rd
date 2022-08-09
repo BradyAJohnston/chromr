@@ -7,15 +7,15 @@
 chrom_plot(data, channels = NULL, xlim = NULL, ylim = NULL)
 }
 \arguments{
+\item{data}{Data frame that contains columns for wavelength ('wl'), volume
+('volume') and absorbance ('abs').}
+
 \item{channels}{Character vector of wavelengths to plot (e.g. \code{c("280",
 "260")}). If none supplied, all wavelengths plotted.}
 
 \item{xlim}{Limits for the x axis.}
 
 \item{ylim}{Limits for the y axis.}
-
-\item{.data}{Data frame that contains columns for wavelength ('wl'), volume
-('volume') and absorbance ('abs').}
 }
 \value{
 a `ggplot2::ggplot()` plot.
