@@ -50,7 +50,7 @@ chrom_interp_volume <- function(.data, time, volume) {
       vol_adjusted = {{ volume }} + .data$factor * (.data$vol_new - {{ volume }})
     ) |>
     dplyr::ungroup() |>
-    dplyr::select({{ time }}, {{ volume }} := .data$vol_adjusted)
+    dplyr::select({{ time }}, volume = .data$vol_adjusted)
 }
 
 #' Read .csv Chromatogram from the BioRad NGC
@@ -154,7 +154,7 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   volume_present <- as.logical(sum(stringr::str_detect(colnames(data), "volume")))
 
   if (interp_volume & volume_present) {
-    volume_interp <- chrom_interp_volume(data, time, volume)
+    volume_interp <- chrom_interp_volume(data, .data$time, .data$volume)
 
     data <- data |>
       dplyr::select(-.data$volume) |>
