@@ -50,7 +50,7 @@ chrom_interp_volume <- function(.data, time, volume) {
       vol_adjusted = {{ volume }} + .data$factor * (.data$vol_new - {{ volume }})
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select(.data$time, volume = .data$vol_adjusted)
+    dplyr::select({{ time }}, volume = .data$vol_adjusted)
 }
 
 #' Read .csv Chromatogram from the BioRad NGC
