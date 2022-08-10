@@ -6,3 +6,6 @@
 .httr-oauth
 .DS_Store
 .Rprofile
+..Rcheck
+..Rcheck
+..Rcheck*

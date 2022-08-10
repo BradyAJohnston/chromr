@@ -23,14 +23,16 @@ fl <- system.file("extdata",
                   "sec.txt",
                   package = "chromr")
 # just read
-fl %>%
+
+fl \%>\%
   chrom_read_quadtech()
 
 # read without interpolating volume
-fl %>%
+fl \%>\%
   chrom_read_quadtech(interp_volume = FALSE)
 # read then plot
-fl %>%
-  chrom_read_quadtech() %>%
+fl \%>\%
+  chrom_read_quadtech() \%>\%
+
   chrom_plot()
 }

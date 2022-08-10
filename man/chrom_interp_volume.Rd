@@ -31,12 +31,15 @@ fl <- system.file(
   package = "chromr"
 )
 
-dat <- fl %>%
+
+dat <- fl \%>\%
+
   chrom_read_quadtech(interp_volume = FALSE)
 
 dat
 
-dat %>%
+dat \%>\%
+
   chrom_interp_volume(time, volume)
 
 }
