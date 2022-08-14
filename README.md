@@ -41,7 +41,7 @@ fl <- system.file(
 fl %>% 
   chrom_read_quadtech() %>% 
   chrom_plot()
-#> Warning: Removed 40 row(s) containing missing values (geom_path).
+#> Warning: Removed 80 row(s) containing missing values (geom_path).
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />

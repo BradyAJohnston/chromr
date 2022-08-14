@@ -1,58 +1,3 @@
-#' Interpolate Volume from Time
-#'
-#' Interpolates the volume column values, based on the time column values.
-#'
-#' Some FPLC systems don't report accurate volume data, but do report accurate
-#' timing data. This function takes the time and volume data and interpolates
-#' the otherwise constant volume data in accordance with the time points.
-#'
-#' @param .data Data frame with a volume column to be interpolated.
-#' @param time Name of the time column to use for interpolation.
-#' @param volume Name of the volumn column to interpolate along the time.
-#'
-#' @importFrom rlang :=
-#' @return a [tibble][tibble::tibble-package]
-#' @export
-#'
-#' @examples
-#' fl <- system.file(
-#'   "extdata",
-#'   "sec.txt",
-#'   package = "chromr"
-#' )
-#'
-#' dat <- fl %>%
-#'   chrom_read_quadtech(interp_volume = FALSE)
-#'
-#' dat
-#'
-#' dat %>%
-#'   chrom_interp_volume(time, volume)
-#'
-chrom_interp_volume <- function(.data, time, volume) {
-  .data %>%
-    dplyr::select({{ time }}, {{ volume }}) %>%
-    unique() %>%
-    dplyr::mutate(
-      same = {{ volume }} != dplyr::lag({{ volume }}),
-      same = dplyr::if_else(is.na(.data$same), TRUE, FALSE),
-      group = cumsum(.data$same)
-    ) %>%
-    dplyr::group_by(.data$group, {{ volume }}) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(vol_new = dplyr::lead({{ volume }})) %>%
-    tidyr::unnest(.data$data) %>%
-    dplyr::group_by({{ volume }}) %>%
-    dplyr::mutate(
-      row = dplyr::row_number(),
-      factor = .data$row / max(.data$row),
-      vol_adjusted = {{ volume }} + .data$factor * (.data$vol_new - {{ volume }})
-    ) %>%
-    dplyr::ungroup() %>%
-    dplyr::select({{ time }}, volume = .data$vol_adjusted)
-}
-
 #' Read .csv Chromatogram from the BioRad NGC
 #'
 #' @param file File path to the `.csv` file.
@@ -70,7 +15,7 @@ chrom_interp_volume <- function(.data, time, volume) {
 #'
 #' dat <- chrom_read_ngc(fl)
 #' dat
-
+#'
 chrom_read_ngc <- function(file, skip = 1) {
   dat <- readr::read_csv(
     file = file,
@@ -107,8 +52,9 @@ chrom_read_ngc <- function(file, skip = 1) {
 #'
 #' @examples
 #' fl <- system.file("extdata",
-#'                   "sec.txt",
-#'                   package = "chromr")
+#'   "sec.txt",
+#'   package = "chromr"
+#' )
 #' # just read
 #' fl %>%
 #'   chrom_read_quadtech()
@@ -127,9 +73,14 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     file = file,
     skip = start_line - 2,
     col_types = readr::cols()
-  )
+  ) %>%
+    rename_columns()
 
   met <- chrom_get_meta_quadtech(file, start_line = start_line)
+
+
+
+
 
   wavelengths <- met %>%
     dplyr::filter(stringr::str_detect(.data$meta, "Quad")) %>%
@@ -138,51 +89,35 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
       channel = as.numeric(stringr::str_extract(.data$meta, "\\d$"))
     )
 
-
-  data <- data %>%
-    janitor::clean_names() %>%
-    tidyr::pivot_longer(
-      cols = dplyr::contains("quad"),
-      values_to = "abs"
-    ) %>%
-    dplyr::mutate(name = as.numeric(stringr::str_extract(.data$name, "\\d$"))) %>%
-    dplyr::rename(channel = .data$name) %>%
-    dplyr::left_join(wavelengths,
-      by = c("channel" = "channel")
-    )
-
-  volume_present <- as.logical(sum(stringr::str_detect(colnames(data), "volume")))
+  volume_present <- check_column_exist(data, "volume")
+  fraction_present <- check_column_exist(data, "fraction")
 
   if (interp_volume & volume_present) {
-    volume_interp <- chrom_interp_volume(data, .data$time, .data$volume)
-
-    data <- data %>%
-      dplyr::select(-.data$volume) %>%
-      dplyr::left_join(volume_interp, by = c("time" = "time"))
+    data <- interpolate_column(data, volume)
   }
 
-  if (volume_present) {
-    data <- data %>%
-      dplyr::select(
-        .data$time,
-        .data$volume,
-        .data$wl,
-        .data$abs,
-        dplyr::everything(),
-        -.data$meta,
-        -.data$value
-      )
-  } else {
-    data <- data %>%
-      dplyr::select(
-        .data$time,
-        .data$wl,
-        .data$abs,
-        dplyr::everything(),
-        -.data$meta,
-        -.data$value
-      )
-  }
+  data <- data %>%
+    tidyr::pivot_longer(-dplyr::matches("time|fraction|volume"))
+
+
+  data <- data %>%
+    dplyr::left_join(
+      met,
+      by = c("name" = "meta")
+    ) |>
+    dplyr::rename(
+      unit = value.y,
+      value = value.x
+    ) |>
+    dplyr::mutate(
+      wl = as.numeric(stringr::str_extract(unit, "(?<=\\()\\d{3}"))
+    )
+
+  data <- data %>%
+    dplyr::relocate(
+      dplyr::matches("time|volume|fractions"),
+      dplyr::everything()
+    )
 
   data
 }

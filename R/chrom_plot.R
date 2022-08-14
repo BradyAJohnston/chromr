@@ -32,8 +32,8 @@ chrom_plot <-
     }
 
     data %>%
-      dplyr::filter(.data$wl %in% channels) %>%
-      ggplot2::ggplot(ggplot2::aes(.data$volume, .data$abs, colour = factor(.data$wl))) +
+      dplyr::filter(.data$name %in% channels) %>%
+      ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value, colour = factor(.data$name))) +
       ggplot2::geom_line() +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +

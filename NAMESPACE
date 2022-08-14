@@ -2,7 +2,6 @@
 
 export("%>%")
 export(chrom_add_volume)
-export(chrom_interp_volume)
 export(chrom_plot)
 export(chrom_read_ngc)
 export(chrom_read_quadtech)
