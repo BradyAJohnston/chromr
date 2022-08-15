@@ -49,6 +49,7 @@ rename_columns <- function(data) {
 interpolate_column <- function(data, col) {
   dplyr::mutate(
     data,
-    {{ col }} := approx(unique({{ col }}), n = nrow(data))$y
+    {{ col }} := stats::approx(unique({{ col }}), n = nrow(data))$y
   )
 }
+

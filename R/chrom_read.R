@@ -93,7 +93,11 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   fraction_present <- check_column_exist(data, "fraction")
 
   if (interp_volume & volume_present) {
-    data <- interpolate_column(data, volume)
+    data <- data %>%
+      dplyr::mutate(
+        volume = stats::approx(unique(.data$volume), n = nrow(data))$y
+      )
+    # data <- interpolate_column(data, volume)
   }
 
   data <- data %>%
@@ -106,11 +110,11 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
       by = c("name" = "meta")
     ) |>
     dplyr::rename(
-      unit = value.y,
-      value = value.x
+      unit  = .data$value.y,
+      value = .data$value.x
     ) |>
     dplyr::mutate(
-      wl = as.numeric(stringr::str_extract(unit, "(?<=\\()\\d{3}"))
+      wl = as.numeric(stringr::str_extract(.data$unit, "(?<=\\()\\d{3}"))
     )
 
   data <- data %>%

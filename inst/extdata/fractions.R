@@ -1,78 +1,53 @@
-library(tidyverse)
-
-fl <- "inst/extdata/20220809_SFPQfl_TEVdig_S200_part1.TXT"
-
-# fl <- system.file(
-#   "extdata",
-#   "sec.txt",
-#   package = "chromr"
-# )
-
-df <- chrom_read_quadtech(fl, interp_volume = TRUE)
-
-df |>
-  filter(!is.na(wl)) |>
-  filter(wl != 205) |>
-  qplot(volume, value, data = _, colour = factor(wl), geom = "line")
-
-fl <- "inst/extdata/20220809_SFPQfl_TEVdig_S200_part2.TXT"
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
 
 
+fl1 <- "inst/extdata/20220809_SFPQfl_TEVdig_S200_part1.TXT"
+df <- chrom_read_quadtech(fl)
+fl2 <- "inst/extdata/20220809_SFPQfl_TEVdig_S200_part2.TXT"
 df2 <- chrom_read_quadtech(fl)
 
 
-chrom_bind_run <- function(data, ...) {
+df1 %>%
+  chrom_append_run(df2)
 
-  new_runs <- list(...)
 
-  columns <- c("time", "fraction", "volume")
-  names(columns) <- columns
 
-  find_max_values <- function(data, columns) {
-    lapply(columns, function(x) {
-      if (check_column_exist(data, x)) {
-        max(data[, x])
-      }
-    })
-  }
 
-  previous <- find_max_values(data, columns)
+df
+df2
 
-  new_runs_updated <- lapply(new_runs, function(x) {
-    for (col in names(previous)) {
-      x[, col] <- x[, col] + previous[col]
-    }
-    previous <- find_max_values(x, names(previous))
-    x
-  })
 
-  dplyr::bind_rows(data, new_runs_updated)
-  # new_runs_updated
+dat <- df |>
+  chrom_append_run(chrom_read_quadtech(fl)) |>
+  filter(!is.na(wl))
 
-}
-
-df <- chrom_bind_run(df, df2)
-df |>
-  filter(!is.na(wl)) |>
-  filter(volume > 40, volume < 60) |>
-  qplot(volume, value, data = _, geom = "line", group = interaction(wl, fraction),
-        fill = factor(fraction %% 5),
-        # alpha = wl == 280
-        # colour = factor(fraction %% 5)
-        ) +
-  geom_area(aes(alpha = wl == 280)) +
-  geom_line() +
-  # facet_wrap(~wl) +
-  geom_label(
-    data = fracs |>
-      filter(volume > 40, volume < 60 , fraction %% 5 == 0),
-    aes(label = fraction, y = 0.01, group = fraction),
-    fill = "white"
-  ) +
-  # scale_fill_viridis_d(option = "A")
-  NULL
-
-fracs <- df |>
+lab_data <- dplyr::filter(
+  dat, fraction %% 5 == 0, wl == 280
+) |>
   group_by(fraction) |>
-  summarise(volume = mean(volume))
+  summarise(volume = min(volume), value = mean(value))
+
+dat |>
+  ggplot(aes(volume, value)) +
+  geom_area(
+    position = "identity",
+    data = dplyr::filter(dat, fraction != 0, wl == 280),
+    aes(fill = factor(fraction %% 5), group = interaction(fraction, wl)),
+    alpha = 0.3
+  ) +
+  geom_vline(
+    data = lab_data |> filter(fraction %% 10 == 0),
+    aes(xintercept = volume)
+  ) +
+  geom_label(
+    data = lab_data,
+    mapping = aes(label = fraction, y = -0.005),
+    hjust = -0.2
+  ) +
+  geom_line(colour = "black", aes(group = factor(wl))) +
+  theme_bw() +
+  coord_cartesian(ylim = c(0, NA)) +
+  scale_fill_viridis_d(option = "D")
