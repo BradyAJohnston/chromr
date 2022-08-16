@@ -25,7 +25,13 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/check_column_exist.html</loc>
+  </url>
+  <url>
     <loc>/reference/chrom_add_volume.html</loc>
+  </url>
+  <url>
+    <loc>/reference/chrom_append_run.html</loc>
   </url>
   <url>
     <loc>/reference/chrom_find_data_start_line.html</loc>
@@ -34,10 +40,10 @@
     <loc>/reference/chrom_get_meta_quadtech.html</loc>
   </url>
   <url>
-    <loc>/reference/chrom_interp_volume.html</loc>
+    <loc>/reference/chrom_plot.html</loc>
   </url>
   <url>
-    <loc>/reference/chrom_plot.html</loc>
+    <loc>/reference/chrom_plot_fractions.html</loc>
   </url>
   <url>
     <loc>/reference/chrom_read_ngc.html</loc>
@@ -52,6 +58,12 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/interpolate_column.html</loc>
+  </url>
+  <url>
     <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rename_columns.html</loc>
   </url>
 </urlset>

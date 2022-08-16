@@ -90,10 +90,26 @@
 <span>  package <span class="op">=</span> <span class="st">"chromr"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fl</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="reference/chrom_read_quadtech.html">chrom_read_quadtech</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="reference/chrom_plot.html">chrom_plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 40 row(s) containing missing values (geom_path).</span></span></code></pre></div>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">fl</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/chrom_read_quadtech.html">chrom_read_quadtech</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">dat</span></span>
+<span><span class="co">#&gt; # A tibble: 7,680 × 6</span></span>
+<span><span class="co">#&gt;     time  volume name               value unit              wl</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1     0 0       QuadTec 1       0        (280.0 nm), AU   280</span></span>
+<span><span class="co">#&gt;  2     0 0       QuadTec 2       0        (260.0 nm), AU   260</span></span>
+<span><span class="co">#&gt;  3     0 0       Gradient Pump   0        %B                NA</span></span>
+<span><span class="co">#&gt;  4     0 0       QuadTec 3       0.00550  (550.0 nm), AU   550</span></span>
+<span><span class="co">#&gt;  5     0 0       QuadTec 4       0        (650.0 nm), AU   650</span></span>
+<span><span class="co">#&gt;  6     0 0       UV              0        AU                NA</span></span>
+<span><span class="co">#&gt;  7     0 0       Conductivity   16.0      mS/cm             NA</span></span>
+<span><span class="co">#&gt;  8     0 0       GP Pressure   265        PSI               NA</span></span>
+<span><span class="co">#&gt;  9     1 0.00501 QuadTec 1       0.000004 (280.0 nm), AU   280</span></span>
+<span><span class="co">#&gt; 10     1 0.00501 QuadTec 2       0.000013 (260.0 nm), AU   260</span></span>
+<span><span class="co">#&gt; # … with 7,670 more rows</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
+<span><span class="va">dat</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/chrom_plot.html">chrom_plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span></span>
