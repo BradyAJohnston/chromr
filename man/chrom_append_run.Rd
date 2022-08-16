@@ -25,11 +25,13 @@ the fractions after the previous runs.
 \examples{
 
 fl1 <- system.file("extdata",
-                   "20220809_SFPQfl_TEVdig_S200_part1.TXT",
-                   package = "chromr")
+  "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+  package = "chromr"
+)
 fl2 <- system.file("extdata",
-                   "20220809_SFPQfl_TEVdig_S200_part2.TXT",
-                   package = "chromr")
+  "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+  package = "chromr"
+)
 df1 <- chrom_read_quadtech(fl1)
 df2 <- chrom_read_quadtech(fl2)
 

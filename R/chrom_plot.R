@@ -126,10 +126,10 @@ chrom_plot_fractions <- function(data,
     ) +
     ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
     ggplot2::scale_fill_manual( # values = RColorBrewer::brewer.pal(7, "Greys")[2:6]
-      values = gray(seq(0.85, 0.65, length.out = 5))
+      values = grDevices::gray(seq(0.85, 0.65, length.out = 5))
     ) +
     # theme_bw(base_size = 20) +
-    theme_classic(base_size = 20) +
+    ggplot2::theme_classic(base_size = 20) +
     ggplot2::theme(
       legend.position = c(0.05, 0.95),
       legend.justification = c(0, 1),
