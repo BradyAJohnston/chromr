@@ -38,10 +38,26 @@ fl <- system.file(
   package = "chromr"
 )
 
-fl %>% 
-  chrom_read_quadtech() %>% 
+dat <- fl %>% 
+  chrom_read_quadtech()
+dat
+#> # A tibble: 7,680 × 6
+#>     time  volume name               value unit              wl
+#>    <dbl>   <dbl> <chr>              <dbl> <chr>          <dbl>
+#>  1     0 0       QuadTec 1       0        (280.0 nm), AU   280
+#>  2     0 0       QuadTec 2       0        (260.0 nm), AU   260
+#>  3     0 0       Gradient Pump   0        %B                NA
+#>  4     0 0       QuadTec 3       0.00550  (550.0 nm), AU   550
+#>  5     0 0       QuadTec 4       0        (650.0 nm), AU   650
+#>  6     0 0       UV              0        AU                NA
+#>  7     0 0       Conductivity   16.0      mS/cm             NA
+#>  8     0 0       GP Pressure   265        PSI               NA
+#>  9     1 0.00501 QuadTec 1       0.000004 (280.0 nm), AU   280
+#> 10     1 0.00501 QuadTec 2       0.000013 (260.0 nm), AU   260
+#> # … with 7,670 more rows
+#> # ℹ Use `print(n = ...)` to see more rows
+dat %>%
   chrom_plot()
-#> Warning: Removed 40 row(s) containing missing values (geom_path).
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />

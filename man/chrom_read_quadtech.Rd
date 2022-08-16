@@ -20,10 +20,10 @@ Read BioRad QuadTech Chromatogram Files
 }
 \examples{
 fl <- system.file("extdata",
-                  "sec.txt",
-                  package = "chromr")
+  "sec.txt",
+  package = "chromr"
+)
 # just read
-
 fl \%>\%
   chrom_read_quadtech()
 
@@ -33,6 +33,5 @@ fl \%>\%
 # read then plot
 fl \%>\%
   chrom_read_quadtech() \%>\%
-
   chrom_plot()
 }

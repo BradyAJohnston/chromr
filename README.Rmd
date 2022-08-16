@@ -47,8 +47,10 @@ fl <- system.file(
   package = "chromr"
 )
 
-fl %>% 
-  chrom_read_quadtech() %>% 
+dat <- fl %>% 
+  chrom_read_quadtech()
+dat
+dat %>%
   chrom_plot()
 ```
 

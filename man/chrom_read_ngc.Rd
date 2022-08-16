@@ -26,4 +26,5 @@ fl <- system.file(
 
 dat <- chrom_read_ngc(fl)
 dat
+
 }
