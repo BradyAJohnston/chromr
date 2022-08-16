@@ -90,16 +90,16 @@ chrom_plot_fractions <- function(data,
       .data$fraction %% frac_labelling == 0,
       .data$wl %in% frac_wl,
       .data$fraction != 0
-    ) |>
-    dplyr::group_by(.data$fraction) |>
+    ) %>%
+    dplyr::group_by(.data$fraction) %>%
     dplyr::summarise(volume = mean(.data$volume), value = max(.data$value))
 
   if (!is.null(wl_show)) {
-    data <- data |>
+    data <- data %>%
       dplyr::filter(.data$wl %in% wl_show)
   }
 
-  data |>
+  data %>%
     ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value)) +
     ggplot2::geom_area(
       position = "identity",
