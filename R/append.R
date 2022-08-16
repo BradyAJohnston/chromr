@@ -16,18 +16,20 @@
 #' @examples
 #'
 #' fl1 <- system.file("extdata",
-#'                    "20220809_SFPQfl_TEVdig_S200_part1.TXT",
-#'                    package = "chromr")
+#'   "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+#'   package = "chromr"
+#' )
 #' fl2 <- system.file("extdata",
-#'                    "20220809_SFPQfl_TEVdig_S200_part2.TXT",
-#'                    package = "chromr")
+#'   "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+#'   package = "chromr"
+#' )
 #' df1 <- chrom_read_quadtech(fl1)
 #' df2 <- chrom_read_quadtech(fl2)
 #'
 #'
 #' df1 %>%
 #'   chrom_append_run(df2)
-chrom_append_run <- function(.data,  ..., adjust_fractions = FALSE) {
+chrom_append_run <- function(.data, ..., adjust_fractions = FALSE) {
   new_runs <- list(...)
 
   .data <- dplyr::bind_rows(.data, new_runs, .id = "run") |>
@@ -43,7 +45,8 @@ chrom_append_run <- function(.data,  ..., adjust_fractions = FALSE) {
       time = dplyr::if_else(
         .data$run == 1,
         .data$time,
-        .data$time + max_values$time[.data$run - 1]),
+        .data$time + max_values$time[.data$run - 1]
+      ),
       volume = dplyr::if_else(
         .data$run == 1,
         .data$volume,
@@ -57,11 +60,10 @@ chrom_append_run <- function(.data,  ..., adjust_fractions = FALSE) {
         fraction = dplyr::case_when(
           .data$fraction == 0 ~ 0,
           .data$run == 1 ~ .data$fraction,
-          TRUE ~ .data$fraction + max_values[run - 1,]$fraction
+          TRUE ~ .data$fraction + max_values[run - 1, ]$fraction
         )
       )
   }
 
   .data
-
 }

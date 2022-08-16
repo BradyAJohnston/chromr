@@ -52,4 +52,3 @@ interpolate_column <- function(data, col) {
     {{ col }} := stats::approx(unique({{ col }}), n = nrow(data))$y
   )
 }
-
