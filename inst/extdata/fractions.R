@@ -10,8 +10,8 @@ fl2 <- "inst/extdata/20220809_SFPQfl_TEVdig_S200_part2.TXT"
 df2 <- chrom_read_quadtech(fl2)
 
 
-dat <- df1 |>
-  chrom_append_run(chrom_read_quadtech(fl2)) |>
+dat <- df1 %>%
+  chrom_append_run(chrom_read_quadtech(fl2)) %>%
   filter(!is.na(wl))
 
 

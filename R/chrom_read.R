@@ -108,11 +108,11 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     dplyr::left_join(
       met,
       by = c("name" = "meta")
-    ) |>
+    ) %>%
     dplyr::rename(
       unit  = .data$value.y,
       value = .data$value.x
-    ) |>
+    ) %>%
     dplyr::mutate(
       wl = as.numeric(stringr::str_extract(.data$unit, "(?<=\\()\\d{3}"))
     )
