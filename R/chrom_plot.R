@@ -32,7 +32,7 @@ chrom_plot <-
         dplyr::filter(.data$wl %in% wl_show)
     }
     data %>%
-      dplyr::filter(!is.na(wl)) %>%
+      dplyr::filter(!is.na(.data$wl)) %>%
       ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))) +
       ggplot2::geom_line() +
       ggplot2::theme_bw() +
