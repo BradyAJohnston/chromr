@@ -2,10 +2,9 @@
 #'
 #' @param data Data frame that contains columns for wavelength ('wl'), volume
 #'   ('volume') and absorbance ('abs').
-#' @param channels Character vector of wavelengths to plot (e.g. \code{c("280",
-#'   "260")}). If none supplied, all wavelengths plotted.
 #' @param xlim Limits for the x axis.
 #' @param ylim Limits for the y axis.
+#' @param wl_show Wavelengths to plot.
 #'
 #' @importFrom rlang .data
 #' @return a `ggplot2::ggplot()` plot.
@@ -24,16 +23,17 @@
 #'   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 chrom_plot <-
   function(data,
-           channels = NULL,
+           wl_show = NULL,
            xlim = NULL,
            ylim = NULL) {
-    if (is.null(channels)) {
-      channels <- base::unique(data$wl)
-    }
 
+    if (!is.null(wl_show)) {
+      data <- data %>%
+        dplyr::filter(.data$wl %in% wl_show)
+    }
     data %>%
-      dplyr::filter(.data$name %in% channels) %>%
-      ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value, colour = factor(.data$name))) +
+      dplyr::filter(!is.na(wl)) %>%
+      ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))) +
       ggplot2::geom_line() +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +
