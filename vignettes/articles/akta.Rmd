@@ -1,0 +1,58 @@
+---
+title: "akta"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(chromr)
+```
+
+```{r}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+fl <- system.file(
+   "extdata",
+   "akta.asc",
+   package = "chromr"
+ )
+
+df <- readr::read_tsv(fl, skip = 2) |> 
+  janitor::clean_names()
+
+df_fractions <- df |>
+  dplyr::select(matches("fraction") - 1, matches("fraction")) |> 
+    dplyr::rename(ml = 1) |> 
+  drop_na()
+data <- df |> 
+  dplyr::select(
+    -c(matches("fraction"), matches("fraction") - 1)
+  ) |> 
+  dplyr::rename(ml = 1)
+
+data |> 
+  # group_by(ml) |> 
+  # drop_na() |> 
+  mutate(
+    m_au = m_au - 2050,
+    frac = cut(ml, breaks = df_fractions$ml, labels = FALSE)
+  ) |> 
+  ggplot(aes(ml, m_au)) +
+  geom_area(aes(fill = factor(frac %% 5), group = frac), na.rm = TRUE) + 
+  geom_line() + 
+  scale_fill_brewer(palette = 5) + 
+  theme_bw() -> plt
+
+plt
+
+plotly::ggplotly(plt)
+  
+```
+
