@@ -16,8 +16,9 @@ knitr::opts_chunk$set(
 # chromr
 
 <!-- badges: start -->
-[![Codecov test coverage](https://codecov.io/gh/BradyAJohnston/chromr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/BradyAJohnston/chromr?branch=main)
-[![R-CMD-check](https://github.com/BradyAJohnston/chromr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BradyAJohnston/chromr/actions/workflows/R-CMD-check.yaml)
+
+[![Codecov test coverage](https://codecov.io/gh/BradyAJohnston/chromr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/BradyAJohnston/chromr?branch=main) [![R-CMD-check](https://github.com/BradyAJohnston/chromr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BradyAJohnston/chromr/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 The goal of chromr is to ...
@@ -54,7 +55,6 @@ dat %>%
   chrom_plot()
 ```
 
-
 ```{r}
 fl <- system.file(
   "extdata",
@@ -69,3 +69,17 @@ fl %>%
 
 ```
 
+## Fractions
+
+```{r}
+fl1 <- system.file("extdata",
+                   "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+                   package = "chromr")
+fl2 <- system.file("extdata",
+                   "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+                   package = "chromr")
+df1 <- chrom_read_quadtech(fl1)
+df2 <- chrom_read_quadtech(fl2)
+dat <- chrom_append_run(df1, df2)
+chrom_plot_fractions(dat, wl_frac = 280, wl_show = c(280, 260, 488))
+```

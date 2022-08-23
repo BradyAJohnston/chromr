@@ -16,4 +16,4 @@ dat <- df1 %>%
 
 
 
-chrom_plot_fractions(dat, frac_wl = c(280, 488))
+chrom_plot_fractions(dat, wl_frac = c(280, 488))
