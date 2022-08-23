@@ -8,6 +8,7 @@
 [![Codecov test
 coverage](https://codecov.io/gh/BradyAJohnston/chromr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/BradyAJohnston/chromr?branch=main)
 [![R-CMD-check](https://github.com/BradyAJohnston/chromr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BradyAJohnston/chromr/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 The goal of chromr is to …
@@ -76,3 +77,24 @@ fl %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+## Fractions
+
+``` r
+fl1 <- system.file("extdata",
+                   "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+                   package = "chromr")
+fl2 <- system.file("extdata",
+                   "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+                   package = "chromr")
+df1 <- chrom_read_quadtech(fl1)
+df2 <- chrom_read_quadtech(fl2)
+dat <- chrom_append_run(df1, df2)
+#> Warning in .data$time + max_values$time[.data$run - 1]: longer object length is
+#> not a multiple of shorter object length
+#> Warning in .data$volume + max_values$volume[.data$run - 1]: longer object length
+#> is not a multiple of shorter object length
+chrom_plot_fractions(dat, wl_frac = 280, wl_show = c(280, 260, 488))
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
