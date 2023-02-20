@@ -31,6 +31,7 @@ chrom_plot <-
         dplyr::filter(.data$wl %in% wl_show)
     }
     data %>%
+      tidyr::pivot_longer(dplyr::matches("A\\d{2,3}"), names_to = "wl", values_to = "value")
       dplyr::filter(!is.na(.data$wl)) %>%
       ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))) +
       ggplot2::geom_line() +

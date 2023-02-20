@@ -10,14 +10,14 @@ test_that("read quadtech file no volume", {
       head(chrom_read_quadtech(fl))
     },
     tibble::tribble(
-      ~time, ~name, ~value, ~unit, ~wl,
-      0.0, "QuadTec 1", 0L, "(280.0 nm), AU", 280L,
-      0.0, "QuadTec 2", 0L, "(260.0 nm), AU", 260L,
-      0.2, "QuadTec 1", 0L, "(280.0 nm), AU", 280L,
-      0.2, "QuadTec 2", 0L, "(260.0 nm), AU", 260L,
-      0.4, "QuadTec 1", 0L, "(280.0 nm), AU", 280L,
-      0.4, "QuadTec 2", 0L, "(260.0 nm), AU", 260L
-    )
+      ~time, ~A280, ~A260,
+          0,    0L,    0L,
+        0.2,    0L,    0L,
+        0.4,    0L,    0L,
+        0.6,    0L,    0L,
+        0.8,    0L,    0L,
+          1,    0L,    0L
+      )
   )
 
   expect_equal(
@@ -34,14 +34,14 @@ test_that("read quadtech file no volume", {
         head()
     },
     tibble::tribble(
-      ~time, ~name, ~value, ~unit, ~wl, ~volume,
-      0.0, "QuadTec 1", 0L, "(280.0 nm), AU", 280L, 0,
-      0.0, "QuadTec 2", 0L, "(260.0 nm), AU", 260L, 0,
-      0.2, "QuadTec 1", 0L, "(280.0 nm), AU", 280L, 0.001,
-      0.2, "QuadTec 2", 0L, "(260.0 nm), AU", 260L, 0.001,
-      0.4, "QuadTec 1", 0L, "(280.0 nm), AU", 280L, 0.002,
-      0.4, "QuadTec 2", 0L, "(260.0 nm), AU", 260L, 0.002
-    )
+      ~time, ~volume, ~A280, ~A260,
+          0,       0,    0L,    0L,
+        0.2,   0.001,    0L,    0L,
+        0.4,   0.002,    0L,    0L,
+        0.6,   0.003,    0L,    0L,
+        0.8,   0.004,    0L,    0L,
+          1,   0.005,    0L,    0L
+      )
   )
 })
 
@@ -59,14 +59,15 @@ test_that("read quadtech file with volume", {
         head()
     },
     tibble::tribble(
-      ~time, ~volume, ~name, ~value, ~unit, ~wl,
-      0L, 0.00, "QuadTec 1", 0, "(280.0 nm), AU", 280L,
-      0L, 0.00, "QuadTec 2", 0, "(260.0 nm), AU", 260L,
-      0L, 0.00, "Gradient Pump", 0, "%B", NA,
-      0L, 0.00, "QuadTec 3", 0.005505, "(550.0 nm), AU", 550L,
-      0L, 0.00, "QuadTec 4", 0, "(650.0 nm), AU", 650L,
-      0L, 0.00, "UV", 0, "AU", NA
-    )
+      ~time, ~percent_b, ~au, ~m_s_cm, ~psi,             ~volume,    ~A280,    ~A260,     ~A550,    ~A650,
+         0L,         0L,  0L,  15.967, 265L,                   0,        0,        0,  0.005505,        0,
+         1L,         0L,  0L,  15.969, 266L, 0.00500521376433785,    4e-06,  1.3e-05,  -0.00016, 0.001875,
+         2L,         0L,  0L,  15.968, 270L,  0.0100104275286757,        0,   -8e-06,  -6.4e-05, 0.001802,
+         3L,         0L,  0L,  15.965, 272L,  0.0150156412930136, -1.3e-05, -2.2e-05,  -6.4e-05, 0.003387,
+         4L,         0L,  0L,  15.969, 272L,  0.0200208550573514,   -6e-06, -1.5e-05,  -9.5e-05, 0.003912,
+         5L,         0L,  0L,  15.967, 276L,  0.0250260688216893,   -6e-06, -1.8e-05, -0.000128, 0.004128
+      )
+
   )
 
   expect_equal(
@@ -82,13 +83,14 @@ test_that("read quadtech file with volume", {
         head()
     },
     tibble::tribble(
-      ~time, ~volume, ~name, ~value, ~unit, ~wl,
-      0L, 0L, "QuadTec 1", 0, "(280.0 nm), AU", 280L,
-      0L, 0L, "QuadTec 2", 0, "(260.0 nm), AU", 260L,
-      0L, 0L, "Gradient Pump", 0, "%B", NA,
-      0L, 0L, "QuadTec 3", 0.005505, "(550.0 nm), AU", 550L,
-      0L, 0L, "QuadTec 4", 0, "(650.0 nm), AU", 650L,
-      0L, 0L, "UV", 0, "AU", NA
-    )
+      ~time, ~percent_b, ~au, ~m_s_cm, ~psi, ~volume,    ~A280,    ~A260,     ~A550,    ~A650,
+         0L,         0L,  0L,  15.967, 265L,      0L,        0,        0,  0.005505,        0,
+         1L,         0L,  0L,  15.969, 266L,      0L,    4e-06,  1.3e-05,  -0.00016, 0.001875,
+         2L,         0L,  0L,  15.968, 270L,      0L,        0,   -8e-06,  -6.4e-05, 0.001802,
+         3L,         0L,  0L,  15.965, 272L,      0L, -1.3e-05, -2.2e-05,  -6.4e-05, 0.003387,
+         4L,         0L,  0L,  15.969, 272L,      0L,   -6e-06, -1.5e-05,  -9.5e-05, 0.003912,
+         5L,         0L,  0L,  15.967, 276L,      0L,   -6e-06, -1.8e-05, -0.000128, 0.004128
+      )
+
   )
 })

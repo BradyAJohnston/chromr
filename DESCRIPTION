@@ -1,7 +1,7 @@
 Type: Package
 Package: chromr
 Title: Read and Plot FPLC Chromatograms
-Version: 0.1.0
+Version: 0.1.2
 Author: Brady Johnston
 Maintainer: Brady Johnston <brady.johnston@me.com>
 Description: For reading files from BioRad QuadTec machines and making
@@ -12,13 +12,10 @@ BugReports: https://github.com/BradyAJohnston/chromr/issues
 Imports: 
     dplyr,
     ggplot2,
-    glue,
     janitor,
-    lifecycle,
     magrittr,
     purrr,
     readr,
-    rlang,
     scales,
     stringr,
     tibble,
