@@ -6,7 +6,6 @@
 \usage{
 chrom_plot_fractions(
   data,
-  wl_show = NULL,
   wl_frac = 280,
   fractions = TRUE,
   frac_include = "all",
@@ -17,8 +16,6 @@ chrom_plot_fractions(
 }
 \arguments{
 \item{data}{Datafram containing values.}
-
-\item{wl_show}{Wavelengths to show on the plot.}
 
 \item{wl_frac}{Wavelengths to show the fractionation scheme for.}
 

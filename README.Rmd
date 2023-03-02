@@ -51,9 +51,14 @@ fl <- system.file(
 dat <- fl %>% 
   chrom_read_quadtech()
 dat
-dat %>%
-  chrom_plot()
 ```
+
+```{r}
+dat |> 
+  dplyr::select(-a280) |> 
+  chrom_plot(ylim = c())
+```
+
 
 ```{r}
 fl <- system.file(
@@ -69,7 +74,7 @@ fl %>%
 
 ```
 
-## Fractions
+## Fractions2
 
 ```{r}
 fl1 <- system.file("extdata",
@@ -81,5 +86,6 @@ fl2 <- system.file("extdata",
 df1 <- chrom_read_quadtech(fl1)
 df2 <- chrom_read_quadtech(fl2)
 dat <- chrom_append_run(df1, df2)
-chrom_plot_fractions(dat, wl_frac = 280, wl_show = c(280, 260, 488))
+
+chrom_plot_fractions(dat, wl_frac = 280)
 ```

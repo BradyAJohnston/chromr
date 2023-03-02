@@ -4,7 +4,6 @@
 #'   ('volume') and absorbance ('abs').
 #' @param xlim Limits for the x axis.
 #' @param ylim Limits for the y axis.
-#' @param wl_show Wavelengths to plot.
 #'
 #' @importFrom rlang .data
 #' @return a `ggplot2::ggplot()` plot.
@@ -23,24 +22,24 @@
 #'   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 chrom_plot <-
   function(data,
-           wl_show = NULL,
            xlim = NULL,
            ylim = NULL) {
-    if (!is.null(wl_show)) {
-      data <- data %>%
-        dplyr::filter(.data$wl %in% wl_show)
-    }
-    data %>%
-      tidyr::pivot_longer(dplyr::matches("A\\d{2,3}"), names_to = "wl", values_to = "value")
-      dplyr::filter(!is.na(.data$wl)) %>%
-      ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))) +
+    dat <- tidyr::pivot_longer(data, dplyr::matches("a\\d{2,3}"), names_to = "wl")
+
+      plt <- ggplot2::ggplot(
+        data = dat,
+        ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))
+        ) +
       ggplot2::geom_line() +
-      ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +
+      ggplot2::scale_colour_discrete(
+        labels = function(x) stringr::str_extract(x, "\\d+")
+      ) +
       ggplot2::coord_cartesian(
         xlim = xlim,
         ylim = ylim
       ) +
+      ggplot2::theme_bw() +
       ggplot2::theme(
         legend.position = c(0.05, 0.95),
         legend.justification = c(0, 1),
@@ -55,12 +54,13 @@ chrom_plot <-
         y = "Absorbance (AU)",
         colour = "Wavelength (nm)"
       )
+
+      plt
   }
 
 #' Plot Chromatogram with Fractions
 #'
 #' @param data Datafram containing values.
-#' @param wl_show Wavelengths to show on the plot.
 #' @param wl_frac Wavelengths to show the fractionation scheme for.
 #' @param fractions Logical, whether to incude fractions on the plot.
 #' @param frac_include Specific fractions to include. Either "all" for all
@@ -86,11 +86,11 @@ chrom_plot <-
 #'   package = "chromr"
 #' )
 #' df1 <- chrom_read_quadtech(fl1)
-#' df2 <- chrom_read_quadtech(fl2)
+#' df2 <- chrom_read_quadtech(fl2)matches
+#'
 #' dat <- chrom_append_run(df1, df2)
 #' chrom_plot_fractions(dat, wl_frac = c(280, 488))
 chrom_plot_fractions <- function(data,
-                                 wl_show = NULL,
                                  wl_frac = 280,
                                  fractions = TRUE,
                                  frac_include = "all",
@@ -111,14 +111,9 @@ chrom_plot_fractions <- function(data,
 
   fractions_present <- TRUE %in% stringr::str_detect(colnames(data), "frac") & fractions
 
+  data <- tidyr::pivot_longer(data, dplyr::matches("a\\d{2,3}"), names_to = "wl")
 
-  if (!is.null(wl_show)) {
-    data <- data %>%
-      dplyr::filter(.data$wl %in% wl_show)
-  }
-
-  plt <- data %>%
-    ggplot2::ggplot(ggplot2::aes(.data$volume, .data$value))
+  plt <- ggplot2::ggplot(data, ggplot2::aes(.data$volume, .data$value))
 
   if (fractions_present) {
     lab_data <- data %>%
@@ -129,15 +124,17 @@ chrom_plot_fractions <- function(data,
         .data$wl %in% wl_frac
       ) %>%
       dplyr::group_by(.data$fraction) %>%
-      dplyr::summarise(volume = mean(.data$volume), value = max(.data$value))
+      dplyr::summarise(volume = mean(.data$volume))
 
     plt <- plt +
       ggplot2::geom_area(
         position = "identity",
-        data = dplyr::filter(data, .data$fraction != 0, .data$wl %in% wl_frac, .data$fraction %in% frac_numbers),
+        data = dplyr::filter(data, .data$fraction != 0,
+                             stringr::str_detect(.data$wl, paste(wl_frac, collapse = "|")),
+                             .data$fraction %in% frac_numbers),
         ggplot2::aes(
           fill = factor(.data$fraction %% 5),
-          group = interaction(.data$fraction, .data$wl, .data$run)
+          group = interaction(.data$fraction, .data$wl)
         ),
         alpha = 0.5,
       ) +
@@ -162,6 +159,9 @@ chrom_plot_fractions <- function(data,
       y = "Absorbance (AU)"
     ) +
     ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+    ggplot2::scale_colour_discrete(
+      labels = function(x) stringr::str_extract(x, "\\d{3}"),
+    ) +
     ggplot2::scale_fill_manual( # values = RColorBrewer::brewer.pal(7, "Greys")[2:6]
       values = grDevices::gray(seq(0.85, 0.65, length.out = 5))
     ) +

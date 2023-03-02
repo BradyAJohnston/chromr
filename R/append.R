@@ -39,18 +39,23 @@ chrom_append_run <- function(.data, ..., adjust_fractions = FALSE) {
     dplyr::group_by(.data$run) %>%
     dplyr::summarise(dplyr::across(tidyr::matches("time|volume|fraction"), max))
 
-
   .data <- .data %>%
     dplyr::mutate(
       time = dplyr::if_else(
         .data$run == 1,
         .data$time,
-        .data$time + max_values$time[.data$run - 1]
+        .data$time + max_values$time[dplyr::if_else(
+          .data$run == 1,
+          1,
+          .data$run - 1)]
       ),
       volume = dplyr::if_else(
         .data$run == 1,
         .data$volume,
-        .data$volume + max_values$volume[.data$run - 1]
+        .data$volume + max_values$volume[dplyr::if_else(
+          .data$run == 1,
+          1,
+          .data$run - 1)]
       )
     )
 
