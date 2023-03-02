@@ -59,8 +59,8 @@ dat
 ```
 
 ``` r
-dat |> 
-  dplyr::select(-a280) |> 
+dat %>% 
+  dplyr::select(-a280) %>% 
   chrom_plot(ylim = c())
 ```
 

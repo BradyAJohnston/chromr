@@ -31,21 +31,21 @@ head(df)
 colnames(df) <- c("ml_1", "m_au", "ml_2", "fractions")
 head(df)
 
-df_fractions <- df |>
-  dplyr::select(matches("fraction") - 1, matches("fraction")) |>
-    dplyr::rename(ml = 1) |>
+df_fractions <- df %>%
+  dplyr::select(matches("fraction") - 1, matches("fraction")) %>%
+    dplyr::rename(ml = 1) %>%
   drop_na()
-data <- df |>
+data <- df %>%
   dplyr::select(
     -c(matches("fraction"), matches("fraction") - 1)
-  ) |>
+  ) %>%
   dplyr::rename(ml = 1)
 
-data |>
+data %>%
   mutate(
     m_au = m_au - 2050,
     frac = cut(ml, breaks = df_fractions$ml, labels = FALSE)
-  ) |>
+  ) %>%
   ggplot(aes(ml, m_au)) +
   geom_area(aes(fill = factor(frac %% 5), group = frac), na.rm = TRUE) +
   geom_line() +

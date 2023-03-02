@@ -95,12 +95,12 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 
   col_names <- dplyr::pull(met, .data$value, .data$meta)
 
-  data <- data |>
+  data <- data %>%
     dplyr::rename_with(.fn = ~ col_names[.x],
-                       .cols = dplyr::any_of(names(col_names))) |>
-    janitor::clean_names() |>
+                       .cols = dplyr::any_of(names(col_names))) %>%
+    janitor::clean_names() %>%
     dplyr::rename_with(~ paste0("a", stringr::str_extract(.x, "\\d{1,3}")),
-                       .cols = dplyr::matches("nm_au")) |>
+                       .cols = dplyr::matches("nm_au")) %>%
     dplyr::select(-dplyr::matches("a\\d{1,3}"), dplyr::everything())
 
   data
@@ -184,6 +184,6 @@ chrom_add_volume <-
                           "hour" = 1 / 60)
 
     .data %>%
-      dplyr::mutate(volume = .data$time / time_adjust * flow_rate) |>
+      dplyr::mutate(volume = .data$time / time_adjust * flow_rate) %>%
       dplyr::select("time", "volume", dplyr::everything())
   }
