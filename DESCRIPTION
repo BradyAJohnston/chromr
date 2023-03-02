@@ -1,7 +1,7 @@
 Type: Package
 Package: chromr
 Title: Read and Plot FPLC Chromatograms
-Version: 0.1.0
+Version: 0.2.0
 Author: Brady Johnston
 Maintainer: Brady Johnston <brady.johnston@me.com>
 Description: For reading files from BioRad QuadTec machines and making

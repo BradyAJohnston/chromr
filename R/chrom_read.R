@@ -17,11 +17,9 @@
 #' dat
 #'
 chrom_read_ngc <- function(file, skip = 1) {
-  dat <- readr::read_csv(
-    file = file,
-    skip = skip,
-    col_types = readr::cols()
-  )
+  dat <- readr::read_csv(file = file,
+                         skip = skip,
+                         col_types = readr::cols())
 
   dat <- janitor::clean_names(dat)
 
@@ -36,7 +34,7 @@ chrom_read_ngc <- function(file, skip = 1) {
     dplyr::mutate(volume = dplyr::if_else(.data$volume, .data$value, NaN)) %>%
     tidyr::fill(.data$volume) %>%
     dplyr::filter(stringr::str_detect(.data$name, "volume", negate = TRUE)) %>%
-    dplyr::select(.data$volume, .data$type, .data$value, .data$name)
+    dplyr::select("volume", "type", "value", "name")
 
   dat
 }
@@ -69,11 +67,9 @@ chrom_read_ngc <- function(file, skip = 1) {
 chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   start_line <- chrom_find_data_start_line(file, n_lines = 50)
 
-  data <- readr::read_csv(
-    file = file,
-    skip = start_line - 2,
-    col_types = readr::cols()
-  ) %>%
+  data <- readr::read_csv(file = file,
+                          skip = start_line - 2,
+                          col_types = readr::cols()) %>%
     rename_columns()
 
   met <- chrom_get_meta_quadtech(file, start_line = start_line)
@@ -94,34 +90,18 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 
   if (interp_volume & volume_present) {
     data <- data %>%
-      dplyr::mutate(
-        volume = stats::approx(unique(.data$volume), n = nrow(data))$y
-      )
-    # data <- interpolate_column(data, volume)
+      dplyr::mutate(volume = stats::approx(unique(.data$volume), n = nrow(data))$y)
   }
 
-  data <- data %>%
-    tidyr::pivot_longer(-dplyr::matches("time|fraction|volume"))
-
+  col_names <- dplyr::pull(met, .data$value, .data$meta)
 
   data <- data %>%
-    dplyr::left_join(
-      met,
-      by = c("name" = "meta")
-    ) %>%
-    dplyr::rename(
-      unit  = .data$value.y,
-      value = .data$value.x
-    ) %>%
-    dplyr::mutate(
-      wl = as.numeric(stringr::str_extract(.data$unit, "(?<=\\()\\d{3}"))
-    )
-
-  data <- data %>%
-    dplyr::relocate(
-      dplyr::matches("time|volume|fractions"),
-      dplyr::everything()
-    )
+    dplyr::rename_with(.fn = ~ col_names[.x],
+                       .cols = dplyr::any_of(names(col_names))) %>%
+    janitor::clean_names() %>%
+    dplyr::rename_with(~ paste0("a", stringr::str_extract(.x, "\\d{1,3}")),
+                       .cols = dplyr::matches("nm_au")) %>%
+    dplyr::select(-dplyr::matches("a\\d{1,3}"), dplyr::everything())
 
   data
 }
@@ -194,15 +174,16 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #' # add a volume given a constant flow rate
 #' dat %>%
 #'   chrom_add_volume(0.3)
-chrom_add_volume <- function(.data, flow_rate = 0.5, time = "second") {
-  time_adjust <- switch(time,
-    "second" = 60,
-    "minute" = 1,
-    "hour" = 1 / 60
-  )
+chrom_add_volume <-
+  function(.data,
+           flow_rate = 0.5,
+           time = "second") {
+    time_adjust <- switch(time,
+                          "second" = 60,
+                          "minute" = 1,
+                          "hour" = 1 / 60)
 
-  .data %>%
-    dplyr::mutate(
-      volume = .data$time / time_adjust * flow_rate
-    )
-}
+    .data %>%
+      dplyr::mutate(volume = .data$time / time_adjust * flow_rate) %>%
+      dplyr::select("time", "volume", dplyr::everything())
+  }

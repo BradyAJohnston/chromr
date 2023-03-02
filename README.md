@@ -42,26 +42,29 @@ fl <- system.file(
 dat <- fl %>% 
   chrom_read_quadtech()
 dat
-#> # A tibble: 7,680 × 6
-#>     time  volume name               value unit              wl
-#>    <dbl>   <dbl> <chr>              <dbl> <chr>          <dbl>
-#>  1     0 0       QuadTec 1       0        (280.0 nm), AU   280
-#>  2     0 0       QuadTec 2       0        (260.0 nm), AU   260
-#>  3     0 0       Gradient Pump   0        %B                NA
-#>  4     0 0       QuadTec 3       0.00550  (550.0 nm), AU   550
-#>  5     0 0       QuadTec 4       0        (650.0 nm), AU   650
-#>  6     0 0       UV              0        AU                NA
-#>  7     0 0       Conductivity   16.0      mS/cm             NA
-#>  8     0 0       GP Pressure   265        PSI               NA
-#>  9     1 0.00501 QuadTec 1       0.000004 (280.0 nm), AU   280
-#> 10     1 0.00501 QuadTec 2       0.000013 (260.0 nm), AU   260
-#> # … with 7,670 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
-dat %>%
-  chrom_plot()
+#> # A tibble: 960 × 10
+#>     time percent_b    au m_s_cm   psi  volume     a280    a260     a550     a650
+#>    <dbl>     <dbl> <dbl>  <dbl> <dbl>   <dbl>    <dbl>   <dbl>    <dbl>    <dbl>
+#>  1     0         0     0   16.0   265 0         0       0       5.50e-3  0      
+#>  2     1         0     0   16.0   266 0.00501   4  e-6  1.3e-5 -1.6 e-4  1.88e-3
+#>  3     2         0     0   16.0   270 0.0100    0      -8  e-6 -6.4 e-5  1.80e-3
+#>  4     3         0     0   16.0   272 0.0150   -1.3e-5 -2.2e-5 -6.4 e-5  3.39e-3
+#>  5     4         0     0   16.0   272 0.0200   -6  e-6 -1.5e-5 -9.5 e-5  3.91e-3
+#>  6     5         0     0   16.0   276 0.0250   -6  e-6 -1.8e-5 -1.28e-4  4.13e-3
+#>  7     6         0     0   16.0   275 0.0300   -6  e-6 -2.9e-5 -1.93e-4  3.76e-3
+#>  8     7         0     0   16.0   273 0.0350   -2  e-6 -8  e-6 -1.28e-4  1.92e-3
+#>  9     8         0     0   16.0   273 0.0400    3  e-6 -1.1e-5 -6.4 e-5  8.83e-4
+#> 10     9         0     0   16.0   275 0.0450   -8  e-6 -9  e-6 -9.6 e-5 -3.2 e-4
+#> # … with 950 more rows
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+``` r
+dat %>% 
+  dplyr::select(-a280) %>% 
+  chrom_plot(ylim = c())
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ``` r
 fl <- system.file(
@@ -76,9 +79,9 @@ fl %>%
   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
-## Fractions
+## Fractions2
 
 ``` r
 fl1 <- system.file("extdata",
@@ -90,11 +93,8 @@ fl2 <- system.file("extdata",
 df1 <- chrom_read_quadtech(fl1)
 df2 <- chrom_read_quadtech(fl2)
 dat <- chrom_append_run(df1, df2)
-#> Warning in .data$time + max_values$time[.data$run - 1]: longer object length is
-#> not a multiple of shorter object length
-#> Warning in .data$volume + max_values$volume[.data$run - 1]: longer object length
-#> is not a multiple of shorter object length
-chrom_plot_fractions(dat, wl_frac = 280, wl_show = c(280, 260, 488))
+
+chrom_plot_fractions(dat, wl_frac = 280)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />

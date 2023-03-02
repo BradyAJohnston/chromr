@@ -4,13 +4,11 @@
 \alias{chrom_plot}
 \title{Plot a Chromatogram}
 \usage{
-chrom_plot(data, wl_show = NULL, xlim = NULL, ylim = NULL)
+chrom_plot(data, xlim = NULL, ylim = NULL)
 }
 \arguments{
 \item{data}{Data frame that contains columns for wavelength ('wl'), volume
 ('volume') and absorbance ('abs').}
-
-\item{wl_show}{Wavelengths to plot.}
 
 \item{xlim}{Limits for the x axis.}
 
