@@ -49,7 +49,8 @@ fl2 <- system.file("extdata",
   package = "chromr"
 )
 df1 <- chrom_read_quadtech(fl1)
-df2 <- chrom_read_quadtech(fl2)
+df2 <- chrom_read_quadtech(fl2)matches
+
 dat <- chrom_append_run(df1, df2)
 chrom_plot_fractions(dat, wl_frac = c(280, 488))
 }
