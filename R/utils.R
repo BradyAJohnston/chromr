@@ -1,6 +1,3 @@
-magrittr::`%>%`
-
-
 #' Check if Column is Present in DataFrame Ignoring Case
 #'
 #' @param data Dataframe

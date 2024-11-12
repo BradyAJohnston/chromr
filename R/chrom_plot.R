@@ -16,9 +16,9 @@
 #'   package = "chromr"
 #' )
 #'
-#' fl %>%
-#'   chrom_read_quadtech() %>%
-#'   chrom_add_volume(0.3) %>%
+#' fl |>
+#'   chrom_read_quadtech() |>
+#'   chrom_add_volume(0.3) |>
 #'   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 chrom_plot <-
   function(data,
@@ -116,14 +116,14 @@ chrom_plot_fractions <- function(data,
   plt <- ggplot2::ggplot(data, ggplot2::aes(.data$volume, .data$value))
 
   if (fractions_present) {
-    lab_data <- data %>%
+    lab_data <- data |>
       dplyr::filter(
         .data$fraction != 0,
         .data$fraction %in% frac_numbers,
         .data$fraction %% frac_labelling == 0,
         .data$wl %in% wl_frac
-      ) %>%
-      dplyr::group_by(.data$fraction) %>%
+      ) |>
+      dplyr::group_by(.data$fraction) |>
       dplyr::summarise(volume = mean(.data$volume))
 
     plt <- plt +

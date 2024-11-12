@@ -36,6 +36,6 @@ df1 <- chrom_read_quadtech(fl1)
 df2 <- chrom_read_quadtech(fl2)
 
 
-df1 \%>\%
+df1 |>
   chrom_append_run(df2)
 }

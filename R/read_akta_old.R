@@ -17,7 +17,8 @@
   i <- 1
   while (!found_longest) {
     lets <- paste0(split_letters[seq(i)], collapse = '')
-    all_common_start <- all(stringr::str_detect(strings, stringr::str_glue("^{lets}")))
+    all_common_start <-
+      all(stringr::str_detect(strings, stringr::str_glue("^{lets}")))
     if (all_common_start) {
       i <- i + 1
     } else {
@@ -32,6 +33,27 @@
   }
 }
 
+.split_columns <- function(.data) {
+  purrr::map(seq(1, ncol(.data), by = 2), \(x) {
+    .data[, c(x, x + 1)]
+  })
+}
+
+
+read_the_file <- function(file) {
+  info_lines <- readr::read_lines(file, n_max = 3) |>
+    stringr::str_split(pattern = "\t")
+
+  unit_lines <- info_lines[[3]]
+
+  info <- info_lines[[2]] |>
+    unlist() |>
+    stringr::str_split(pattern = " ") |>
+    purrr::map(\(x) x[length(x)]) |>
+    unlist()
+
+  readr::read_csv(file, skip = 3, col_names = info)
+}
 #' Read a .asc chromatogram from an old AKTA Pure
 #'
 #' @param file Filepath to read
@@ -44,29 +66,6 @@
 #'
 #' read_akta_old(fl)
 read_akta_old <- function(file, fraction_size = 2) {
-  .split_columns <- function(.data) {
-
-    purrr::map(seq(1, ncol(.data), by = 2), \(x) {
-      .data[, c(x, x + 1)]
-    })
-  }
-
-
-  read_the_file <- function(file) {
-    info_lines <- readr::read_lines(file, n_max = 3) |>
-      stringr::str_split(pattern = "\t")
-
-    unit_lines <- info_lines[[3]]
-
-    info <- info_lines[[2]] |>
-      unlist() |>
-      stringr::str_split(pattern = " ") |>
-      purrr::map(\(x) x[length(x)]) |>
-      unlist()
-
-    readr::read_tsv(file, skip = 3, col_names = info)
-  }
-
   raw_dat <- read_the_file(file) |>
     janitor::clean_names()
 
@@ -87,7 +86,8 @@ read_akta_old <- function(file, fraction_size = 2) {
     tidyr::drop_na() -> dat
 
   # cleanup names
-  dat$name <- stringr::str_remove(dat$name, .find_common_start(dat$name))
+  dat$name <-
+    stringr::str_remove(dat$name, .find_common_start(dat$name))
 
   fractions <- dat |>
     dplyr::filter(stringr::str_detect(.data$name, "fraction"))
@@ -96,22 +96,25 @@ read_akta_old <- function(file, fraction_size = 2) {
   # adding in the final stop which will be usually 2ml + last start volume
   volumes <- fractions$volume
   n <- length(volumes)
-  fraction_breaks <- c(volumes, volumes[n] + (volumes[n]- volumes[n - 1]))
+  fraction_breaks <-
+    c(volumes, volumes[n] + (volumes[n] - volumes[n - 1]))
 
   dat <-
-    dplyr::filter(dat, stringr::str_detect(.data$name, "fraction", negate = TRUE)) |>
+    dplyr::filter(dat,
+                  stringr::str_detect(.data$name, "fraction", negate = TRUE)) |>
     dplyr::mutate(
       volume = mean(.data$volume),
-      fraction = as.numeric(cut(
-        .data$volume,
-        breaks = fraction_breaks,
-        labels = fractions$id,
-        include.lowest = TRUE
-        )),
+      fraction = as.numeric(
+        cut(
+          .data$volume,
+          breaks = fraction_breaks,
+          labels = fractions$id,
+          include.lowest = TRUE
+        )
+      ),
       .by = .data$id
     ) |>
     dplyr::select(-"id") |>
     tidyr::pivot_wider(values_from = 'value', names_from = 'name')
 
 }
-

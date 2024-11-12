@@ -2,18 +2,6 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
-
-# chromr
 
 <!-- badges: start -->
 
@@ -44,32 +32,33 @@ library(chromr)
 ```{r}
 fl <- system.file(
   "extdata",
-  "sec.txt", 
+  "example_quadtec_3.txt", 
   package = "chromr"
 )
 
-dat <- fl %>% 
+dat <- fl |> 
   chrom_read_quadtech()
 dat
 ```
 
 ```{r}
-dat %>% 
-  dplyr::select(-a280) %>% 
+dat |> 
+  dplyr::select(-a280) |> 
   chrom_plot(ylim = c())
+
 ```
 
 
 ```{r}
 fl <- system.file(
   "extdata",
-  "sec_no_volume.txt", 
+  "example_quadtec_4.txt", 
   package = "chromr"
 )
 
-fl %>% 
-  chrom_read_quadtech() %>% 
-  chrom_add_volume(0.3) %>% 
+fl |> 
+  chrom_read_quadtech() |> 
+  chrom_add_volume(0.3) |> 
   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 
 ```
@@ -78,14 +67,27 @@ fl %>%
 
 ```{r}
 fl1 <- system.file("extdata",
-                   "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+                   "example_quadtec_1.TXT",
                    package = "chromr")
 fl2 <- system.file("extdata",
-                   "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+                   "example_quadtec_2.TXT",
                    package = "chromr")
 df1 <- chrom_read_quadtech(fl1)
 df2 <- chrom_read_quadtech(fl2)
 dat <- chrom_append_run(df1, df2)
 
-chrom_plot_fractions(dat, wl_frac = 280)
+# chrom_plot_fractions(dat, wl_frac = 280)
+
+dat |>
+  dplyr::slice_sample(prop = 0.1) |>
+  tidyr::pivot_longer(dplyr::matches("a\\d{2,3}"),
+                      values_to = "abs",
+                      names_to = "wl") |>
+  ggplot(aes(volume, abs, fraction = fraction, color = wl))+
+  theme_bw() +
+  geom_fraction_bars(period=5) +
+  geom_line() +
+  geom_fraction_label(group = NA, color = "black", ypos=-0.01) +
+  scale_fill_grey()
 ```
+

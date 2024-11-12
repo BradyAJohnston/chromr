@@ -23,17 +23,17 @@ chrom_read_ngc <- function(file, skip = 1) {
 
   dat <- janitor::clean_names(dat)
 
-  dat <- dat %>%
-    dplyr::mutate(id = dplyr::row_number()) %>%
-    tidyr::pivot_longer(-.data$id) %>%
+  dat <- dat |>
+    dplyr::mutate(id = dplyr::row_number()) |>
+    tidyr::pivot_longer(-.data$id) |>
     dplyr::mutate(
       type = stringr::str_extract(.data$name, "^[^\\_]+"),
       volume = stringr::str_detect(.data$name, "volume")
-    ) %>%
-    dplyr::group_by(.data$type, .data$id) %>%
-    dplyr::mutate(volume = dplyr::if_else(.data$volume, .data$value, NaN)) %>%
-    tidyr::fill(.data$volume) %>%
-    dplyr::filter(stringr::str_detect(.data$name, "volume", negate = TRUE)) %>%
+    ) |>
+    dplyr::group_by(.data$type, .data$id) |>
+    dplyr::mutate(volume = dplyr::if_else(.data$volume, .data$value, NaN)) |>
+    tidyr::fill(.data$volume) |>
+    dplyr::filter(stringr::str_detect(.data$name, "volume", negate = TRUE)) |>
     dplyr::select("volume", "type", "value", "name")
 
   dat
@@ -54,22 +54,22 @@ chrom_read_ngc <- function(file, skip = 1) {
 #'   package = "chromr"
 #' )
 #' # just read
-#' fl %>%
+#' fl |>
 #'   chrom_read_quadtech()
 #'
 #' # read without interpolating volume
-#' fl %>%
+#' fl |>
 #'   chrom_read_quadtech(interp_volume = FALSE)
 #' # read then plot
-#' fl %>%
-#'   chrom_read_quadtech() %>%
+#' fl |>
+#'   chrom_read_quadtech() |>
 #'   chrom_plot()
 chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   start_line <- chrom_find_data_start_line(file, n_lines = 50)
 
   data <- readr::read_csv(file = file,
                           skip = start_line - 2,
-                          col_types = readr::cols()) %>%
+                          col_types = readr::cols()) |>
     rename_columns()
 
   met <- chrom_get_meta_quadtech(file, start_line = start_line)
@@ -78,8 +78,8 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 
 
 
-  wavelengths <- met %>%
-    dplyr::filter(stringr::str_detect(.data$meta, "Quad")) %>%
+  wavelengths <- met |>
+    dplyr::filter(stringr::str_detect(.data$meta, "Quad")) |>
     dplyr::mutate(
       wl = as.numeric(stringr::str_extract(.data$value, "\\d{3}")),
       channel = as.numeric(stringr::str_extract(.data$meta, "\\d$"))
@@ -89,18 +89,18 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   fraction_present <- check_column_exist(data, "fraction")
 
   if (interp_volume & volume_present) {
-    data <- data %>%
+    data <- data |>
       dplyr::mutate(volume = stats::approx(unique(.data$volume), n = nrow(data))$y)
   }
 
   col_names <- dplyr::pull(met, .data$value, .data$meta)
 
-  data <- data %>%
+  data <- data |>
     dplyr::rename_with(.fn = ~ col_names[.x],
-                       .cols = dplyr::any_of(names(col_names))) %>%
-    janitor::clean_names() %>%
+                       .cols = dplyr::any_of(names(col_names))) |>
+    janitor::clean_names() |>
     dplyr::rename_with(~ paste0("a", stringr::str_extract(.x, "\\d{1,3}")),
-                       .cols = dplyr::matches("nm_au")) %>%
+                       .cols = dplyr::matches("nm_au")) |>
     dplyr::select(-dplyr::matches("a\\d{1,3}"), dplyr::everything())
 
   data
@@ -123,7 +123,7 @@ chrom_get_meta_quadtech <- function(file, start_line) {
       col_types = readr::cols()
     )
 
-  met <- met$result %>%
+  met <- met$result |>
     dplyr::rename(meta = 1, value = 2)
 
   met
@@ -141,9 +141,9 @@ chrom_get_meta_quadtech <- function(file, start_line) {
 #'
 #' @return Single integer of the start of the data.
 chrom_find_data_start_line <- function(file, n_lines = 50) {
-  start_line <- readr::read_lines(file, n_max = n_lines) %>%
-    stringr::str_trim() %>%
-    stringr::str_which("^\\d") %>%
+  start_line <- readr::read_lines(file, n_max = n_lines) |>
+    stringr::str_trim() |>
+    stringr::str_which("^\\d") |>
     min()
 
   start_line
@@ -168,11 +168,11 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #'   package = "chromr"
 #' )
 #' # read just the data
-#' dat <- fl %>%
+#' dat <- fl |>
 #'   chrom_read_quadtech()
 #' dat
 #' # add a volume given a constant flow rate
-#' dat %>%
+#' dat |>
 #'   chrom_add_volume(0.3)
 chrom_add_volume <-
   function(.data,
@@ -183,7 +183,7 @@ chrom_add_volume <-
                           "minute" = 1,
                           "hour" = 1 / 60)
 
-    .data %>%
-      dplyr::mutate(volume = .data$time / time_adjust * flow_rate) %>%
+    .data |>
+      dplyr::mutate(volume = .data$time / time_adjust * flow_rate) |>
       dplyr::select("time", "volume", dplyr::everything())
   }
