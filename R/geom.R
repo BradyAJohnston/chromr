@@ -1,18 +1,12 @@
-.compute_group_frac <- function(data, scales, period=5, ypos = 0, initial = 0L) {
+.compute_group_frac <- function(data,
+                                scales,
+                                period = 5,
+                                ypos = 0,
+                                initial = 0L) {
   data |>
-    dplyr::select(x, y, fraction) |>
-    dplyr::summarise(
-      x = mean(x),
-      y = ypos,
-      .by = fraction
-    ) |>
-    dplyr::filter(
-      fraction %% period == initial,
-      fraction != 0
-      ) |>
-    dplyr::mutate(
-      label = fraction
-    )
+    dplyr::summarise(x = mean(x), y = ypos, .by = fraction) |>
+    dplyr::filter(fraction %% period == initial, fraction != 0) |>
+    dplyr::mutate(label = fraction)
 }
 
 StatFractionGroup <- ggplot2::ggproto(
@@ -22,19 +16,21 @@ StatFractionGroup <- ggplot2::ggproto(
   compute_group = .compute_group_frac
 )
 
-.comput_frac_identity <- function(data, scales, period = 5, initial = 0L, lines = NA) {
+.comput_frac_identity <- function(data,
+                                  scales,
+                                  period = 5,
+                                  initial = 0L,
+                                  lines = NA) {
   if (any(is.na(lines))) {
     mask <- rep(TRUE, nrow(data))
   } else {
-    mask <- sapply(data$colour, \(x) x %in% lines, simplify = TRUE)
+    mask <- purrr::map_lgl(data$colour, \(x) x %in% lines)
   }
 
   data |>
     dplyr::filter(fraction != 0, mask) |>
-    dplyr::mutate(
-      fill = factor((fraction - initial) %% period),
-      group = interaction(group, fraction)
-    )
+    dplyr::mutate(fill = factor((fraction - initial) %% period),
+                  group = interaction(group, fraction))
 }
 
 StatFraction <- ggplot2::ggproto(
@@ -61,21 +57,26 @@ geom_fraction_label <- function(mapping = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, period = period, initial = initial, ...)
+    params = list(
+      na.rm = na.rm,
+      period = period,
+      initial = initial,
+      ...
+    )
   )
 }
 
 geom_fraction_bars <- function(mapping = NULL,
-                                data = NULL,
-                                position = "identity",
-                                na.rm = FALSE,
-                                show.legend = FALSE,
-                                alpha = 0.3,
-                                period = 5,
-                                initial = 0L,
-                                lines = NA,
-                                inherit.aes = TRUE,
-                                ...) {
+                               data = NULL,
+                               position = "identity",
+                               na.rm = FALSE,
+                               show.legend = FALSE,
+                               alpha = 0.3,
+                               period = 5,
+                               initial = 0L,
+                               lines = NA,
+                               inherit.aes = TRUE,
+                               ...) {
   ggplot2::layer(
     stat = StatFraction,
     geom = ggplot2::GeomArea,
@@ -84,6 +85,13 @@ geom_fraction_bars <- function(mapping = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, alpha=alpha, period = period, initial = initial, lines = lines, ...)
+    params = list(
+      na.rm = na.rm,
+      alpha = alpha,
+      period = period,
+      initial = initial,
+      lines = lines,
+      ...
+    )
   )
 }

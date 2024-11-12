@@ -26,6 +26,7 @@ Reading of chromatogram files and plotting from the BioRad QuadTech.
 
 ```{r example}
 library(chromr)
+library(ggplot2)
 ## basic example code
 ```
 
@@ -78,16 +79,23 @@ dat <- chrom_append_run(df1, df2)
 
 # chrom_plot_fractions(dat, wl_frac = 280)
 
+pivot_wl <- function(data, values_to = "abs", names_to = "wl") {
+  tidyr::pivot_longer(
+    data = data, 
+    dplyr::matches("(a|A)\\d{2,3}"), 
+    values_to = values_to, 
+    names_to = names_to
+  )
+}
+
 dat |>
   dplyr::slice_sample(prop = 0.1) |>
-  tidyr::pivot_longer(dplyr::matches("a\\d{2,3}"),
-                      values_to = "abs",
-                      names_to = "wl") |>
+  pivot_wl() |> 
   ggplot(aes(volume, abs, fraction = fraction, color = wl))+
-  theme_bw() +
-  geom_fraction_bars(period=5) +
+  geom_fraction_bars(period=5, lines = "a280") +
   geom_line() +
   geom_fraction_label(group = NA, color = "black", ypos=-0.01) +
-  scale_fill_grey()
+  scale_fill_grey() + 
+  theme_bw()
 ```
 
