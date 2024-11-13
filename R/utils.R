@@ -28,6 +28,14 @@ pivot_wl_longer <- function(data, values_to = "abs", names_to = "wl") {
   )
 }
 
+pivot_wl_wider <- function(data, values_from = "abs|absorbance", names_from = "wl|wavelength") {
+  tidyr::pivot_wider(
+    data = data,
+    values_from = dplyr::matches(values_from),
+    names_from = dplyr::matches(names_from)
+  )
+}
+
 #' Check if Column Exists in Data Frame
 #'
 #' @description

@@ -17,7 +17,7 @@ You can install the development version of chromr from [GitHub](https://github.c
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("BradyAJohnston/chromr")
+install.packages("BradyAJohnston/chromr", repos = c("https://bradyajohnston.r-universe.dev"))
 ```
 
 ## Example
@@ -27,7 +27,6 @@ Reading of chromatogram files and plotting from the BioRad QuadTech.
 ```{r example}
 library(chromr)
 library(ggplot2)
-## basic example code
 ```
 
 ```{r}

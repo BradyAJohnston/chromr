@@ -2,16 +2,23 @@
 % Please edit documentation in R/utils.R
 \name{rename_columns}
 \alias{rename_columns}
-\title{Title}
+\title{Standardize Column Names}
 \usage{
 rename_columns(data)
 }
 \arguments{
-\item{data}{Dataframe to rename the columns of.}
+\item{data}{A data frame whose columns need to be renamed}
 }
 \value{
-Dataframe with renamed column.
+A data frame with standardized column names
 }
 \description{
-Title
+Renames specific columns in a data frame to standardized names.
+Current mappings: volume -> Volume, time -> Time, fraction -> Fraction
+}
+\examples{
+\dontrun{
+df <- data.frame(volume = 1:3, time = 4:6, other = 7:9)
+renamed_df <- rename_columns(df)  # 'volume' becomes 'Volume', 'time' becomes 'Time'
+}
 }

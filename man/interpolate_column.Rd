@@ -2,18 +2,25 @@
 % Please edit documentation in R/utils.R
 \name{interpolate_column}
 \alias{interpolate_column}
-\title{Interpolate Interpolate Given Column}
+\title{Interpolate Values in a Column}
 \usage{
 interpolate_column(data, col)
 }
 \arguments{
-\item{data}{Dataframe with column to interpolate.}
+\item{data}{A data frame containing the column to interpolate}
 
-\item{col}{Name of the column to interpolate.}
+\item{col}{Name of the column to interpolate (unquoted)}
 }
 \value{
-a [tibble][tibble::tibble-package]
+A data frame with the interpolated column
 }
 \description{
-Interpolate Interpolate Given Column
+Performs linear interpolation on values in a specified column of a data frame.
+Uses unique values in the column as anchor points for interpolation.
+}
+\examples{
+\dontrun{
+df <- data.frame(x = c(1, NA, 3, NA, 5))
+interpolate_column(df, x)  # Interpolates NA values in column x
+}
 }

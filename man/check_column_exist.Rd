@@ -2,18 +2,27 @@
 % Please edit documentation in R/utils.R
 \name{check_column_exist}
 \alias{check_column_exist}
-\title{Check if Column is Present in DataFrame Ignoring Case}
+\title{Check if Column Exists in Data Frame}
 \usage{
 check_column_exist(data, name)
 }
 \arguments{
-\item{data}{Dataframe}
+\item{data}{A data frame to check}
 
-\item{name}{string of column name}
+\item{name}{A character string specifying the column name to look for}
 }
 \value{
-Logical TRUE/FALSE if the column exists.
+Logical value: TRUE if the column exists (ignoring case), FALSE otherwise
 }
 \description{
-Check if Column is Present in DataFrame Ignoring Case
+Checks for the presence of a column in a data frame, ignoring case sensitivity
+in the column name.
+}
+\examples{
+\dontrun{
+df <- data.frame(Name = 1:3, Value = 4:6)
+check_column_exist(df, "name")  # Returns TRUE
+check_column_exist(df, "NAME")  # Returns TRUE
+check_column_exist(df, "age")   # Returns FALSE
+}
 }
