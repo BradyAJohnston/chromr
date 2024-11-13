@@ -28,6 +28,35 @@ pivot_wl_longer <- function(data, values_to = "abs", names_to = "wl") {
   )
 }
 
+#' Pivot Wavelength Data to Wide Format
+#'
+#' @description
+#' Converts wavelength data from long to wide format, specifically handling
+#' columns containing absorbance values and wavelength identifiers. By default,
+#' looks for absorbance columns matching "abs|absorbance" and wavelength columns
+#' matching "wl|wavelength".
+#'
+#' @param data A data frame containing wavelength measurements in long format
+#' @param values_from A regular expression pattern identifying the column(s) containing
+#'        the values to be pivoted (default: "abs|absorbance")
+#' @param names_from A regular expression pattern identifying the column(s) containing
+#'        the wavelength identifiers (default: "wl|wavelength")
+#'
+#' @return A data frame in wide format where each wavelength becomes a separate column
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # With default column patterns
+#' pivot_wl_wider(long_spectral_data)
+#'
+#' # With custom column patterns
+#' pivot_wl_wider(
+#'   long_spectral_data,
+#'   values_from = "measurement",
+#'   names_from = "wavelength_nm"
+#' )
+#' }
 pivot_wl_wider <- function(data, values_from = "abs|absorbance", names_from = "wl|wavelength") {
   tidyr::pivot_wider(
     data = data,
