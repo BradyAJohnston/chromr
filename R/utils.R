@@ -1,4 +1,24 @@
-
+#' Pivot Wavelength Data to Long Format
+#'
+#' @description
+#' Converts wavelength data from wide to long format, specifically handling
+#' columns that match the pattern "(a|A)\\d{2,3}" (e.g., "A280", "a340").
+#'
+#' @param data A data frame containing wavelength measurements in wide format
+#' @param values_to Name of the column to create for the values (default: "abs")
+#' @param names_to Name of the column to create for the wavelength identifiers (default: "wl")
+#'
+#' @return A data frame in long format with wavelength measurements
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # With default column names
+#' pivot_wl_longer(spectral_data)
+#'
+#' # With custom column names
+#' pivot_wl_longer(spectral_data, values_to = "absorbance", names_to = "wavelength")
+#' }
 pivot_wl_longer <- function(data, values_to = "abs", names_to = "wl") {
   tidyr::pivot_longer(
     data = data,
@@ -8,12 +28,25 @@ pivot_wl_longer <- function(data, values_to = "abs", names_to = "wl") {
   )
 }
 
-#' Check if Column is Present in DataFrame Ignoring Case
+#' Check if Column Exists in Data Frame
 #'
-#' @param data Dataframe
-#' @param name string of column name
+#' @description
+#' Checks for the presence of a column in a data frame, ignoring case sensitivity
+#' in the column name.
 #'
-#' @return Logical TRUE/FALSE if the column exists.
+#' @param data A data frame to check
+#' @param name A character string specifying the column name to look for
+#'
+#' @return Logical value: TRUE if the column exists (ignoring case), FALSE otherwise
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' df <- data.frame(Name = 1:3, Value = 4:6)
+#' check_column_exist(df, "name")  # Returns TRUE
+#' check_column_exist(df, "NAME")  # Returns TRUE
+#' check_column_exist(df, "age")   # Returns FALSE
+#' }
 check_column_exist <- function(data, name) {
   detected_vector <- stringr::str_detect(
     colnames(data),
@@ -23,11 +56,22 @@ check_column_exist <- function(data, name) {
   is_present
 }
 
-#' Title
+#' Standardize Column Names
 #'
-#' @param data Dataframe to rename the columns of.
+#' @description
+#' Renames specific columns in a data frame to standardized names.
+#' Current mappings: volume -> Volume, time -> Time, fraction -> Fraction
 #'
-#' @return Dataframe with renamed column.
+#' @param data A data frame whose columns need to be renamed
+#'
+#' @return A data frame with standardized column names
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' df <- data.frame(volume = 1:3, time = 4:6, other = 7:9)
+#' renamed_df <- rename_columns(df)  # 'volume' becomes 'Volume', 'time' becomes 'Time'
+#' }
 rename_columns <- function(data) {
   nicer_column_names <- c(
     "Volume" = "volume",
@@ -41,18 +85,27 @@ rename_columns <- function(data) {
       name
     )
   }
-
   dplyr::rename_with(data, rename_function, new_names = nicer_column_names)
 }
 
-#' Interpolate Interpolate Given Column
+#' Interpolate Values in a Column
 #'
-#' @param data Dataframe with column to interpolate.
-#' @param col Name of the column to interpolate.
+#' @description
+#' Performs linear interpolation on values in a specified column of a data frame.
+#' Uses unique values in the column as anchor points for interpolation.
 #'
+#' @param data A data frame containing the column to interpolate
+#' @param col Name of the column to interpolate (unquoted)
+#'
+#' @return A data frame with the interpolated column
+#' @export
 #' @importFrom rlang :=
-#' @return a [tibble][tibble::tibble-package]
-
+#'
+#' @examples
+#' \dontrun{
+#' df <- data.frame(x = c(1, NA, 3, NA, 5))
+#' interpolate_column(df, x)  # Interpolates NA values in column x
+#' }
 interpolate_column <- function(data, col) {
   dplyr::mutate(
     data,
