@@ -67,35 +67,21 @@ fl |>
 ## Fractions2
 
 ```{r}
-fl1 <- system.file("extdata",
-                   "example_quadtec_1.TXT",
-                   package = "chromr")
-fl2 <- system.file("extdata",
-                   "example_quadtec_2.TXT",
-                   package = "chromr")
+fl1 <- system.file("extdata", "example_quadtec_1.TXT", package = "chromr")
+fl2 <- system.file("extdata", "example_quadtec_2.TXT", package = "chromr")
 df1 <- chrom_read_quadtech(fl1)
 df2 <- chrom_read_quadtech(fl2)
 dat <- chrom_append_run(df1, df2)
 
-# chrom_plot_fractions(dat, wl_frac = 280)
-
-pivot_wl <- function(data, values_to = "abs", names_to = "wl") {
-  tidyr::pivot_longer(
-    data = data, 
-    dplyr::matches("(a|A)\\d{2,3}"), 
-    values_to = values_to, 
-    names_to = names_to
-  )
-}
-
 dat |>
   dplyr::slice_sample(prop = 0.1) |>
-  pivot_wl() |> 
-  ggplot(aes(volume, abs, fraction = fraction, color = wl))+
-  geom_fraction_bars(period=5, lines = "a280") +
-  geom_line() +
-  geom_fraction_label(group = NA, color = "black", ypos=-0.01) +
-  scale_fill_grey() + 
+  pivot_wl_longer() |>
+  ggplot(aes(volume, abs, fraction = fraction, group = wl)) +
+  geom_fraction_bars(aes(color = wl), lines = "a280") +
+  
+  geom_line(aes(color = wl)) +
+  geom_fraction_label(colour = "black", ypos = -0.01, period = 10) +
+  scale_fill_grey() +
   theme_bw()
 ```
 

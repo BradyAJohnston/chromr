@@ -1,3 +1,13 @@
+
+pivot_wl_longer <- function(data, values_to = "abs", names_to = "wl") {
+  tidyr::pivot_longer(
+    data = data,
+    dplyr::matches("(a|A)\\d{2,3}"),
+    values_to = values_to,
+    names_to = names_to
+  )
+}
+
 #' Check if Column is Present in DataFrame Ignoring Case
 #'
 #' @param data Dataframe
