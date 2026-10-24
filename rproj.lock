@@ -1747,7 +1747,7 @@ metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40
 
 [[targets.packages]]
 package = "chromr"
-version = "0.2.0"
+version = "0.3.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -1771,7 +1771,7 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "885de99c4038197505dea736752723bba5e512351d37768cbe1724d2aa0c3c88", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -3523,7 +3523,7 @@ metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40
 
 [[targets.packages]]
 package = "chromr"
-version = "0.2.0"
+version = "0.3.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -3547,7 +3547,7 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "885de99c4038197505dea736752723bba5e512351d37768cbe1724d2aa0c3c88", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -5288,7 +5288,7 @@ metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40
 
 [[targets.packages]]
 package = "chromr"
-version = "0.2.0"
+version = "0.3.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -5312,7 +5312,7 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "885de99c4038197505dea736752723bba5e512351d37768cbe1724d2aa0c3c88", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -7053,7 +7053,7 @@ metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40
 
 [[targets.packages]]
 package = "chromr"
-version = "0.2.0"
+version = "0.3.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -7077,4 +7077,4 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "885de99c4038197505dea736752723bba5e512351d37768cbe1724d2aa0c3c88", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }

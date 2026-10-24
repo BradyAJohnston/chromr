@@ -1,7 +1,7 @@
 Type: Package
 Package: chromr
 Title: Read and Plot FPLC Chromatograms
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     person("Brady", "Johnston", , "brady.johnston@me.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6301-2269"))
