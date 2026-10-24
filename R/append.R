@@ -1,16 +1,19 @@
 #' Append a Chromatogram to Another Run
 #'
-#' Sums the volume and the time columns. Optionally continues the numbering of
-#' the fractions after the previous runs.
+#' Joins runs end to end: the time and volume of each run continue from the end
+#' of the run before it. Optionally continues the numbering of the fractions
+#' after the previous runs.
 #'
 #' @param .data A data frame created through `chrom_read_*()`
 #' @param ... Runs created through `chrom_read_*()`
 #' @param adjust_fractions Logical. FALSE keeps the fraction numbering as-is.
-#' TRUE starts the number of the subsequent fractions by adding the previous
-#' fractions.
+#'   TRUE renumbers the fractions of a run that starts again from a fraction
+#'   number already used, so they continue after the fractions of the runs
+#'   before it. Runs whose fractions already continue the numbering are left as
+#'   they are.
 #'
-#' @importFrom rlang .data
-#' @return a [tibble][tibble::tibble-package] which combines the given runs.
+#' @return a [tibble][tibble::tibble-package] which combines the given runs,
+#'   with a `run` column giving the number of the run each row comes from.
 #' @export
 #'
 #' @examples
@@ -30,49 +33,37 @@
 #' df1 |>
 #'   chrom_append_run(df2)
 chrom_append_run <- function(.data, ..., adjust_fractions = FALSE) {
-  new_runs <- list(...)
+  check_bool(adjust_fractions)
+  runs <- c(list(.data), list(...))
 
-  .data <- dplyr::bind_rows(.data, new_runs, .id = "run") |>
-    dplyr::mutate(run = as.numeric(.data$run))
-
-  max_values <- .data |>
-    dplyr::group_by(.data$run) |>
-    dplyr::summarise(dplyr::across(tidyr::matches("time|volume|fraction"), max))
-
-  .data <- .data |>
-    dplyr::mutate(
-      time = dplyr::if_else(
-        .data$run == 1,
-        .data$time,
-        .data$time +
-          max_values$time[dplyr::if_else(
-            .data$run == 1,
-            1,
-            .data$run - 1
-          )]
-      ),
-      volume = dplyr::if_else(
-        .data$run == 1,
-        .data$volume,
-        .data$volume +
-          max_values$volume[dplyr::if_else(
-            .data$run == 1,
-            1,
-            .data$run - 1
-          )]
-      )
-    )
-
-  if (adjust_fractions) {
-    .data <- .data |>
-      dplyr::mutate(
-        fraction = dplyr::case_when(
-          .data$fraction == 0 ~ 0,
-          .data$run == 1 ~ .data$fraction,
-          TRUE ~ .data$fraction + max_values[run - 1, ]$fraction
-        )
-      )
+  ends <- list(time = 0, volume = 0, fraction = 0)
+  for (i in seq_along(runs)) {
+    run <- runs[[i]]
+    for (col in c("time", "volume")) {
+      if (i > 1 && col %in% names(run)) {
+        run[[col]] <- run[[col]] + ends[[col]]
+      }
+    }
+    if (adjust_fractions && i > 1 && "fraction" %in% names(run)) {
+      collected <- is_collected(run$fraction)
+      if (any(collected) && min(run$fraction[collected]) <= ends$fraction) {
+        run$fraction[collected] <- run$fraction[collected] + ends$fraction
+      }
+    }
+    for (col in names(ends)) {
+      if (col %in% names(run) && any(!is.na(run[[col]]))) {
+        ends[[col]] <- max(ends[[col]], run[[col]], na.rm = TRUE)
+      }
+    }
+    runs[[i]] <- run
   }
 
-  .data
+  dplyr::bind_rows(runs, .id = "run") |>
+    dplyr::mutate(run = as.numeric(.data$run))
+}
+
+# Rows collected into a fraction: instruments record 0 or NA when they aren't
+# collecting.
+is_collected <- function(x) {
+  !is.na(x) & x != 0
 }

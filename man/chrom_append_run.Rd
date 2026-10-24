@@ -12,15 +12,19 @@ chrom_append_run(.data, ..., adjust_fractions = FALSE)
 \item{...}{Runs created through \verb{chrom_read_*()}}
 
 \item{adjust_fractions}{Logical. FALSE keeps the fraction numbering as-is.
-TRUE starts the number of the subsequent fractions by adding the previous
-fractions.}
+TRUE renumbers the fractions of a run that starts again from a fraction
+number already used, so they continue after the fractions of the runs
+before it. Runs whose fractions already continue the numbering are left as
+they are.}
 }
 \value{
-a \link[tibble:tibble-package]{tibble} which combines the given runs.
+a \link[tibble:tibble-package]{tibble} which combines the given runs,
+with a \code{run} column giving the number of the run each row comes from.
 }
 \description{
-Sums the volume and the time columns. Optionally continues the numbering of
-the fractions after the previous runs.
+Joins runs end to end: the time and volume of each run continue from the end
+of the run before it. Optionally continues the numbering of the fractions
+after the previous runs.
 }
 \examples{
 

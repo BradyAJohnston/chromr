@@ -14,6 +14,7 @@ BugReports: https://github.com/BradyAJohnston/chromr/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
+    cli,
     dplyr,
     ggplot2 (>= 3.4.0),
     glue,
@@ -21,7 +22,7 @@ Imports:
     lifecycle,
     purrr,
     readr,
-    rlang,
+    rlang (>= 1.1.0),
     scales,
     stringr,
     tibble,

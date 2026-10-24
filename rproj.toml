@@ -30,11 +30,12 @@ janitor = "*"
 lifecycle = "*"
 purrr = "*"
 readr = "*"
-rlang = "*"
+rlang = ">= 1.1.0"
 scales = "*"
 stringr = "*"
 tibble = "*"
 tidyr = "*"
+cli = "*"
 
 [dependency-groups.dev]
 covr = "*"

@@ -14,6 +14,10 @@ platform = "aarch64-apple-darwin"
 bioc-version = "3.23"
 
 [[targets.direct_dependencies]]
+name = "cli"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "dplyr"
 constraint = "*"
 
@@ -43,7 +47,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "rlang"
-constraint = "*"
+constraint = ">= 1.1.0"
 
 [[targets.direct_dependencies]]
 name = "scales"
@@ -1613,6 +1617,7 @@ version = "0.2.0"
 binary = false
 platform = "source"
 dependencies = [
+    "cli",
     "dplyr",
     "ggplot2",
     "glue",
@@ -1630,12 +1635,16 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7b243fa4b2635be4d425d997544858ec86b254640972bb238a6dc0fca70e6a5a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
 platform = "source"
 bioc-version = "3.23"
+
+[[targets.direct_dependencies]]
+name = "cli"
+constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "dplyr"
@@ -1667,7 +1676,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "rlang"
-constraint = "*"
+constraint = ">= 1.1.0"
 
 [[targets.direct_dependencies]]
 name = "scales"
@@ -3248,6 +3257,7 @@ version = "0.2.0"
 binary = false
 platform = "source"
 dependencies = [
+    "cli",
     "dplyr",
     "ggplot2",
     "glue",
@@ -3265,12 +3275,16 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7b243fa4b2635be4d425d997544858ec86b254640972bb238a6dc0fca70e6a5a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
 platform = "x86_64-unknown-linux-gnu"
 bioc-version = "3.23"
+
+[[targets.direct_dependencies]]
+name = "cli"
+constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "dplyr"
@@ -3302,7 +3316,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "rlang"
-constraint = "*"
+constraint = ">= 1.1.0"
 
 [[targets.direct_dependencies]]
 name = "scales"
@@ -4872,6 +4886,7 @@ version = "0.2.0"
 binary = false
 platform = "source"
 dependencies = [
+    "cli",
     "dplyr",
     "ggplot2",
     "glue",
@@ -4889,12 +4904,16 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7b243fa4b2635be4d425d997544858ec86b254640972bb238a6dc0fca70e6a5a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
 platform = "x86_64-w64-mingw32"
 bioc-version = "3.23"
+
+[[targets.direct_dependencies]]
+name = "cli"
+constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "dplyr"
@@ -4926,7 +4945,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "rlang"
-constraint = "*"
+constraint = ">= 1.1.0"
 
 [[targets.direct_dependencies]]
 name = "scales"
@@ -6496,6 +6515,7 @@ version = "0.2.0"
 binary = false
 platform = "source"
 dependencies = [
+    "cli",
     "dplyr",
     "ggplot2",
     "glue",
@@ -6513,4 +6533,4 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7b243fa4b2635be4d425d997544858ec86b254640972bb238a6dc0fca70e6a5a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }

@@ -12,6 +12,7 @@ For reading files from BioRad QuadTec machines and making plots of the chromatog
 Useful links:
 \itemize{
   \item \url{https://github.com/BradyAJohnston/chromr}
+  \item \url{https://bradyajohnston.github.io/chromr}
   \item Report bugs at \url{https://github.com/BradyAJohnston/chromr/issues}
 }
 
