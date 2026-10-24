@@ -26,3 +26,4 @@ check_column_exist(df, "NAME")  # Returns TRUE
 check_column_exist(df, "age")   # Returns FALSE
 }
 }
+\keyword{internal}

@@ -7,7 +7,6 @@
 #'
 #' @return Single character that is common to the start of all the strings.
 #'  Returns empty string if nothing in common.
-#' @export
 #'
 #' @keywords internal
 .find_common_start <- function(strings) {

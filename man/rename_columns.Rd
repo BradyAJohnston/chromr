@@ -22,3 +22,4 @@ df <- data.frame(volume = 1:3, time = 4:6, other = 7:9)
 renamed_df <- rename_columns(df)  # 'volume' becomes 'Volume', 'time' becomes 'Time'
 }
 }
+\keyword{internal}

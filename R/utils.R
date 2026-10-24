@@ -79,7 +79,6 @@ pivot_wl_wider <- function(
 #' @param name A character string specifying the column name to look for
 #'
 #' @return Logical value: TRUE if the column exists (ignoring case), FALSE otherwise
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -88,6 +87,7 @@ pivot_wl_wider <- function(
 #' check_column_exist(df, "NAME")  # Returns TRUE
 #' check_column_exist(df, "age")   # Returns FALSE
 #' }
+#' @keywords internal
 check_column_exist <- function(data, name) {
   detected_vector <- stringr::str_detect(
     colnames(data),
@@ -106,13 +106,13 @@ check_column_exist <- function(data, name) {
 #' @param data A data frame whose columns need to be renamed
 #'
 #' @return A data frame with standardized column names
-#' @export
 #'
 #' @examples
 #' \dontrun{
 #' df <- data.frame(volume = 1:3, time = 4:6, other = 7:9)
 #' renamed_df <- rename_columns(df)  # 'volume' becomes 'Volume', 'time' becomes 'Time'
 #' }
+#' @keywords internal
 rename_columns <- function(data) {
   nicer_column_names <- c(
     "Volume" = "volume",
@@ -139,7 +139,6 @@ rename_columns <- function(data) {
 #' @param col Name of the column to interpolate (unquoted)
 #'
 #' @return A data frame with the interpolated column
-#' @export
 #' @importFrom rlang :=
 #'
 #' @examples
@@ -147,6 +146,7 @@ rename_columns <- function(data) {
 #' df <- data.frame(x = c(1, NA, 3, NA, 5))
 #' interpolate_column(df, x)  # Interpolates NA values in column x
 #' }
+#' @keywords internal
 interpolate_column <- function(data, col) {
   dplyr::mutate(
     data,

@@ -24,3 +24,4 @@ df <- data.frame(x = c(1, NA, 3, NA, 5))
 interpolate_column(df, x)  # Interpolates NA values in column x
 }
 }
+\keyword{internal}
