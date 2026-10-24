@@ -25,14 +25,14 @@ chrom_read_ngc <- function(file, skip = 1) {
 
   dat <- dat |>
     dplyr::mutate(id = dplyr::row_number()) |>
-    tidyr::pivot_longer(-.data$id) |>
+    tidyr::pivot_longer(-"id") |>
     dplyr::mutate(
       type = stringr::str_extract(.data$name, "^[^\\_]+"),
       volume = stringr::str_detect(.data$name, "volume")
     ) |>
     dplyr::group_by(.data$type, .data$id) |>
     dplyr::mutate(volume = dplyr::if_else(.data$volume, .data$value, NaN)) |>
-    tidyr::fill(.data$volume) |>
+    tidyr::fill("volume") |>
     dplyr::filter(stringr::str_detect(.data$name, "volume", negate = TRUE)) |>
     dplyr::select("volume", "type", "value", "name")
 

@@ -18,9 +18,9 @@ bugreports = "https://github.com/BradyAJohnston/chromr/issues"
 homepage = "https://github.com/BradyAJohnston/chromr"
 
 [dependencies]
-R = ">= 4.1"
+R = ">= 4.1.0"
 dplyr = "*"
-ggplot2 = "*"
+ggplot2 = ">= 3.4.0"
 glue = "*"
 janitor = "*"
 lifecycle = "*"
@@ -40,6 +40,9 @@ testthat = ">= 3.0.0"
 
 [config.testthat]
 edition = 3
+
+[config.roxygen2]
+version = "8.1.1"
 
 [description]
 Author = "Brady Johnston"

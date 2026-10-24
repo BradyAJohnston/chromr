@@ -19,7 +19,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "ggplot2"
-constraint = "*"
+constraint = ">= 3.4.0"
 
 [[targets.direct_dependencies]]
 name = "glue"
@@ -128,6 +128,24 @@ groups = [
 metadata = { RemoteHash = "528823b95daab4566137711f1c842027a952bea1b2ae6ff098e2ca512b17fe25" }
 
 [[targets.packages]]
+package = "isoband"
+version = "0.3.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "cli",
+    "rlang",
+    "cpp11",
+]
+sources = ["https://p3m.dev/cran/2026-05-07/bin/macosx/sonoma-arm64/contrib/4.6/isoband_0.3.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/isoband_0.3.0-f1a93d7e.tgz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
 package = "readr"
 version = "2.2.0"
 binary = true
@@ -179,24 +197,6 @@ groups = ["main"]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
-package = "isoband"
-version = "0.3.0"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = [
-    "cli",
-    "rlang",
-    "cpp11",
-]
-sources = ["https://p3m.dev/cran/2026-05-07/bin/macosx/sonoma-arm64/contrib/4.6/isoband_0.3.0.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/isoband_0.3.0-f1a93d7e.tgz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
-
-[[targets.packages]]
 package = "askpass"
 version = "1.2.1"
 binary = true
@@ -234,27 +234,6 @@ groups = [
 metadata = { RemoteHash = "18d66fe2f24cda8b619c177326d39dd015229ab99695fa67d3fa31e4569390e0" }
 
 [[targets.packages]]
-package = "tidyselect"
-version = "1.2.1"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = [
-    "withr",
-    "cli",
-    "glue",
-    "lifecycle",
-    "rlang",
-    "vctrs",
-]
-sources = ["https://p3m.dev/cran/2024-03-12/bin/macosx/sonoma-arm64/contrib/4.6/tidyselect_1.2.1.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/tidyselect_1.2.1-6c88146a.tgz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
 package = "scales"
 version = "1.4.0"
 binary = true
@@ -277,6 +256,27 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
+
+[[targets.packages]]
+package = "tidyselect"
+version = "1.2.1"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "withr",
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2024-03-12/bin/macosx/sonoma-arm64/contrib/4.6/tidyselect_1.2.1.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/tidyselect_1.2.1-6c88146a.tgz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
 
 [[targets.packages]]
 package = "progress"
@@ -869,17 +869,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "bdd66a02dfba08a4c644b38a6ae08f6ba915c16d6b6ab6a188ec193c35905ff2" }
 
 [[targets.packages]]
-package = "evaluate"
-version = "1.0.5"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = []
-sources = ["https://p3m.dev/cran/2025-08-28/bin/macosx/sonoma-arm64/contrib/4.6/evaluate_1.0.5.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/evaluate_1.0.5-5d48b781.tgz"
-groups = ["dev"]
-metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
-
-[[targets.packages]]
 package = "S7"
 version = "0.2.2"
 binary = true
@@ -892,6 +881,17 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "6f33245dde05b74265b1c4d379e034bc3a8923d41e7b52e6e75a75ce97d42af7" }
+
+[[targets.packages]]
+package = "evaluate"
+version = "1.0.5"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-08-28/bin/macosx/sonoma-arm64/contrib/4.6/evaluate_1.0.5.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/evaluate_1.0.5-5d48b781.tgz"
+groups = ["dev"]
+metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
 
 [[targets.packages]]
 package = "glue"
@@ -1022,20 +1022,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "051e7332e3074db826efef9059067721864f9d70adc55bbcae3a72e5ae83913a" }
 
 [[targets.packages]]
-package = "snakecase"
-version = "0.11.1"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = [
-    "stringi",
-    "stringr",
-]
-sources = ["https://p3m.dev/cran/2023-08-28/bin/macosx/sonoma-arm64/contrib/4.6/snakecase_0.11.1.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/snakecase_0.11.1-de62b102.tgz"
-groups = ["main"]
-metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
-
-[[targets.packages]]
 package = "labeling"
 version = "0.4.3"
 binary = true
@@ -1048,6 +1034,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "c62f4fc2cc74377d7055903c5f1913b7295f7587456fe468592738a483e264f2" }
+
+[[targets.packages]]
+package = "snakecase"
+version = "0.11.1"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "stringi",
+    "stringr",
+]
+sources = ["https://p3m.dev/cran/2023-08-28/bin/macosx/sonoma-arm64/contrib/4.6/snakecase_0.11.1.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/snakecase_0.11.1-de62b102.tgz"
+groups = ["main"]
+metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
 package = "pkgload"
@@ -1117,20 +1117,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "56102222347f91ef0446dfb203016ff5935d6d6b0bff3b8776673c5e46a94baf" }
 
 [[targets.packages]]
-package = "magrittr"
-version = "2.0.5"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-05/bin/macosx/sonoma-arm64/contrib/4.6/magrittr_2.0.5.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/magrittr_2.0.5-0995a92c.tgz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
-
-[[targets.packages]]
 package = "vctrs"
 version = "0.7.3"
 binary = true
@@ -1162,6 +1148,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "magrittr"
+version = "2.0.5"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-05/bin/macosx/sonoma-arm64/contrib/4.6/magrittr_2.0.5.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/magrittr_2.0.5-0995a92c.tgz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
 
 [[targets.packages]]
 package = "otel"
@@ -1512,7 +1512,7 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "5070f4c8ff0a1bb3bb823d0e18a1c3e013bf28a2ad75090444e8ced2414228d2", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "503b1c7dc20e82d506a6963eb528450f32d4615a8d25fb48ea00a244ce2095d6", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -1525,7 +1525,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "ggplot2"
-constraint = "*"
+constraint = ">= 3.4.0"
 
 [[targets.direct_dependencies]]
 name = "glue"
@@ -1636,6 +1636,24 @@ groups = [
 metadata = { RemoteHash = "528823b95daab4566137711f1c842027a952bea1b2ae6ff098e2ca512b17fe25" }
 
 [[targets.packages]]
+package = "isoband"
+version = "0.3.0"
+binary = false
+platform = "source"
+dependencies = [
+    "cli",
+    "rlang",
+    "cpp11",
+]
+sources = ["https://p3m.dev/cran/2025-12-08/src/contrib/isoband_0.3.0.tar.gz"]
+target = "src/isoband_0.3.0-53fe79f4.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
 package = "readr"
 version = "2.2.0"
 binary = false
@@ -1687,24 +1705,6 @@ groups = ["main"]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db, cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
-package = "isoband"
-version = "0.3.0"
-binary = false
-platform = "source"
-dependencies = [
-    "cli",
-    "rlang",
-    "cpp11",
-]
-sources = ["https://p3m.dev/cran/2025-12-08/src/contrib/isoband_0.3.0.tar.gz"]
-target = "src/isoband_0.3.0-53fe79f4.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
-
-[[targets.packages]]
 package = "askpass"
 version = "1.2.1"
 binary = false
@@ -1742,27 +1742,6 @@ groups = [
 metadata = { RemoteHash = "18d66fe2f24cda8b619c177326d39dd015229ab99695fa67d3fa31e4569390e0" }
 
 [[targets.packages]]
-package = "tidyselect"
-version = "1.2.1"
-binary = false
-platform = "source"
-dependencies = [
-    "withr",
-    "cli",
-    "glue",
-    "lifecycle",
-    "rlang",
-    "vctrs",
-]
-sources = ["https://p3m.dev/cran/2024-03-12/src/contrib/tidyselect_1.2.1.tar.gz"]
-target = "src/tidyselect_1.2.1-6c88146a.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
 package = "scales"
 version = "1.4.0"
 binary = false
@@ -1785,6 +1764,27 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
+
+[[targets.packages]]
+package = "tidyselect"
+version = "1.2.1"
+binary = false
+platform = "source"
+dependencies = [
+    "withr",
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2024-03-12/src/contrib/tidyselect_1.2.1.tar.gz"]
+target = "src/tidyselect_1.2.1-6c88146a.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
 
 [[targets.packages]]
 package = "progress"
@@ -2379,17 +2379,6 @@ system_requirements = "Package vignettes based on R Markdown v2 or reStructuredT
 metadata = { RemoteHash = "bdd66a02dfba08a4c644b38a6ae08f6ba915c16d6b6ab6a188ec193c35905ff2" }
 
 [[targets.packages]]
-package = "evaluate"
-version = "1.0.5"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2025-08-28/src/contrib/evaluate_1.0.5.tar.gz"]
-target = "src/evaluate_1.0.5-5d48b781.tar.gz"
-groups = ["dev"]
-metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
-
-[[targets.packages]]
 package = "S7"
 version = "0.2.2"
 binary = false
@@ -2402,6 +2391,17 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "6f33245dde05b74265b1c4d379e034bc3a8923d41e7b52e6e75a75ce97d42af7" }
+
+[[targets.packages]]
+package = "evaluate"
+version = "1.0.5"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-08-28/src/contrib/evaluate_1.0.5.tar.gz"]
+target = "src/evaluate_1.0.5-5d48b781.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
 
 [[targets.packages]]
 package = "glue"
@@ -2533,20 +2533,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "051e7332e3074db826efef9059067721864f9d70adc55bbcae3a72e5ae83913a" }
 
 [[targets.packages]]
-package = "snakecase"
-version = "0.11.1"
-binary = false
-platform = "source"
-dependencies = [
-    "stringi",
-    "stringr",
-]
-sources = ["https://p3m.dev/cran/2023-08-28/src/contrib/snakecase_0.11.1.tar.gz"]
-target = "src/snakecase_0.11.1-de62b102.tar.gz"
-groups = ["main"]
-metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
-
-[[targets.packages]]
 package = "labeling"
 version = "0.4.3"
 binary = false
@@ -2559,6 +2545,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "c62f4fc2cc74377d7055903c5f1913b7295f7587456fe468592738a483e264f2" }
+
+[[targets.packages]]
+package = "snakecase"
+version = "0.11.1"
+binary = false
+platform = "source"
+dependencies = [
+    "stringi",
+    "stringr",
+]
+sources = ["https://p3m.dev/cran/2023-08-28/src/contrib/snakecase_0.11.1.tar.gz"]
+target = "src/snakecase_0.11.1-de62b102.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
 package = "pkgload"
@@ -2629,20 +2629,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "56102222347f91ef0446dfb203016ff5935d6d6b0bff3b8776673c5e46a94baf" }
 
 [[targets.packages]]
-package = "magrittr"
-version = "2.0.5"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-05/src/contrib/magrittr_2.0.5.tar.gz"]
-target = "src/magrittr_2.0.5-0995a92c.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
-
-[[targets.packages]]
 package = "vctrs"
 version = "0.7.3"
 binary = false
@@ -2660,6 +2646,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "b45078413e06ac624dddb7221a3a43908b405c8abec09822cb86638d30b0435b" }
+
+[[targets.packages]]
+package = "magrittr"
+version = "2.0.5"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-05/src/contrib/magrittr_2.0.5.tar.gz"]
+target = "src/magrittr_2.0.5-0995a92c.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
 
 [[targets.packages]]
 package = "cpp11"
@@ -3028,7 +3028,7 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "5070f4c8ff0a1bb3bb823d0e18a1c3e013bf28a2ad75090444e8ced2414228d2", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "503b1c7dc20e82d506a6963eb528450f32d4615a8d25fb48ea00a244ce2095d6", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -3041,7 +3041,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "ggplot2"
-constraint = "*"
+constraint = ">= 3.4.0"
 
 [[targets.direct_dependencies]]
 name = "glue"
@@ -3150,6 +3150,24 @@ groups = [
 metadata = { RemoteHash = "528823b95daab4566137711f1c842027a952bea1b2ae6ff098e2ca512b17fe25" }
 
 [[targets.packages]]
+package = "isoband"
+version = "0.3.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "cli",
+    "rlang",
+    "cpp11",
+]
+sources = ["https://p3m.dev/cran/2026-05-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/isoband_0.3.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/isoband_0.3.0-f1a93d7e.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
 package = "readr"
 version = "2.2.0"
 binary = true
@@ -3201,24 +3219,6 @@ groups = ["main"]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
-package = "isoband"
-version = "0.3.0"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = [
-    "cli",
-    "rlang",
-    "cpp11",
-]
-sources = ["https://p3m.dev/cran/2026-05-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/isoband_0.3.0.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/isoband_0.3.0-f1a93d7e.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
-
-[[targets.packages]]
 package = "askpass"
 version = "1.2.1"
 binary = true
@@ -3256,27 +3256,6 @@ groups = [
 metadata = { RemoteHash = "18d66fe2f24cda8b619c177326d39dd015229ab99695fa67d3fa31e4569390e0" }
 
 [[targets.packages]]
-package = "tidyselect"
-version = "1.2.1"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = [
-    "withr",
-    "cli",
-    "glue",
-    "lifecycle",
-    "rlang",
-    "vctrs",
-]
-sources = ["https://p3m.dev/cran/2024-03-12/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/tidyselect_1.2.1.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/tidyselect_1.2.1-6c88146a.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
 package = "scales"
 version = "1.4.0"
 binary = true
@@ -3299,6 +3278,27 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
+
+[[targets.packages]]
+package = "tidyselect"
+version = "1.2.1"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "withr",
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2024-03-12/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/tidyselect_1.2.1.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/tidyselect_1.2.1-6c88146a.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
 
 [[targets.packages]]
 package = "progress"
@@ -3891,17 +3891,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "bdd66a02dfba08a4c644b38a6ae08f6ba915c16d6b6ab6a188ec193c35905ff2" }
 
 [[targets.packages]]
-package = "evaluate"
-version = "1.0.5"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = []
-sources = ["https://p3m.dev/cran/2025-08-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/evaluate_1.0.5.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/evaluate_1.0.5-5d48b781.tar.gz"
-groups = ["dev"]
-metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
-
-[[targets.packages]]
 package = "S7"
 version = "0.2.2"
 binary = true
@@ -3914,6 +3903,17 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "6f33245dde05b74265b1c4d379e034bc3a8923d41e7b52e6e75a75ce97d42af7" }
+
+[[targets.packages]]
+package = "evaluate"
+version = "1.0.5"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-08-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/evaluate_1.0.5.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/evaluate_1.0.5-5d48b781.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
 
 [[targets.packages]]
 package = "glue"
@@ -4044,20 +4044,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "051e7332e3074db826efef9059067721864f9d70adc55bbcae3a72e5ae83913a" }
 
 [[targets.packages]]
-package = "snakecase"
-version = "0.11.1"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = [
-    "stringi",
-    "stringr",
-]
-sources = ["https://p3m.dev/cran/2023-08-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/snakecase_0.11.1.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/snakecase_0.11.1-de62b102.tar.gz"
-groups = ["main"]
-metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
-
-[[targets.packages]]
 package = "labeling"
 version = "0.4.3"
 binary = true
@@ -4070,6 +4056,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "c62f4fc2cc74377d7055903c5f1913b7295f7587456fe468592738a483e264f2" }
+
+[[targets.packages]]
+package = "snakecase"
+version = "0.11.1"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "stringi",
+    "stringr",
+]
+sources = ["https://p3m.dev/cran/2023-08-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/snakecase_0.11.1.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/snakecase_0.11.1-de62b102.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
 package = "pkgload"
@@ -4139,20 +4139,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "56102222347f91ef0446dfb203016ff5935d6d6b0bff3b8776673c5e46a94baf" }
 
 [[targets.packages]]
-package = "magrittr"
-version = "2.0.5"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-05/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/magrittr_2.0.5.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/magrittr_2.0.5-0995a92c.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
-
-[[targets.packages]]
 package = "vctrs"
 version = "0.7.3"
 binary = true
@@ -4184,6 +4170,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "magrittr"
+version = "2.0.5"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-05/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/magrittr_2.0.5.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/magrittr_2.0.5-0995a92c.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
 
 [[targets.packages]]
 package = "otel"
@@ -4534,7 +4534,7 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "5070f4c8ff0a1bb3bb823d0e18a1c3e013bf28a2ad75090444e8ced2414228d2", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "503b1c7dc20e82d506a6963eb528450f32d4615a8d25fb48ea00a244ce2095d6", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -4547,7 +4547,7 @@ constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "ggplot2"
-constraint = "*"
+constraint = ">= 3.4.0"
 
 [[targets.direct_dependencies]]
 name = "glue"
@@ -4656,6 +4656,24 @@ groups = [
 metadata = { RemoteHash = "528823b95daab4566137711f1c842027a952bea1b2ae6ff098e2ca512b17fe25" }
 
 [[targets.packages]]
+package = "isoband"
+version = "0.3.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "cli",
+    "rlang",
+    "cpp11",
+]
+sources = ["https://p3m.dev/cran/2026-05-07/bin/windows/contrib/4.6/isoband_0.3.0.zip"]
+target = "bin/windows/4.6/isoband_0.3.0-f1a93d7e.zip"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
 package = "readr"
 version = "2.2.0"
 binary = true
@@ -4707,24 +4725,6 @@ groups = ["main"]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
-package = "isoband"
-version = "0.3.0"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = [
-    "cli",
-    "rlang",
-    "cpp11",
-]
-sources = ["https://p3m.dev/cran/2026-05-07/bin/windows/contrib/4.6/isoband_0.3.0.zip"]
-target = "bin/windows/4.6/isoband_0.3.0-f1a93d7e.zip"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
-
-[[targets.packages]]
 package = "askpass"
 version = "1.2.1"
 binary = true
@@ -4762,27 +4762,6 @@ groups = [
 metadata = { RemoteHash = "18d66fe2f24cda8b619c177326d39dd015229ab99695fa67d3fa31e4569390e0" }
 
 [[targets.packages]]
-package = "tidyselect"
-version = "1.2.1"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = [
-    "withr",
-    "cli",
-    "glue",
-    "lifecycle",
-    "rlang",
-    "vctrs",
-]
-sources = ["https://p3m.dev/cran/2024-03-12/bin/windows/contrib/4.6/tidyselect_1.2.1.zip"]
-target = "bin/windows/4.6/tidyselect_1.2.1-6c88146a.zip"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
 package = "scales"
 version = "1.4.0"
 binary = true
@@ -4805,6 +4784,27 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
+
+[[targets.packages]]
+package = "tidyselect"
+version = "1.2.1"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "withr",
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2024-03-12/bin/windows/contrib/4.6/tidyselect_1.2.1.zip"]
+target = "bin/windows/4.6/tidyselect_1.2.1-6c88146a.zip"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
 
 [[targets.packages]]
 package = "progress"
@@ -5397,17 +5397,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "bdd66a02dfba08a4c644b38a6ae08f6ba915c16d6b6ab6a188ec193c35905ff2" }
 
 [[targets.packages]]
-package = "evaluate"
-version = "1.0.5"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = []
-sources = ["https://p3m.dev/cran/2025-08-28/bin/windows/contrib/4.6/evaluate_1.0.5.zip"]
-target = "bin/windows/4.6/evaluate_1.0.5-5d48b781.zip"
-groups = ["dev"]
-metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
-
-[[targets.packages]]
 package = "S7"
 version = "0.2.2"
 binary = true
@@ -5420,6 +5409,17 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "6f33245dde05b74265b1c4d379e034bc3a8923d41e7b52e6e75a75ce97d42af7" }
+
+[[targets.packages]]
+package = "evaluate"
+version = "1.0.5"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-08-28/bin/windows/contrib/4.6/evaluate_1.0.5.zip"]
+target = "bin/windows/4.6/evaluate_1.0.5-5d48b781.zip"
+groups = ["dev"]
+metadata = { RemoteHash = "47aac79f889a828a5f8b4756cb972d7c2966bb984cbae17a4bd2389a73270794" }
 
 [[targets.packages]]
 package = "glue"
@@ -5550,20 +5550,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "051e7332e3074db826efef9059067721864f9d70adc55bbcae3a72e5ae83913a" }
 
 [[targets.packages]]
-package = "snakecase"
-version = "0.11.1"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = [
-    "stringi",
-    "stringr",
-]
-sources = ["https://p3m.dev/cran/2023-08-28/bin/windows/contrib/4.6/snakecase_0.11.1.zip"]
-target = "bin/windows/4.6/snakecase_0.11.1-de62b102.zip"
-groups = ["main"]
-metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
-
-[[targets.packages]]
 package = "labeling"
 version = "0.4.3"
 binary = true
@@ -5576,6 +5562,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "c62f4fc2cc74377d7055903c5f1913b7295f7587456fe468592738a483e264f2" }
+
+[[targets.packages]]
+package = "snakecase"
+version = "0.11.1"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "stringi",
+    "stringr",
+]
+sources = ["https://p3m.dev/cran/2023-08-28/bin/windows/contrib/4.6/snakecase_0.11.1.zip"]
+target = "bin/windows/4.6/snakecase_0.11.1-de62b102.zip"
+groups = ["main"]
+metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
 package = "pkgload"
@@ -5645,20 +5645,6 @@ groups = ["dev"]
 metadata = { RemoteHash = "56102222347f91ef0446dfb203016ff5935d6d6b0bff3b8776673c5e46a94baf" }
 
 [[targets.packages]]
-package = "magrittr"
-version = "2.0.5"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-05/bin/windows/contrib/4.6/magrittr_2.0.5.zip"]
-target = "bin/windows/4.6/magrittr_2.0.5-0995a92c.zip"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
-
-[[targets.packages]]
 package = "vctrs"
 version = "0.7.3"
 binary = true
@@ -5690,6 +5676,20 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "magrittr"
+version = "2.0.5"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-05/bin/windows/contrib/4.6/magrittr_2.0.5.zip"]
+target = "bin/windows/4.6/magrittr_2.0.5-0995a92c.zip"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
 
 [[targets.packages]]
 package = "otel"
@@ -6040,4 +6040,4 @@ sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "5070f4c8ff0a1bb3bb823d0e18a1c3e013bf28a2ad75090444e8ced2414228d2", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "503b1c7dc20e82d506a6963eb528450f32d4615a8d25fb48ea00a244ce2095d6", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }

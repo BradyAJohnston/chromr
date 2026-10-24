@@ -147,7 +147,7 @@ chrom_plot_fractions <- function(data,
   }
   plt +
     ggplot2::geom_line(
-      size = 0.6,
+      linewidth = 0.6,
       ggplot2::aes(group = factor(.data$wl), colour = factor(.data$wl)),
       alpha = 0.8
     ) +
@@ -170,6 +170,6 @@ chrom_plot_fractions <- function(data,
     ggplot2::theme(
       legend.position = c(0.05, 0.95),
       legend.justification = c(0, 1),
-      legend.background = ggplot2::element_rect(colour = "gray30", size = 0.8)
+      legend.background = ggplot2::element_rect(colour = "gray30", linewidth = 0.8)
     )
 }
