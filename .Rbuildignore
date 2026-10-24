@@ -11,3 +11,7 @@
 ^\.rvenvlib$
 ^\.rvenv$
 ^\.Renviron$
+^AGENTS\.md$
+^\.claude$
+^[.]?air[.]toml$
+^\.vscode$

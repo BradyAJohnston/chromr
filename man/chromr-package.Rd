@@ -6,13 +6,22 @@
 \alias{chromr-package}
 \title{chromr: Read and Plot FPLC Chromatograms}
 \description{
-For reading files from BioRad QuadTec machines and making plots of the charomatograms.
+For reading files from BioRad QuadTec machines and making plots of the chromatograms.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/BradyAJohnston/chromr}
   \item Report bugs at \url{https://github.com/BradyAJohnston/chromr/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Brady Johnston \email{brady.johnston@me.com} (\href{https://orcid.org/0000-0001-6301-2269}{ORCID})
+
+Authors:
+\itemize{
+  \item Brady Johnston \email{brady.johnston@me.com} (\href{https://orcid.org/0000-0001-6301-2269}{ORCID})
 }
 
 }

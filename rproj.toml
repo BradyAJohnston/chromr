@@ -5,13 +5,17 @@ type = "package"
 title = "Read and Plot FPLC Chromatograms"
 description = '''
 For reading files from BioRad QuadTec machines and making
-plots of the charomatograms.'''
+plots of the chromatograms.'''
 license = "MIT + file LICENSE"
 
 [[project.authors]]
 name = "Brady Johnston"
 email = "brady.johnston@me.com"
-roles = ["cre"]
+roles = [
+    "aut",
+    "cre",
+]
+orcid = "0000-0001-6301-2269"
 
 [project.urls]
 bugreports = "https://github.com/BradyAJohnston/chromr/issues"
@@ -45,6 +49,6 @@ edition = 3
 version = "8.1.1"
 
 [description]
-Author = "Brady Johnston"
+Language = "en-GB"
+Roxygen = "list(markdown = TRUE)"
 Encoding = "UTF-8"
-RoxygenNote = "7.3.2"
