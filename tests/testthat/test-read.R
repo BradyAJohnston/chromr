@@ -247,3 +247,34 @@ test_that("chrom_read_quadtech() errors when the column names don't match", {
     gsub(path, "<file>", x, fixed = TRUE)
   })
 })
+
+test_that("chrom_read_ngc() stacks the runs of a multi-run export", {
+  path <- withr::local_tempfile(fileext = ".csv")
+  writeLines(
+    c(
+      "run_a,run_a,run_a,run_a,run_b,run_b",
+      paste0(
+        "UV1 (280 nm)_volume,UV1 (280 nm)_mAU,%B_volume,%B_%,",
+        "UV1 (280 nm)_volume,UV1 (280 nm)_mAU"
+      ),
+      "0,1,0,0,0,5",
+      "1,2,1,10,2,6",
+      "2,3,2,20,,"
+    ),
+    path
+  )
+
+  dat <- chrom_read_ngc(path)
+  expect_named(dat, c("run", "volume", "a280", "percent_b"))
+  expect_equal(dat$run, c("run_a", "run_a", "run_a", "run_b", "run_b"))
+  expect_equal(dat$volume, quantity(c(0, 1, 2, 0, 2), "mL"))
+  expect_equal(dat$a280, absorbance(c(1, 2, 3, 5, 6), 280, "mAU"))
+  expect_equal(chrom_meta(dat)$run, c("run_a", "run_b"))
+
+  # Without the run names, runs start where a trace repeats, and are numbered.
+  writeLines(readLines(path)[-1], path)
+  dat <- chrom_read_ngc(path, skip = 0)
+  expect_equal(dat$run, c(1, 1, 1, 2, 2))
+  built <- ggplot2::ggplot_build(chrom_plot(dat))
+  expect_length(unique(built$data[[1]]$group), 2)
+})

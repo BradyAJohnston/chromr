@@ -25,6 +25,11 @@
   archives UNICORN exports, and `chrom_read_akta_csv()` reads curves UNICORN
   exports to `.csv` files. Reading results needs the xml2 package.
 
+* `chrom_read_ngc()` reads exports of several runs side by side, stacking
+  the runs with a `run` column that names each run, or numbers them if they
+  don't each have a name. `chrom_plot()` and `chrom_plot_fractions()` draw
+  each run's lines separately.
+
 * `chrom_read_ngc_fractions()` reads the fraction table the NGC exports, with
   the rack, tube and volumes of each fraction.
 

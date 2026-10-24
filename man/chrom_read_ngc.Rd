@@ -13,12 +13,20 @@ chrom_read_ngc(file, skip = 1)
 }
 \value{
 A chromatogram: a \link[tibble:tibble-package]{tibble} with the run's
-metadata, see \code{\link[=chrom_meta]{chrom_meta()}}.
+metadata, see \code{\link[=chrom_meta]{chrom_meta()}}. Exports of several runs have the run, date,
+method and file of each run.
 }
 \description{
 Each trace in an NGC export is recorded at its own volumes. The traces are
 combined into one row per volume of the first absorbance trace, and the
 other traces are interpolated onto those volumes.
+}
+\details{
+An export can hold several runs side by side. Each run is read on its own,
+and the runs are stacked, at the volumes each was recorded at, with a \code{run}
+column first: the name of each run, or its number if the runs don't each
+have their own name. A new run starts where the run named on the first line
+changes, or where a trace repeats.
 }
 \section{Columns}{
 

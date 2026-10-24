@@ -4,11 +4,18 @@
 #' combined into one row per volume of the first absorbance trace, and the
 #' other traces are interpolated onto those volumes.
 #'
+#' An export can hold several runs side by side. Each run is read on its own,
+#' and the runs are stacked, at the volumes each was recorded at, with a `run`
+#' column first: the name of each run, or its number if the runs don't each
+#' have their own name. A new run starts where the run named on the first line
+#' changes, or where a trace repeats.
+#'
 #' @param file File path to the `.csv` file.
 #' @param skip Number of lines to skip before begin reading. Usually 1 line.
 #' @inheritSection chrom_read_quadtech Columns
 #' @return A chromatogram: a [tibble][tibble::tibble-package] with the run's
-#'   metadata, see [chrom_meta()].
+#'   metadata, see [chrom_meta()]. Exports of several runs have the run, date,
+#'   method and file of each run.
 #' @export
 #'
 #' @examples
@@ -33,15 +40,18 @@ chrom_read_ngc <- function(file, skip = 1) {
     col_types = readr::cols(.default = "d")
   )
 
-  run <- if (skip > 0) {
+  # The first line names the run of each column.
+  run_names <- if (skip > 0) {
     first <- readr::read_lines(file, n_max = 1)
-    stringr::str_extract(first, "^[^,]*")
+    first <- readr::read_csv(I(first), col_names = FALSE, col_types = "c")
+    unlist(first, use.names = FALSE)
   } else {
-    NA_character_
+    rep(NA_character_, length(header))
   }
 
   # Columns come in pairs: "<trace>_volume" and "<trace>_<unit>".
-  traces <- purrr::map(seq(1, length(header), by = 2), \(i) {
+  starts <- seq(1, length(header), by = 2)
+  traces <- purrr::map(starts, \(i) {
     list(
       name = stringr::str_remove(header[[i + 1]], "_[^_]*$"),
       unit = stringr::str_extract(header[[i + 1]], "[^_]*$"),
@@ -50,7 +60,48 @@ chrom_read_ngc <- function(file, skip = 1) {
     )
   })
 
-  combine_traces(traces, instrument = "BioRad NGC", run = run, file = file)
+  run <- ngc_runs(run_names[starts], purrr::map_chr(traces, "name"))
+  runs <- purrr::map(unname(split(seq_along(traces), run)), \(i) {
+    combine_traces(
+      traces[i],
+      instrument = "BioRad NGC",
+      run = run_names[starts][[i[[1]]]],
+      file = file
+    )
+  })
+  if (length(runs) == 1) {
+    return(runs[[1]])
+  }
+
+  # Runs are identified by their names, or else by number.
+  meta <- chrom_meta_append(runs)
+  named <- !anyNA(meta$run) && !anyDuplicated(meta$run)
+  runs <- purrr::map(runs, as_plain_tibble)
+  out <- if (named) {
+    dplyr::bind_rows(rlang::set_names(runs, meta$run), .id = "run")
+  } else {
+    dplyr::bind_rows(runs, .id = "run") |>
+      dplyr::mutate(run = as.numeric(.data$run))
+  }
+  new_chrom(out, meta)
+}
+
+# The number of the run each trace of an NGC export belongs to: a new run
+# starts where the run name changes, or where a trace repeats.
+ngc_runs <- function(run_names, trace_names) {
+  run <- integer(length(trace_names))
+  current <- 1L
+  seen <- character()
+  for (i in seq_along(trace_names)) {
+    changed <- i > 1 && !identical(run_names[[i]], run_names[[i - 1]])
+    if (changed || trace_names[[i]] %in% seen) {
+      current <- current + 1L
+      seen <- character()
+    }
+    seen <- c(seen, trace_names[[i]])
+    run[[i]] <- current
+  }
+  run
 }
 
 #' Read the fraction table from the BioRad NGC

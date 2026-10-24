@@ -36,7 +36,7 @@ chrom_plot <-
       data = dat,
       ggplot2::aes(.data[[x$column]], .data$value, colour = factor(.data$wl))
     ) +
-      ggplot2::geom_line() +
+      ggplot2::geom_line(ggplot2::aes(group = !!line_group(dat, "wl"))) +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +
       ggplot2::scale_colour_discrete(labels = wl_label) +
       ggplot2::coord_cartesian(
@@ -147,7 +147,7 @@ chrom_plot_fractions <- function(
         .data$fraction %% frac_labelling == 0,
         wl_number(.data$wl) %in% wl_frac
       ) |>
-      dplyr::group_by(.data$fraction) |>
+      dplyr::group_by(dplyr::across(dplyr::any_of(c("run", "fraction")))) |>
       dplyr::summarise("{x$column}" := mean(.data[[x$column]]))
 
     plt <- plt +
@@ -161,7 +161,7 @@ chrom_plot_fractions <- function(
         ),
         ggplot2::aes(
           fill = factor(.data$fraction %% shade_period),
-          group = interaction(.data$fraction, .data$wl)
+          group = !!line_group(data, c("fraction", "wl"))
         ),
         alpha = 0.5,
       ) +
@@ -175,7 +175,10 @@ chrom_plot_fractions <- function(
   plt +
     ggplot2::geom_line(
       linewidth = 0.6,
-      ggplot2::aes(group = factor(.data$wl), colour = factor(.data$wl)),
+      ggplot2::aes(
+        group = !!line_group(data, "wl"),
+        colour = factor(.data$wl)
+      ),
       alpha = 0.8
     ) +
     ggplot2::guides(fill = "none") +
@@ -220,6 +223,13 @@ plot_x <- function(data, call = rlang::caller_env()) {
   column <- column[[1]]
   title <- if (column == "volume") "Volume" else "Time"
   list(column = column, title = unit_title(title, data[[column]]))
+}
+
+# Groups for lines and areas: one for each value of `columns`, in each run, so
+# the lines of runs read together aren't joined.
+line_group <- function(data, columns) {
+  columns <- c(columns, if ("run" %in% names(data)) "run")
+  rlang::expr(interaction(!!!rlang::syms(columns), drop = TRUE))
 }
 
 # The wavelength of absorbance column names such as "a280".
