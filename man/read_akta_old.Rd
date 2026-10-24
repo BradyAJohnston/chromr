@@ -49,3 +49,7 @@ fl <- system.file('extdata', 'example_akta_2.asc', package = 'chromr')
 
 read_akta_old(fl)
 }
+\seealso{
+\code{\link[=chrom_read_akta_result]{chrom_read_akta_result()}} and \code{\link[=chrom_read_akta_csv]{chrom_read_akta_csv()}} for results
+and exports from UNICORN 6 and later.
+}

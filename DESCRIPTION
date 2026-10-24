@@ -35,7 +35,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     wellr (>= 0.4.0),
-    withr
+    withr,
+    xml2
 Remotes: 
     BradyAJohnston/wellr
 Config/Needs/website: quarto

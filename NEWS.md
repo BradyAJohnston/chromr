@@ -21,6 +21,16 @@
 
 ## New features
 
+* `chrom_read_akta_result()` reads UNICORN 6 and later results, the `.zip`
+  archives UNICORN exports, and `chrom_read_akta_csv()` reads curves UNICORN
+  exports to `.csv` files. Reading results needs the xml2 package.
+
+* `chrom_read_ngc_fractions()` reads the fraction table the NGC exports, with
+  the rack, tube and volumes of each fraction.
+
+* `chrom_plot()` and `chrom_plot_fractions()` plot chromatograms without a
+  volume, such as QuadTec runs that only record the time, against `time`.
+
 * `fraction` columns are a new fraction number type, created with
   `fraction()`. Fractions compare, sort and do arithmetic as numbers, and
   adding a number continues the numbering.
@@ -42,7 +52,9 @@
 * The readers return a chromatogram, a tibble that records the instrument,
   run, date, method and file, and prints them. `chrom_meta()` gives them.
 
-* `chrom_fractions()` gives the start and end volume of each fraction.
+* `chrom_fractions()` gives the start and end volume of each fraction, with a
+  row each time a fraction is collected into, as when the collector starts
+  again at the first tube.
 
 * `chrom_add_volume()` uses the unit of the `time` column.
 

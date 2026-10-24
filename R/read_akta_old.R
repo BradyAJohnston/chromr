@@ -44,6 +44,8 @@
 #' @param fraction_size `r lifecycle::badge("deprecated")` Not used: the end of
 #'   each fraction is given by the next mark.
 #' @inheritSection chrom_read_quadtech Columns
+#' @seealso [chrom_read_akta_result()] and [chrom_read_akta_csv()] for results
+#'   and exports from UNICORN 6 and later.
 #'
 #' @return A chromatogram: a [tibble][tibble::tibble-package] with the run's
 #'   metadata, see [chrom_meta()].
@@ -97,7 +99,16 @@ read_akta_old <- function(file, fraction_size = deprecated()) {
       value = dat[[i + 1]]
     )
   })
-  # Drop the injection marks and the logbook.
+  combine_akta_traces(
+    traces,
+    run = if (nzchar(prefix)) stringr::str_remove(prefix, "_$") else NA,
+    file = file
+  )
+}
+
+# Combines the traces of an ÄKTA export, after dropping the injection marks and
+# the logbook. Values are read as text, as the fraction marks are labels.
+combine_akta_traces <- function(traces, ...) {
   events <- paste(
     purrr::map_chr(traces, "name"),
     purrr::map_chr(traces, "unit")
@@ -117,12 +128,7 @@ read_akta_old <- function(file, fraction_size = deprecated()) {
     x
   })
 
-  combine_traces(
-    traces,
-    instrument = "\u00c4KTA",
-    run = if (nzchar(prefix)) stringr::str_remove(prefix, "_$") else NA,
-    file = file
-  )
+  combine_traces(traces, instrument = "\u00c4KTA", ...)
 }
 
 akta_encoding <- function(file) {

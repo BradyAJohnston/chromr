@@ -53,6 +53,53 @@ chrom_read_ngc <- function(file, skip = 1) {
   combine_traces(traces, instrument = "BioRad NGC", run = run, file = file)
 }
 
+#' Read the fraction table from the BioRad NGC
+#'
+#' The NGC exports the fractions of a run as a `.txt` table, with the rack and
+#' tube each fraction was collected into and the volumes it covers.
+#'
+#' @param file File path to the `.txt` file.
+#' @return A [tibble][tibble::tibble-package] with a row for each fraction and
+#'   the columns `fraction`, `rack`, `tube`, `start`, `end` and `collected`,
+#'   the collected volume. `fraction` is a [fraction] vector, and the volumes
+#'   are [quantity] vectors in mL. Like [chrom_fractions()], it has the
+#'   columns `fraction`, `start` and `end`.
+#' @export
+#'
+#' @examples
+#' fl <- system.file("extdata", "ngc_sec_fractions.txt", package = "chromr")
+#' chrom_read_ngc_fractions(fl)
+chrom_read_ngc_fractions <- function(file) {
+  first <- readr::read_lines(file, n_max = 1)
+  dat <- readr::read_tsv(
+    file,
+    skip = 1,
+    col_types = readr::cols(.default = "c"),
+    trim_ws = TRUE
+  )
+  if (!stringr::str_starts(first, "Run:") || !"Rack/Tube" %in% names(dat)) {
+    cli::cli_abort(c(
+      "{.file {file}} isn't an NGC fraction table.",
+      i = "It should start with the run's name, then a table of fractions with
+        a {.field Rack/Tube} column."
+    ))
+  }
+
+  volume <- function(pattern) {
+    column <- stringr::str_subset(names(dat), pattern)[[1]]
+    unit <- stringr::str_match(column, "\\(([^)]*)\\)")[, 2]
+    quantity(as.numeric(dat[[column]]), dplyr::coalesce(unit, "mL"))
+  }
+  tibble::tibble(
+    fraction = fraction(as.integer(dat[["#"]])),
+    rack = stringr::str_extract(dat[["Rack/Tube"]], "^[^/]*"),
+    tube = as.integer(stringr::str_extract(dat[["Rack/Tube"]], "[^/]*$")),
+    start = volume("^Start"),
+    end = volume("^End"),
+    collected = volume("^Collected")
+  )
+}
+
 #' Read BioRad QuadTech Chromatogram Files
 #'
 #' @param file Exported `.TXT` chromatogram file from the BioRad QuadTec.
