@@ -52,3 +52,6 @@ version = "8.1.1"
 Language = "en-GB"
 Roxygen = "list(markdown = TRUE)"
 Encoding = "UTF-8"
+
+[dependency-groups.website]
+quarto = "*"

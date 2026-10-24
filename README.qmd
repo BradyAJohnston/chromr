@@ -1,7 +1,22 @@
 ---
-output: github_document
+format:
+  gfm:
+    default-image-extension: ""
 ---
 
+<!-- README.md is generated from README.qmd. Please edit that file -->
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# chromr
 
 <!-- badges: start -->
 
@@ -13,18 +28,21 @@ The goal of chromr is to ...
 
 ## Installation
 
-You can install the development version of chromr from [GitHub](https://github.com/) with:
+You can install the development version of chromr from [R-Universe](https://bradyajohnston.r-universe.dev) with:
 
 ``` r
-# install.packages("devtools")
-install.packages("BradyAJohnston/chromr", repos = c("https://bradyajohnston.r-universe.dev"))
+install.packages(
+  "chromr",
+  repos = c("https://bradyajohnston.r-universe.dev", "https://cloud.r-project.org")
+)
 ```
 
 ## Example
 
 Reading of chromatogram files and plotting from the BioRad QuadTech.
 
-```{r example}
+```{r}
+#| label: example
 library(chromr)
 library(ggplot2)
 ```

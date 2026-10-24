@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^data-raw$
-^README\.Rmd$
+^README\.qmd$
 ^\.github$
 ^codecov\.yml$
 ^vignettes/articles$
@@ -15,3 +15,7 @@
 ^\.claude$
 ^[.]?air[.]toml$
 ^\.vscode$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/\.quarto$
