@@ -12,8 +12,8 @@ chrom_plot(data, xlim = NULL, ylim = NULL)
 
 - data:
 
-  Data frame that contains columns for wavelength ('wl'), volume
-  ('volume') and absorbance ('abs').
+  A chromatogram from `chrom_read_*()`, or a data frame with a `volume`
+  column and absorbance columns named like `a280`.
 
 - xlim:
 

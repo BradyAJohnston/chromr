@@ -39,7 +39,8 @@ chrom_plot_fractions(
 
 - frac_labelling:
 
-  How often to label the fractions. Every nth fraction is labelled.
+  How often to label the fractions. Every nth fraction is labelled, and
+  the shading of the fractions repeats every nth fraction.
 
 - frac_text_size:
 

@@ -1,7 +1,11 @@
 # Pivot Wavelength Data to Long Format
 
-Converts wavelength data from wide to long format, specifically handling
-columns that match the pattern `"(a|A)\\d{2,3}"` (e.g., "A280", "a340").
+Converts wavelength data from wide to long format, with a row for each
+absorbance column of each point. The absorbance columns are those of the
+[absorbance](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+type, or for plain data frames, columns named like `"a280"` or `"uv"`.
+The values keep their unit, converted to mAU if the columns have
+different units.
 
 ## Usage
 

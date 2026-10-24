@@ -4,6 +4,8 @@ Converts wavelength data from long to wide format, specifically handling
 columns containing absorbance values and wavelength identifiers. By
 default, looks for absorbance columns matching "abs\|absorbance" and
 wavelength columns matching "wl\|wavelength".
+[Absorbance](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+columns named like `"a280"` get back their wavelength.
 
 ## Usage
 

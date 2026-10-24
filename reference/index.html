@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">chromr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/akta.html">akta</a></li>
   </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/BradyAJohnston/chromr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -35,7 +36,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="reading-chromatograms">Reading chromatograms<a class="anchor" aria-label="anchor" href="#reading-chromatograms"></a></h2>
 
 
 
@@ -45,55 +46,6 @@
 
 
       <dl><dt>
-
-          <code><a href="check_column_exist.html">check_column_exist()</a></code>
-
-        </dt>
-        <dd>Check if Column Exists in Data Frame</dd>
-
-        <dt>
-
-          <code><a href="chrom_add_volume.html">chrom_add_volume()</a></code>
-
-        </dt>
-        <dd>Add Volume Column From Time Units</dd>
-
-        <dt>
-
-          <code><a href="chrom_append_run.html">chrom_append_run()</a></code>
-
-        </dt>
-        <dd>Append a Chromatogram to Another Run</dd>
-
-        <dt>
-
-          <code><a href="chrom_find_data_start_line.html">chrom_find_data_start_line()</a></code>
-
-        </dt>
-        <dd>Find the Line Where Data Begins</dd>
-
-        <dt>
-
-          <code><a href="chrom_get_meta_quadtech.html">chrom_get_meta_quadtech()</a></code>
-
-        </dt>
-        <dd>Reads Metadata from QuadTech Chromatogram</dd>
-
-        <dt>
-
-          <code><a href="chrom_plot.html">chrom_plot()</a></code>
-
-        </dt>
-        <dd>Plot a Chromatogram</dd>
-
-        <dt>
-
-          <code><a href="chrom_plot_fractions.html">chrom_plot_fractions()</a></code>
-
-        </dt>
-        <dd>Plot Chromatogram with Fractions</dd>
-
-        <dt>
 
           <code><a href="chrom_read_ngc.html">chrom_read_ngc()</a></code>
 
@@ -109,24 +61,54 @@
 
         <dt>
 
-          <code><a href="geom_fraction_bars.html">geom_fraction_bars()</a></code>
+          <code><a href="read_akta_old.html">read_akta_old()</a></code>
 
         </dt>
-        <dd>Create Fraction-Based Area Plots with Periodic Highlighting</dd>
+        <dd>Read a .asc chromatogram from an old AKTA Pure</dd>
 
         <dt>
 
-          <code><a href="geom_fraction_label.html">geom_fraction_label()</a></code>
+          <code><a href="chrom_meta.html">chrom_meta()</a></code>
 
         </dt>
-        <dd>Create Labels for Fractional Data</dd>
+        <dd>Chromatogram metadata</dd>
+      </dl></div><div class="section level2">
+      <h2 id="working-with-runs">Working with runs<a class="anchor" aria-label="anchor" href="#working-with-runs"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="chrom_append_run.html">chrom_append_run()</a></code>
+
+        </dt>
+        <dd>Append a Chromatogram to Another Run</dd>
 
         <dt>
 
-          <code><a href="interpolate_column.html">interpolate_column()</a></code>
+          <code><a href="chrom_add_volume.html">chrom_add_volume()</a></code>
 
         </dt>
-        <dd>Interpolate Values in a Column</dd>
+        <dd>Add Volume Column From Time Units</dd>
+
+        <dt>
+
+          <code><a href="chrom_fractions.html">chrom_fractions()</a></code>
+
+        </dt>
+        <dd>The volumes each fraction covers</dd>
+
+        <dt>
+
+          <code><a href="fraction_to_well.html">fraction_to_well()</a></code>
+
+        </dt>
+        <dd>The well each fraction was collected into</dd>
 
         <dt>
 
@@ -141,22 +123,76 @@
 
         </dt>
         <dd>Pivot Wavelength Data to Wide Format</dd>
+      </dl></div><div class="section level2">
+      <h2 id="units-absorbance-and-fractions">Units, absorbance and fractions<a class="anchor" aria-label="anchor" href="#units-absorbance-and-fractions"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="quantity.html">quantity()</a></code> <code><a href="quantity.html">is_quantity()</a></code> <code><a href="quantity.html">quantity_unit()</a></code> <code><a href="quantity.html">quantity_convert()</a></code>
+
+        </dt>
+        <dd>Numbers with a unit</dd>
 
         <dt>
 
-          <code><a href="read_akta_old.html">read_akta_old()</a></code>
+          <code><a href="absorbance.html">absorbance()</a></code> <code><a href="absorbance.html">is_absorbance()</a></code> <code><a href="absorbance.html">absorbance_wavelength()</a></code> <code><a href="absorbance.html">absorbance_unit()</a></code> <code><a href="absorbance.html">absorbance_convert()</a></code>
 
         </dt>
-        <dd>Read a .asc chromatogram from an old AKTA Pure</dd>
+        <dd>Absorbance that knows its wavelength and unit</dd>
 
         <dt>
 
-          <code><a href="rename_columns.html">rename_columns()</a></code>
+          <code><a href="fraction.html">fraction()</a></code> <code><a href="fraction.html">is_fraction()</a></code>
 
         </dt>
-        <dd>Standardize Column Names</dd>
+        <dd>Fraction numbers</dd>
+      </dl></div><div class="section level2">
+      <h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="chrom_plot.html">chrom_plot()</a></code>
+
+        </dt>
+        <dd>Plot a Chromatogram</dd>
+
+        <dt>
+
+          <code><a href="chrom_plot_fractions.html">chrom_plot_fractions()</a></code>
+
+        </dt>
+        <dd>Plot Chromatogram with Fractions</dd>
+
+        <dt>
+
+          <code><a href="geom_fraction_bars.html">geom_fraction_bars()</a></code>
+
+        </dt>
+        <dd>Create Fraction-Based Area Plots with Periodic Highlighting</dd>
+
+        <dt>
+
+          <code><a href="geom_fraction_label.html">geom_fraction_label()</a></code>
+
+        </dt>
+        <dd>Create Labels for Fractional Data</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

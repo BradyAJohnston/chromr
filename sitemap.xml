@@ -10,13 +10,15 @@
 <url><loc>https://bradyajohnston.github.io/chromr/articles/index.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/authors.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/index.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/news/index.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/StatFraction.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/StatFractionGroup.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/reference/absorbance.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/check_column_exist.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_add_volume.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_append_run.html</loc></url>
-<url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_find_data_start_line.html</loc></url>
-<url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_get_meta_quadtech.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_fractions.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_meta.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_plot.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_plot_fractions.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/chrom_read_ngc.html</loc></url>
@@ -25,13 +27,14 @@
 <url><loc>https://bradyajohnston.github.io/chromr/reference/dot-comput_frac_identity.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/dot-compute_group_frac.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/dot-find_common_start.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/reference/fraction.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/reference/fraction_to_well.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/geom_fraction_bars.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/geom_fraction_label.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/index.html</loc></url>
-<url><loc>https://bradyajohnston.github.io/chromr/reference/interpolate_column.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/pivot_wl_longer.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/pivot_wl_wider.html</loc></url>
+<url><loc>https://bradyajohnston.github.io/chromr/reference/quantity.html</loc></url>
 <url><loc>https://bradyajohnston.github.io/chromr/reference/read_akta_old.html</loc></url>
-<url><loc>https://bradyajohnston.github.io/chromr/reference/rename_columns.html</loc></url>
 </urlset>
 

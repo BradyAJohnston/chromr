@@ -1,6 +1,8 @@
 # chromr
 
-The goal of chromr is to …
+chromr reads chromatograms exported from FPLC instruments, the BioRad
+QuadTec and NGC and the ÄKTA, into tidy data frames, and plots them with
+their fractions.
 
 ## Installation
 
@@ -36,20 +38,24 @@ fl <- system.file(
 dat <- fl |> 
   chrom_read_quadtech()
 dat
-#> # A tibble: 960 × 10
-#>     time percent_b    au m_s_cm   psi  volume    a280     a260     a550     a650
-#>    <dbl>     <dbl> <dbl>  <dbl> <dbl>   <dbl>   <dbl>    <dbl>    <dbl>    <dbl>
-#>  1     0         0     0   16.0   265 0        0       0        5.51e-3  0      
-#>  2     1         0     0   16.0   266 0.00501  4  e-6  1.3 e-5 -1.6 e-4  1.87e-3
-#>  3     2         0     0   16.0   270 0.0100   0      -8   e-6 -6.40e-5  1.80e-3
-#>  4     3         0     0   16.0   272 0.0150  -1.3e-5 -2.20e-5 -6.40e-5  3.39e-3
-#>  5     4         0     0   16.0   272 0.0200  -6  e-6 -1.5 e-5 -9.5 e-5  3.91e-3
-#>  6     5         0     0   16.0   276 0.0250  -6  e-6 -1.80e-5 -1.28e-4  4.13e-3
-#>  7     6         0     0   16.0   275 0.0300  -6  e-6 -2.90e-5 -1.93e-4  3.76e-3
-#>  8     7         0     0   16.0   273 0.0350  -2  e-6 -8   e-6 -1.28e-4  1.92e-3
-#>  9     8         0     0   16.0   273 0.0400   3  e-6 -1.10e-5 -6.40e-5  8.83e-4
-#> 10     9         0     0   16.0   275 0.0450  -8  e-6 -9   e-6 -9.60e-5 -3.2 e-4
+#> # A chromatogram: 960 × 10
+#> # Instrument:     BioRad QuadTec
+#> # Run:            20220801_dsnPPR10_Cy3_1_AF647_2
+#> # Date:           02:10:17 PM 08-01-22
+#>    time  volume     a280     a260     a550     a650   uv percent_b conductivity
+#>     <s>    <mL>     <AU>     <AU>     <AU>     <AU> <AU>       <%>      <mS/cm>
+#>  1    0 0         0       0        5.51e-3  0          0         0         16.0
+#>  2    1 0.00501   4  e-6  1.3 e-5 -1.6 e-4  1.87e-3    0         0         16.0
+#>  3    2 0.0100    0      -8   e-6 -6.40e-5  1.80e-3    0         0         16.0
+#>  4    3 0.0150   -1.3e-5 -2.20e-5 -6.40e-5  3.39e-3    0         0         16.0
+#>  5    4 0.0200   -6  e-6 -1.5 e-5 -9.5 e-5  3.91e-3    0         0         16.0
+#>  6    5 0.0250   -6  e-6 -1.80e-5 -1.28e-4  4.13e-3    0         0         16.0
+#>  7    6 0.0300   -6  e-6 -2.90e-5 -1.93e-4  3.76e-3    0         0         16.0
+#>  8    7 0.0350   -2  e-6 -8   e-6 -1.28e-4  1.92e-3    0         0         16.0
+#>  9    8 0.0400    3  e-6 -1.10e-5 -6.40e-5  8.83e-4    0         0         16.0
+#> 10    9 0.0450   -8  e-6 -9   e-6 -9.60e-5 -3.2 e-4    0         0         16.0
 #> # ℹ 950 more rows
+#> # ℹ 1 more variable: pressure <psi>
 ```
 
 ``` r
@@ -101,42 +107,163 @@ dat |>
 
 ![](reference/figures/README-unnamed-chunk-5-1.png)
 
+## Units, fractions and wells
+
+Every reader gives the same columns, and records the run it came from.
+Each column keeps the unit recorded in the file, shown under its name:
+absorbance also knows its wavelength. Plots are labelled with the units,
+and joining runs recorded in different units, such as AU and mAU or psi
+and MPa, converts them to the units of the first. The columns still
+compare and do arithmetic with plain numbers.
+
+``` r
+
+ngc <- chrom_read_ngc(system.file("extdata", "ngc_sec.csv", package = "chromr"))
+ngc
+#> # A chromatogram: 6,510 × 6
+#> # Instrument:     BioRad NGC
+#> # Run:            20191126_IMAC
+#>      volume   a260   a280 conductivity percent_b pressure
+#>        <mL>  <mAU>  <mAU>      <mS/cm>       <%>    <psi>
+#>  1 0.000500  0.747   0            28.0         0    NA   
+#>  2 0.00503   1.10    0            28.0         0     5   
+#>  3 0.0104    0.784 NaN            28.0         0     5   
+#>  4 0.0147    0.784 NaN            28.0         0     5   
+#>  5 0.0213   -1.26  NaN            28.0         0     5   
+#>  6 0.0280   -3.21  NaN            28.0         0     5   
+#>  7 0.0347   -4.56   -8.57         27.7         0     5   
+#>  8 0.0413   -5.45   -8.58         27.8         0     5.55
+#>  9 0.0480   -6.05   -8.39         27.7         0     6.09
+#> 10 0.0547   -6.39   -8.12         27.7         0     6.64
+#> # ℹ 6,500 more rows
+
+chrom_meta(ngc)
+#> $instrument
+#> [1] "BioRad NGC"
+#> 
+#> $run
+#> [1] "20191126_IMAC"
+#> 
+#> $date
+#> [1] NA
+#> 
+#> $method
+#> [1] NA
+#> 
+#> $file
+#> [1] "ngc_sec.csv"
+```
+
+Dividing absorbance gives a plain ratio, such as A260/A280:
+
+``` r
+
+ngc |>
+  dplyr::filter(volume > 10) |>
+  dplyr::mutate(ratio = a260 / a280) |>
+  dplyr::select(volume, a260, a280, ratio)
+#> # A chromatogram: 5,602 × 4
+#> # Instrument:     BioRad NGC
+#> # Run:            20191126_IMAC
+#>    volume  a260  a280 ratio
+#>      <mL> <mAU> <mAU> <dbl>
+#>  1   10.0  507.  551. 0.921
+#>  2   10.0  507.  551. 0.921
+#>  3   10.0  506.  549. 0.922
+#>  4   10.1  505.  548. 0.922
+#>  5   10.1  504.  547. 0.922
+#>  6   10.1  503.  545. 0.922
+#>  7   10.1  502.  544. 0.923
+#>  8   10.1  501.  543. 0.923
+#>  9   10.1  500.  542. 0.923
+#> 10   10.2  499.  540. 0.924
+#> # ℹ 5,592 more rows
+```
+
+[`chrom_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_fractions.md)
+gives the volumes each fraction covers, and
+[`fraction_to_well()`](https://bradyajohnston.github.io/chromr/reference/fraction_to_well.md)
+the well of the collection plate each fraction went into, as
+[wellr](https://bradyajohnston.github.io/wellr/) well IDs, ready to join
+to plate-reader data.
+
+``` r
+
+akta <- read_akta_old(system.file("extdata", "example_akta_2.asc", package = "chromr"))
+
+chrom_fractions(akta) |>
+  dplyr::mutate(well = fraction_to_well(fraction))
+#> # A tibble: 73 × 4
+#>    fraction start  end well     
+#>      <frac>  <mL> <mL> <well:96>
+#>  1        1  9.11 11.0 A01      
+#>  2        2 11.0  13.1 A02      
+#>  3        3 13.1  15.0 A03      
+#>  4        4 15.0  17.1 A04      
+#>  5        5 17.1  19.0 A05      
+#>  6        6 19.0  21.1 A06      
+#>  7        7 21.1  23.0 A07      
+#>  8        8 23.0  25.1 A08      
+#>  9        9 25.1  27.2 A09      
+#> 10       10 27.2  29.1 A10      
+#> # ℹ 63 more rows
+```
+
 # Package index
 
-## All functions
+## Reading chromatograms
 
-- [`check_column_exist()`](https://bradyajohnston.github.io/chromr/reference/check_column_exist.md)
-  : Check if Column Exists in Data Frame
-- [`chrom_add_volume()`](https://bradyajohnston.github.io/chromr/reference/chrom_add_volume.md)
-  : Add Volume Column From Time Units
-- [`chrom_append_run()`](https://bradyajohnston.github.io/chromr/reference/chrom_append_run.md)
-  : Append a Chromatogram to Another Run
-- [`chrom_find_data_start_line()`](https://bradyajohnston.github.io/chromr/reference/chrom_find_data_start_line.md)
-  : Find the Line Where Data Begins
-- [`chrom_get_meta_quadtech()`](https://bradyajohnston.github.io/chromr/reference/chrom_get_meta_quadtech.md)
-  : Reads Metadata from QuadTech Chromatogram
-- [`chrom_plot()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot.md)
-  : Plot a Chromatogram
-- [`chrom_plot_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot_fractions.md)
-  : Plot Chromatogram with Fractions
 - [`chrom_read_ngc()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_ngc.md)
   : Read .csv Chromatogram from the BioRad NGC
 - [`chrom_read_quadtech()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_quadtech.md)
   : Read BioRad QuadTech Chromatogram Files
-- [`geom_fraction_bars()`](https://bradyajohnston.github.io/chromr/reference/geom_fraction_bars.md)
-  : Create Fraction-Based Area Plots with Periodic Highlighting
-- [`geom_fraction_label()`](https://bradyajohnston.github.io/chromr/reference/geom_fraction_label.md)
-  : Create Labels for Fractional Data
-- [`interpolate_column()`](https://bradyajohnston.github.io/chromr/reference/interpolate_column.md)
-  : Interpolate Values in a Column
+- [`read_akta_old()`](https://bradyajohnston.github.io/chromr/reference/read_akta_old.md)
+  : Read a .asc chromatogram from an old AKTA Pure
+- [`chrom_meta()`](https://bradyajohnston.github.io/chromr/reference/chrom_meta.md)
+  : Chromatogram metadata
+
+## Working with runs
+
+- [`chrom_append_run()`](https://bradyajohnston.github.io/chromr/reference/chrom_append_run.md)
+  : Append a Chromatogram to Another Run
+- [`chrom_add_volume()`](https://bradyajohnston.github.io/chromr/reference/chrom_add_volume.md)
+  : Add Volume Column From Time Units
+- [`chrom_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_fractions.md)
+  : The volumes each fraction covers
+- [`fraction_to_well()`](https://bradyajohnston.github.io/chromr/reference/fraction_to_well.md)
+  : The well each fraction was collected into
 - [`pivot_wl_longer()`](https://bradyajohnston.github.io/chromr/reference/pivot_wl_longer.md)
   : Pivot Wavelength Data to Long Format
 - [`pivot_wl_wider()`](https://bradyajohnston.github.io/chromr/reference/pivot_wl_wider.md)
   : Pivot Wavelength Data to Wide Format
-- [`read_akta_old()`](https://bradyajohnston.github.io/chromr/reference/read_akta_old.md)
-  : Read a .asc chromatogram from an old AKTA Pure
-- [`rename_columns()`](https://bradyajohnston.github.io/chromr/reference/rename_columns.md)
-  : Standardize Column Names
+
+## Units, absorbance and fractions
+
+- [`quantity()`](https://bradyajohnston.github.io/chromr/reference/quantity.md)
+  [`is_quantity()`](https://bradyajohnston.github.io/chromr/reference/quantity.md)
+  [`quantity_unit()`](https://bradyajohnston.github.io/chromr/reference/quantity.md)
+  [`quantity_convert()`](https://bradyajohnston.github.io/chromr/reference/quantity.md)
+  : Numbers with a unit
+- [`absorbance()`](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+  [`is_absorbance()`](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+  [`absorbance_wavelength()`](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+  [`absorbance_unit()`](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+  [`absorbance_convert()`](https://bradyajohnston.github.io/chromr/reference/absorbance.md)
+  : Absorbance that knows its wavelength and unit
+- [`fraction()`](https://bradyajohnston.github.io/chromr/reference/fraction.md)
+  [`is_fraction()`](https://bradyajohnston.github.io/chromr/reference/fraction.md)
+  : Fraction numbers
+
+## Plotting
+
+- [`chrom_plot()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot.md)
+  : Plot a Chromatogram
+- [`chrom_plot_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot_fractions.md)
+  : Plot Chromatogram with Fractions
+- [`geom_fraction_bars()`](https://bradyajohnston.github.io/chromr/reference/geom_fraction_bars.md)
+  : Create Fraction-Based Area Plots with Periodic Highlighting
+- [`geom_fraction_label()`](https://bradyajohnston.github.io/chromr/reference/geom_fraction_label.md)
+  : Create Labels for Fractional Data
 
 # Articles
 
