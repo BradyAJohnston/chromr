@@ -1,0 +1,48 @@
+[project]
+name = "chromr"
+version = "0.2.0"
+type = "package"
+title = "Read and Plot FPLC Chromatograms"
+description = '''
+For reading files from BioRad QuadTec machines and making
+plots of the charomatograms.'''
+license = "MIT + file LICENSE"
+
+[[project.authors]]
+name = "Brady Johnston"
+email = "brady.johnston@me.com"
+roles = ["cre"]
+
+[project.urls]
+bugreports = "https://github.com/BradyAJohnston/chromr/issues"
+homepage = "https://github.com/BradyAJohnston/chromr"
+
+[dependencies]
+R = ">= 4.1"
+dplyr = "*"
+ggplot2 = "*"
+glue = "*"
+janitor = "*"
+lifecycle = "*"
+magrittr = "*"
+purrr = "*"
+readr = "*"
+rlang = "*"
+scales = "*"
+stringr = "*"
+tibble = "*"
+tidyr = "*"
+
+[dependency-groups.dev]
+covr = "*"
+plotly = "*"
+rmarkdown = "*"
+testthat = ">= 3.0.0"
+
+[config.testthat]
+edition = 3
+
+[description]
+Author = "Brady Johnston"
+Encoding = "UTF-8"
+RoxygenNote = "7.3.2"
