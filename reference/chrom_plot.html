@@ -52,7 +52,9 @@
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A chromatogram from <code>chrom_read_*()</code>, or a data frame with a
-<code>volume</code> column and absorbance columns named like <code>a280</code>.</p></dd>
+<code>volume</code> column and absorbance columns named like <code>a280</code>. Chromatograms
+without a volume, such as QuadTec runs that only record the time, are
+plotted against <code>time</code>.</p></dd>
 
 
 <dt id="arg-xlim">xlim<a class="anchor" aria-label="anchor" href="#arg-xlim"></a></dt>

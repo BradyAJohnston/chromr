@@ -67,7 +67,16 @@ other traces are interpolated onto those volumes.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A chromatogram: a <a href="https://tibble.tidyverse.org/reference/tibble-package.html" class="external-link">tibble</a> with the run's
-metadata, see <code><a href="chrom_meta.html">chrom_meta()</a></code>.</p>
+metadata, see <code><a href="chrom_meta.html">chrom_meta()</a></code>. Exports of several runs have the run, date,
+method and file of each run.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>An export can hold several runs side by side. Each run is read on its own,
+and the runs are stacked, at the volumes each was recorded at, with a <code>run</code>
+column first: the name of each run, or its number if the runs don't each
+have their own name. A new run starts where the run named on the first line
+changes, or where a trace repeats.</p>
     </div>
     <div class="section level2">
     <h2 id="columns">Columns<a class="anchor" aria-label="anchor" href="#columns"></a></h2>

@@ -13,7 +13,9 @@ chrom_plot(data, xlim = NULL, ylim = NULL)
 - data:
 
   A chromatogram from `chrom_read_*()`, or a data frame with a `volume`
-  column and absorbance columns named like `a280`.
+  column and absorbance columns named like `a280`. Chromatograms without
+  a volume, such as QuadTec runs that only record the time, are plotted
+  against `time`.
 
 - xlim:
 

@@ -26,6 +26,32 @@
 
 ### New features
 
+- [`chrom_read_akta_result()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_akta_result.md)
+  reads UNICORN 6 and later results, the `.zip` archives UNICORN
+  exports, and
+  [`chrom_read_akta_csv()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_akta_result.md)
+  reads curves UNICORN exports to `.csv` files. Reading results needs
+  the xml2 package.
+
+- [`chrom_read_ngc()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_ngc.md)
+  reads exports of several runs side by side, stacking the runs with a
+  `run` column that names each run, or numbers them if they don’t each
+  have a name.
+  [`chrom_plot()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot.md)
+  and
+  [`chrom_plot_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot_fractions.md)
+  draw each run’s lines separately.
+
+- [`chrom_read_ngc_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_ngc_fractions.md)
+  reads the fraction table the NGC exports, with the rack, tube and
+  volumes of each fraction.
+
+- [`chrom_plot()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot.md)
+  and
+  [`chrom_plot_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_plot_fractions.md)
+  plot chromatograms without a volume, such as QuadTec runs that only
+  record the time, against `time`.
+
 - `fraction` columns are a new fraction number type, created with
   [`fraction()`](https://bradyajohnston.github.io/chromr/reference/fraction.md).
   Fractions compare, sort and do arithmetic as numbers, and adding a
@@ -62,7 +88,9 @@
   gives them.
 
 - [`chrom_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_fractions.md)
-  gives the start and end volume of each fraction.
+  gives the start and end volume of each fraction, with a row each time
+  a fraction is collected into, as when the collector starts again at
+  the first tube.
 
 - [`chrom_add_volume()`](https://bradyajohnston.github.io/chromr/reference/chrom_add_volume.md)
   uses the unit of the `time` column.

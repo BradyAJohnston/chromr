@@ -58,6 +58,13 @@ vectors, which record their wavelength and unit. The other columns are
 vectors with the unit recorded in the file, such as `s`, `mL`, `mS/cm`,
 `psi` or `MPa`.
 
+## See also
+
+[`chrom_read_akta_result()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_akta_result.md)
+and
+[`chrom_read_akta_csv()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_akta_result.md)
+for results and exports from UNICORN 6 and later.
+
 ## Examples
 
 ``` r

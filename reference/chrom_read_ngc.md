@@ -26,6 +26,15 @@ A chromatogram: a
 [tibble](https://tibble.tidyverse.org/reference/tibble-package.html)
 with the run's metadata, see
 [`chrom_meta()`](https://bradyajohnston.github.io/chromr/reference/chrom_meta.md).
+Exports of several runs have the run, date, method and file of each run.
+
+## Details
+
+An export can hold several runs side by side. Each run is read on its
+own, and the runs are stacked, at the volumes each was recorded at, with
+a `run` column first: the name of each run, or its number if the runs
+don't each have their own name. A new run starts where the run named on
+the first line changes, or where a trace repeats.
 
 ## Columns
 

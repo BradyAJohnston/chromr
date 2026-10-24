@@ -20,7 +20,8 @@ chrom_plot_fractions(
 
 - data:
 
-  Datafram containing values.
+  A chromatogram from `chrom_read_*()`, plotted against `volume`, or
+  `time` if it has no volume.
 
 - wl_frac:
 

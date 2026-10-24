@@ -4,7 +4,9 @@ Gives the start and end volume of each fraction in a chromatogram. A
 fraction starts at the first point collected into it and ends at the
 first point after it, so the fractions of a run meet end to end. These
 are the sampled volumes, so they are within one point of the volumes the
-fraction collector recorded.
+fraction collector recorded. A fraction collected into more than once,
+as when the collector runs out of tubes and starts again at the first,
+has a row for each time.
 
 ## Usage
 

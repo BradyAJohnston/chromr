@@ -2,8 +2,13 @@
 
 ## Reading chromatograms
 
+- [`chrom_read_akta_result()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_akta_result.md)
+  [`chrom_read_akta_csv()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_akta_result.md)
+  : Read chromatograms from UNICORN 6 and later
 - [`chrom_read_ngc()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_ngc.md)
   : Read .csv Chromatogram from the BioRad NGC
+- [`chrom_read_ngc_fractions()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_ngc_fractions.md)
+  : Read the fraction table from the BioRad NGC
 - [`chrom_read_quadtech()`](https://bradyajohnston.github.io/chromr/reference/chrom_read_quadtech.md)
   : Read BioRad QuadTech Chromatogram Files
 - [`read_akta_old()`](https://bradyajohnston.github.io/chromr/reference/read_akta_old.md)
