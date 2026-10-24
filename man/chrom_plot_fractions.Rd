@@ -27,7 +27,8 @@ fractions to be included (e.g. c(10, 30) includes fractions from 10 till
 30, including both).}
 
 \item{frac_labelling}{How often to label the fractions. Every nth
-fraction is labelled.}
+fraction is labelled, and the shading of the fractions repeats every nth
+fraction.}
 
 \item{frac_text_size}{Size of the labels for the fractionation.}
 

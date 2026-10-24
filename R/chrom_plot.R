@@ -70,7 +70,8 @@ chrom_plot <-
 #'   fractions to be included (e.g. c(10, 30) includes fractions from 10 till
 #'   30, including both).
 #' @param frac_labelling How often to label the fractions. Every nth
-#'   fraction is labelled.
+#'   fraction is labelled, and the shading of the fractions repeats every nth
+#'   fraction.
 #' @param frac_text_size Size of the labels for the fractionation.
 #' @param frac_text_adjust `vjust` for the labels for the fractionation.
 #'
@@ -101,19 +102,24 @@ chrom_plot_fractions <- function(
   frac_text_size = 3,
   frac_text_adjust = 1.3
 ) {
+  check_bool(fractions)
+  check_number_whole(frac_labelling, min = 1)
   if (fractions) {
     frac_numbers <- data$fraction
 
-    if (!("all" %in% frac_include)) {
-      stopifnot(is.numeric(frac_include))
-      frac_limits <- length(frac_include)
-      if (frac_limits == 2) {
-        frac_numbers <- frac_numbers[
-          frac_numbers >= frac_include[1] & frac_numbers <= frac_include[2]
-        ]
+    if (!identical(frac_include, "all")) {
+      if (!is.numeric(frac_include) || length(frac_include) != 2) {
+        cli::cli_abort(
+          "{.arg frac_include} must be {.val all} or a numeric vector of length 2, not {.obj_type_friendly {frac_include}}."
+        )
       }
+      frac_numbers <- frac_numbers[
+        frac_numbers >= frac_include[1] & frac_numbers <= frac_include[2]
+      ]
     }
   }
+  # Shade the fractions in cycles that start at each labelled fraction.
+  shade_period <- max(frac_labelling, 2)
 
   fractions_present <- TRUE %in%
     stringr::str_detect(colnames(data), "frac") &
@@ -133,7 +139,7 @@ chrom_plot_fractions <- function(
         .data$fraction != 0,
         .data$fraction %in% frac_numbers,
         .data$fraction %% frac_labelling == 0,
-        .data$wl %in% wl_frac
+        wl_number(.data$wl) %in% wl_frac
       ) |>
       dplyr::group_by(.data$fraction) |>
       dplyr::summarise(volume = mean(.data$volume))
@@ -144,11 +150,11 @@ chrom_plot_fractions <- function(
         data = dplyr::filter(
           data,
           .data$fraction != 0,
-          stringr::str_detect(.data$wl, paste(wl_frac, collapse = "|")),
+          wl_number(.data$wl) %in% wl_frac,
           .data$fraction %in% frac_numbers
         ),
         ggplot2::aes(
-          fill = factor(.data$fraction %% 5),
+          fill = factor(.data$fraction %% shade_period),
           group = interaction(.data$fraction, .data$wl)
         ),
         alpha = 0.5,
@@ -179,7 +185,7 @@ chrom_plot_fractions <- function(
     ) +
     ggplot2::scale_fill_manual(
       # values = RColorBrewer::brewer.pal(7, "Greys")[2:6]
-      values = grDevices::gray(seq(0.85, 0.65, length.out = 5))
+      values = grDevices::gray(seq(0.85, 0.65, length.out = shade_period))
     ) +
     # theme_bw(base_size = 20) +
     ggplot2::theme_classic() +
@@ -191,4 +197,9 @@ chrom_plot_fractions <- function(
         linewidth = 0.8
       )
     )
+}
+
+# The wavelength of absorbance column names such as "a280".
+wl_number <- function(x) {
+  as.numeric(stringr::str_extract(x, "\\d+"))
 }
