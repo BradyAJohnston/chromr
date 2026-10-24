@@ -36,12 +36,15 @@ stringr = "*"
 tibble = "*"
 tidyr = "*"
 cli = "*"
+pillar = "*"
+vctrs = "*"
 
 [dependency-groups.dev]
 covr = "*"
 plotly = "*"
 rmarkdown = "*"
 testthat = ">= 3.0.0"
+wellr = { version = ">= 0.4.0", git = "https://github.com/BradyAJohnston/wellr.git", ref = "BradyAJohnston/wellr" }
 
 [config.testthat]
 edition = 3

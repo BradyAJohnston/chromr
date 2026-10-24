@@ -96,3 +96,18 @@ check_column_exist <- function(data, name) {
   is_present <- TRUE %in% detected_vector
   is_present
 }
+
+check_columns <- function(
+  data,
+  columns,
+  arg = rlang::caller_arg(data),
+  call = rlang::caller_env()
+) {
+  missing <- setdiff(columns, names(data))
+  if (length(missing) > 0) {
+    cli::cli_abort(
+      "{.arg {arg}} must have the {.field {missing}} column{?s}.",
+      call = call
+    )
+  }
+}

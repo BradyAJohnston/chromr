@@ -184,7 +184,10 @@ geom_fraction_label <- function(
   data |>
     dplyr::filter(mask) |>
     dplyr::summarise(x = xfun(.data$x), y = yfun(.data$y), .by = "fraction") |>
-    dplyr::filter(.data$fraction %% period == initial, .data$fraction != 0) |>
+    dplyr::filter(
+      is_collected(.data$fraction),
+      .data$fraction %% period == initial
+    ) |>
     dplyr::mutate(label = .data$fraction)
 }
 
@@ -216,7 +219,7 @@ geom_fraction_label <- function(
   }
 
   data |>
-    dplyr::filter(.data$fraction != 0, mask) |>
+    dplyr::filter(is_collected(.data$fraction), mask) |>
     dplyr::mutate(
       fill = factor((.data$fraction - initial) %% period),
       group = interaction(.data$group, .data$fraction)

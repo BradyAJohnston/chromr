@@ -38,6 +38,10 @@ name = "lifecycle"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "pillar"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "purrr"
 constraint = "*"
 
@@ -66,6 +70,10 @@ name = "tidyr"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "vctrs"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "covr"
 constraint = "*"
 
@@ -80,6 +88,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "wellr"
+constraint = ">= 0.4.0"
 
 [[targets.direct_dependencies]]
 name = "quarto"
@@ -120,6 +132,32 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "427fcebd281d7ea850becce75e0807576dd394a723a814b2d487419b93275a33" }
+
+[[targets.packages]]
+package = "wellr"
+version = "0.4.0"
+binary = false
+platform = "source"
+dependencies = [
+    "janitor",
+    "readxl",
+    "tidyr",
+    "ggplot2",
+    "readr",
+    "purrr",
+    "cli",
+    "dplyr",
+    "plater",
+    "rlang",
+    "tibble",
+    "lifecycle",
+    "stringr",
+    "vctrs",
+]
+sources = ["git+https://github.com/BradyAJohnston/wellr.git#commit=8b8b0ab6143c224cbe717cd574764e915aaf5c48"]
+target = "git/github/BradyAJohnston/wellr/8b8b0ab6143c224cbe717cd574764e915aaf5c48"
+groups = ["dev"]
+metadata = { RemoteHost = "github.com", RemoteRepo = "BradyAJohnston/wellr", RemoteSha = "8b8b0ab6143c224cbe717cd574764e915aaf5c48", RemoteType = "github", RemoteUrl = "https://github.com/BradyAJohnston/wellr.git", RemoteUsername = "BradyAJohnston" }
 
 [[targets.packages]]
 package = "farver"
@@ -175,7 +213,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/macosx/sonoma-arm64/contrib/4.6/readr_2.2.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/readr_2.2.0-d00238a0.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "8025d797c183e12ad5ebe4af891dbcb5a8e9bd53aa4765006eb25a07f9a9f473", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
@@ -201,7 +242,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/macosx/sonoma-arm64/contrib/4.6/vroom_1.7.1.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/vroom_1.7.1-f9607aa3.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
@@ -266,6 +310,25 @@ groups = [
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
 
 [[targets.packages]]
+package = "progress"
+version = "1.2.3"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "prettyunits",
+    "crayon",
+    "hms",
+    "R6",
+]
+sources = ["https://p3m.dev/cran/2023-12-07/bin/macosx/sonoma-arm64/contrib/4.6/progress_1.2.3.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/progress_1.2.3-37446ed2.tgz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
+
+[[targets.packages]]
 package = "tidyselect"
 version = "1.2.1"
 binary = true
@@ -285,22 +348,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
-package = "progress"
-version = "1.2.3"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = [
-    "prettyunits",
-    "crayon",
-    "hms",
-    "R6",
-]
-sources = ["https://p3m.dev/cran/2023-12-07/bin/macosx/sonoma-arm64/contrib/4.6/progress_1.2.3.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/progress_1.2.3-37446ed2.tgz"
-groups = ["main"]
-metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "rprojroot"
@@ -509,7 +556,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2025-10-18/bin/macosx/sonoma-arm64/contrib/4.6/hms_1.1.4.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/hms_1.1.4-d509b7d4.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "efc525f797b62b3740d06c6fa8202593ab5aa4fc1edeefb76b6eb9be89e87b94" }
 
 [[targets.packages]]
@@ -547,8 +597,36 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-12-23/bin/macosx/sonoma-arm64/contrib/4.6/janitor_2.2.1.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/janitor_2.2.1-1f2717b0.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "27c401302a62cafe8e68e66a51073834bc7930872282e0feb151d13629ae6cdf" }
+
+[[targets.packages]]
+package = "rematch"
+version = "2.0.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2023-08-31/bin/macosx/sonoma-arm64/contrib/4.6/rematch_2.0.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/rematch_2.0.0-7833b279.tgz"
+groups = ["dev"]
+metadata = { RemoteHash = "15daf7bf2907aef8503635bc8631fce9fd75248a1fc2496825588c4bdf785c26" }
+
+[[targets.packages]]
+package = "withr"
+version = "3.0.3"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-06-20/bin/macosx/sonoma-arm64/contrib/4.6/withr_3.0.3.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/withr_3.0.3-937174ff.tgz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
 
 [[targets.packages]]
 package = "plotly"
@@ -581,34 +659,6 @@ sources = ["https://p3m.dev/cran/2026-07-23/bin/macosx/sonoma-arm64/contrib/4.6/
 target = "bin/macosx/sonoma-arm64/4.6/plotly_4.12.1-fc0784e2.tgz"
 groups = ["dev"]
 metadata = { RemoteHash = "16c7d796ec788d5755b6e2ac601f504dc085a8e46689dbb0c153c2b3e4ac99f4" }
-
-[[targets.packages]]
-package = "withr"
-version = "3.0.3"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-06-20/bin/macosx/sonoma-arm64/contrib/4.6/withr_3.0.3.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/withr_3.0.3-937174ff.tgz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
-
-[[targets.packages]]
-package = "jquerylib"
-version = "0.1.4"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = ["htmltools"]
-sources = ["https://p3m.dev/cran/2021-04-28/bin/macosx/sonoma-arm64/contrib/4.6/jquerylib_0.1.4.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/jquerylib_0.1.4-6380f3d1.tgz"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "gtable"
@@ -644,6 +694,35 @@ groups = [
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
+package = "crayon"
+version = "1.5.3"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2024-06-21/bin/macosx/sonoma-arm64/contrib/4.6/crayon_1.5.3.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/crayon_1.5.3-f2d80489.tgz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
+
+[[targets.packages]]
+package = "cli"
+version = "3.6.6"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-10/bin/macosx/sonoma-arm64/contrib/4.6/cli_3.6.6.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/cli_3.6.6-20e4b277.tgz"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
+
+[[targets.packages]]
 package = "purrr"
 version = "1.2.2"
 binary = true
@@ -664,21 +743,6 @@ groups = [
 metadata = { RemoteHash = "ac3bc0fc0e789510042522e6c4294336c71447be8f6921b5ef78b9a9fb86617d", RemoteLinkingToHashes = "cli@3.6.6=b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
 
 [[targets.packages]]
-package = "cli"
-version = "3.6.6"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-10/bin/macosx/sonoma-arm64/contrib/4.6/cli_3.6.6.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/cli_3.6.6-20e4b277.tgz"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
-
-[[targets.packages]]
 package = "diffobj"
 version = "0.3.9"
 binary = true
@@ -688,20 +752,6 @@ sources = ["https://p3m.dev/cran/2026-09-12/bin/macosx/sonoma-arm64/contrib/4.6/
 target = "bin/macosx/sonoma-arm64/4.6/diffobj_0.3.9-2bdc8978.tgz"
 groups = ["dev"]
 metadata = { RemoteHash = "ac5502b9fb37b28dd2cd09061a0a973e7eeea66997b87a7f76f006499e5693bd" }
-
-[[targets.packages]]
-package = "crayon"
-version = "1.5.3"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = []
-sources = ["https://p3m.dev/cran/2024-06-21/bin/macosx/sonoma-arm64/contrib/4.6/crayon_1.5.3.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/crayon_1.5.3-f2d80489.tgz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
 
 [[targets.packages]]
 package = "later"
@@ -719,6 +769,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "ce5d88b3fd1df409eaa21aa53bf20b1a9331f75cd69e7e9b2a27b40d2290d219", RemoteLinkingToHashes = "Rcpp@1.1.2=2746cf2fb188e5f0a84dbf5c8f68915b54564ed33e5754572f174e7b32e7f4f3" }
+
+[[targets.packages]]
+package = "jquerylib"
+version = "0.1.4"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = ["htmltools"]
+sources = ["https://p3m.dev/cran/2021-04-28/bin/macosx/sonoma-arm64/contrib/4.6/jquerylib_0.1.4.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/jquerylib_0.1.4-6380f3d1.tgz"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "memoise"
@@ -998,30 +1062,22 @@ groups = [
 metadata = { RemoteHash = "1c55905d3efc3d5c199ceb0bd12218e97f0d4c64df6038ff41ecef415478a122" }
 
 [[targets.packages]]
-package = "bslib"
-version = "0.12.0"
+package = "readxl"
+version = "1.6.0"
 binary = true
 platform = "aarch64-apple-darwin"
 dependencies = [
-    "sass",
-    "mime",
-    "htmltools",
-    "jquerylib",
-    "cachem",
-    "base64enc",
-    "fastmap",
-    "jsonlite",
-    "lifecycle",
-    "memoise",
+    "tibble",
+    "cli",
+    "cellranger",
     "rlang",
+    "cpp11",
+    "progress",
 ]
-sources = ["https://p3m.dev/cran/2026-08-04/bin/macosx/sonoma-arm64/contrib/4.6/bslib_0.12.0.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/bslib_0.12.0-d8cbac28.tgz"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+sources = ["https://p3m.dev/cran/2026-10-19/bin/macosx/sonoma-arm64/contrib/4.6/readxl_1.6.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/readxl_1.6.0-4aa7742a.tgz"
+groups = ["dev"]
+metadata = { RemoteHash = "16077587d5188449819a465c7b2065934653f80e36710da911ae238f772b36d1", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "base64enc"
@@ -1063,6 +1119,32 @@ groups = [
 metadata = { RemoteHash = "f7fab8ae670d18a4b91409d11e4275b565c4081d77c4522443d01f94a8c2acee" }
 
 [[targets.packages]]
+package = "bslib"
+version = "0.12.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "sass",
+    "mime",
+    "htmltools",
+    "jquerylib",
+    "cachem",
+    "base64enc",
+    "fastmap",
+    "jsonlite",
+    "lifecycle",
+    "memoise",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2026-08-04/bin/macosx/sonoma-arm64/contrib/4.6/bslib_0.12.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/bslib_0.12.0-d8cbac28.tgz"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+
+[[targets.packages]]
 package = "rappdirs"
 version = "0.3.4"
 binary = true
@@ -1075,6 +1157,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "2320ebc9ef3b1a32a1e63f94a6ce2c1c34d66782221a6531e786804f681abc66" }
+
+[[targets.packages]]
+package = "plater"
+version = "1.0.5"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "dplyr",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2024-10-26/bin/macosx/sonoma-arm64/contrib/4.6/plater_1.0.5.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/plater_1.0.5-c609e584.tgz"
+groups = ["dev"]
+metadata = { RemoteHash = "744c74513a8c3b9b3ef163b8386d7a4240eab130eb6f24a772491d63d6856c15" }
 
 [[targets.packages]]
 package = "highr"
@@ -1112,7 +1208,10 @@ platform = "aarch64-apple-darwin"
 dependencies = []
 sources = ["https://p3m.dev/cran/2023-09-25/bin/macosx/sonoma-arm64/contrib/4.6/prettyunits_1.2.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/prettyunits_1.2.0-a9c78d7c.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f059f27e2a5c82e351fe05b87ad712f7afc273c651450453f59d99af5deeacea" }
 
 [[targets.packages]]
@@ -1151,7 +1250,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2023-08-28/bin/macosx/sonoma-arm64/contrib/4.6/snakecase_0.11.1.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/snakecase_0.11.1-de62b102.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
@@ -1207,7 +1309,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-02-05/bin/macosx/sonoma-arm64/contrib/4.6/lubridate_1.9.5.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/lubridate_1.9.5-8a38b048.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "0bc5d10e5a34285d4f9e9c572c058c386b9e1515d8faebc1496b2680138280a8" }
 
 [[targets.packages]]
@@ -1359,6 +1464,35 @@ groups = [
 metadata = { RemoteHash = "4589f8b72291329e70b7f3a8c20f2feb4e7764eebad2e6976bc9a3eee7686ce9" }
 
 [[targets.packages]]
+package = "cellranger"
+version = "1.1.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "rematch",
+    "tibble",
+]
+sources = ["https://p3m.dev/cran/2017-10-10/bin/macosx/sonoma-arm64/contrib/4.6/cellranger_1.1.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/cellranger_1.1.0-0f3ab431.tgz"
+groups = ["dev"]
+metadata = { RemoteHash = "5d38f288c752bbb9cea6ff830b8388bdd65a8571fd82d8d96064586bd588cf99" }
+
+[[targets.packages]]
+package = "rlang"
+version = "1.3.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-07-06/bin/macosx/sonoma-arm64/contrib/4.6/rlang_1.3.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/rlang_1.3.0-cd54cc8f.tgz"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
+
+[[targets.packages]]
 package = "testthat"
 version = "3.3.2"
 binary = true
@@ -1385,21 +1519,6 @@ sources = ["https://p3m.dev/cran/2026-01-12/bin/macosx/sonoma-arm64/contrib/4.6/
 target = "bin/macosx/sonoma-arm64/4.6/testthat_3.3.2-361a7773.tgz"
 groups = ["dev"]
 metadata = { RemoteHash = "5d2e2fa2c3dcb523afb6898c02be9544c24c1c7e0789149c436fef768a409808" }
-
-[[targets.packages]]
-package = "rlang"
-version = "1.3.0"
-binary = true
-platform = "aarch64-apple-darwin"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-07-06/bin/macosx/sonoma-arm64/contrib/4.6/rlang_1.3.0.tgz"]
-target = "bin/macosx/sonoma-arm64/4.6/rlang_1.3.0-cd54cc8f.tgz"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
 
 [[targets.packages]]
 package = "brio"
@@ -1462,7 +1581,10 @@ platform = "aarch64-apple-darwin"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/macosx/sonoma-arm64/contrib/4.6/timechange_0.4.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/timechange_0.4.0-9778888d.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "6dc8ff9d339d3c4cff7ddf3800383f3e94f41c021f6c7bacccf971e187f73feb", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -1490,7 +1612,10 @@ platform = "aarch64-apple-darwin"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/macosx/sonoma-arm64/contrib/4.6/tzdb_0.5.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/tzdb_0.5.0-0d46c210.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -1555,7 +1680,10 @@ platform = "aarch64-apple-darwin"
 dependencies = []
 sources = ["https://p3m.dev/cran/2026-05-26/bin/macosx/sonoma-arm64/contrib/4.6/clipr_0.8.1.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/clipr_0.8.1-4322ae0a.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "06e87a9c387da33f4ce8de91d037c090b924689b5ff487d3c0c7506bd4c3f1b6" }
 
 [[targets.packages]]
@@ -1566,7 +1694,10 @@ platform = "aarch64-apple-darwin"
 dependencies = []
 sources = ["https://p3m.dev/cran/2025-03-07/bin/macosx/sonoma-arm64/contrib/4.6/bit_4.6.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/bit_4.6.0-a639bb1d.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
 
 [[targets.packages]]
@@ -1594,7 +1725,10 @@ platform = "aarch64-apple-darwin"
 dependencies = ["bit"]
 sources = ["https://p3m.dev/cran/2026-09-02/bin/macosx/sonoma-arm64/contrib/4.6/bit64_4.8.6.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/bit64_4.8.6-8edb959f.tgz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
 
 [[targets.packages]]
@@ -1623,6 +1757,7 @@ dependencies = [
     "glue",
     "janitor",
     "lifecycle",
+    "pillar",
     "purrr",
     "readr",
     "rlang",
@@ -1630,12 +1765,13 @@ dependencies = [
     "stringr",
     "tibble",
     "tidyr",
+    "vctrs",
 ]
 sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -1667,6 +1803,10 @@ name = "lifecycle"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "pillar"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "purrr"
 constraint = "*"
 
@@ -1695,6 +1835,10 @@ name = "tidyr"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "vctrs"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "covr"
 constraint = "*"
 
@@ -1709,6 +1853,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "wellr"
+constraint = ">= 0.4.0"
 
 [[targets.direct_dependencies]]
 name = "quarto"
@@ -1753,6 +1901,89 @@ system_requirements = "ICU4C (>= 61, optional)"
 metadata = { RemoteHash = "427fcebd281d7ea850becce75e0807576dd394a723a814b2d487419b93275a33" }
 
 [[targets.packages]]
+package = "wellr"
+version = "0.4.0"
+binary = false
+platform = "source"
+dependencies = [
+    "janitor",
+    "readxl",
+    "tidyr",
+    "ggplot2",
+    "readr",
+    "purrr",
+    "cli",
+    "dplyr",
+    "plater",
+    "rlang",
+    "tibble",
+    "lifecycle",
+    "stringr",
+    "vctrs",
+]
+sources = ["git+https://github.com/BradyAJohnston/wellr.git#commit=8b8b0ab6143c224cbe717cd574764e915aaf5c48"]
+target = "git/github/BradyAJohnston/wellr/8b8b0ab6143c224cbe717cd574764e915aaf5c48"
+groups = ["dev"]
+metadata = { RemoteHost = "github.com", RemoteRepo = "BradyAJohnston/wellr", RemoteSha = "8b8b0ab6143c224cbe717cd574764e915aaf5c48", RemoteType = "github", RemoteUrl = "https://github.com/BradyAJohnston/wellr.git", RemoteUsername = "BradyAJohnston" }
+
+[[targets.packages]]
+package = "vroom"
+version = "1.7.1"
+binary = false
+platform = "source"
+dependencies = [
+    "hms",
+    "glue",
+    "withr",
+    "crayon",
+    "cli",
+    "tidyselect",
+    "rlang",
+    "progress",
+    "tibble",
+    "lifecycle",
+    "tzdb",
+    "cpp11",
+    "vctrs",
+    "bit64",
+]
+sources = ["https://p3m.dev/cran/2026-04-01/src/contrib/vroom_1.7.1.tar.gz"]
+target = "src/vroom_1.7.1-0a78d83a.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db, cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
+
+[[targets.packages]]
+package = "readr"
+version = "2.2.0"
+binary = false
+platform = "source"
+dependencies = [
+    "hms",
+    "glue",
+    "withr",
+    "vroom",
+    "crayon",
+    "cli",
+    "rlang",
+    "tibble",
+    "lifecycle",
+    "tzdb",
+    "R6",
+    "clipr",
+    "cpp11",
+]
+sources = ["https://p3m.dev/cran/2026-02-20/src/contrib/readr_2.2.0.tar.gz"]
+target = "src/readr_2.2.0-f3da060d.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "8025d797c183e12ad5ebe4af891dbcb5a8e9bd53aa4765006eb25a07f9a9f473", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
+
+[[targets.packages]]
 package = "farver"
 version = "2.1.2"
 binary = false
@@ -1783,57 +2014,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "fe8d3d58ca75bbee32f389152ac0058818f3f76f09c9867949531de7abc424ac", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
-
-[[targets.packages]]
-package = "readr"
-version = "2.2.0"
-binary = false
-platform = "source"
-dependencies = [
-    "hms",
-    "glue",
-    "withr",
-    "vroom",
-    "crayon",
-    "cli",
-    "rlang",
-    "tibble",
-    "lifecycle",
-    "tzdb",
-    "R6",
-    "clipr",
-    "cpp11",
-]
-sources = ["https://p3m.dev/cran/2026-02-20/src/contrib/readr_2.2.0.tar.gz"]
-target = "src/readr_2.2.0-f3da060d.tar.gz"
-groups = ["main"]
-metadata = { RemoteHash = "8025d797c183e12ad5ebe4af891dbcb5a8e9bd53aa4765006eb25a07f9a9f473", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
-
-[[targets.packages]]
-package = "vroom"
-version = "1.7.1"
-binary = false
-platform = "source"
-dependencies = [
-    "hms",
-    "glue",
-    "withr",
-    "crayon",
-    "cli",
-    "tidyselect",
-    "rlang",
-    "progress",
-    "tibble",
-    "lifecycle",
-    "tzdb",
-    "cpp11",
-    "vctrs",
-    "bit64",
-]
-sources = ["https://p3m.dev/cran/2026-04-01/src/contrib/vroom_1.7.1.tar.gz"]
-target = "src/vroom_1.7.1-0a78d83a.tar.gz"
-groups = ["main"]
-metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db, cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "askpass"
@@ -1897,6 +2077,25 @@ groups = [
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
 
 [[targets.packages]]
+package = "progress"
+version = "1.2.3"
+binary = false
+platform = "source"
+dependencies = [
+    "prettyunits",
+    "crayon",
+    "hms",
+    "R6",
+]
+sources = ["https://p3m.dev/cran/2023-12-07/src/contrib/progress_1.2.3.tar.gz"]
+target = "src/progress_1.2.3-37446ed2.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
+
+[[targets.packages]]
 package = "tidyselect"
 version = "1.2.1"
 binary = false
@@ -1916,22 +2115,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
-package = "progress"
-version = "1.2.3"
-binary = false
-platform = "source"
-dependencies = [
-    "prettyunits",
-    "crayon",
-    "hms",
-    "R6",
-]
-sources = ["https://p3m.dev/cran/2023-12-07/src/contrib/progress_1.2.3.tar.gz"]
-target = "src/progress_1.2.3-37446ed2.tar.gz"
-groups = ["main"]
-metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "rprojroot"
@@ -2141,7 +2324,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2025-10-18/src/contrib/hms_1.1.4.tar.gz"]
 target = "src/hms_1.1.4-d509b7d4.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "efc525f797b62b3740d06c6fa8202593ab5aa4fc1edeefb76b6eb9be89e87b94" }
 
 [[targets.packages]]
@@ -2179,8 +2365,36 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-12-23/src/contrib/janitor_2.2.1.tar.gz"]
 target = "src/janitor_2.2.1-1f2717b0.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "27c401302a62cafe8e68e66a51073834bc7930872282e0feb151d13629ae6cdf" }
+
+[[targets.packages]]
+package = "rematch"
+version = "2.0.0"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2023-08-31/src/contrib/rematch_2.0.0.tar.gz"]
+target = "src/rematch_2.0.0-7833b279.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "15daf7bf2907aef8503635bc8631fce9fd75248a1fc2496825588c4bdf785c26" }
+
+[[targets.packages]]
+package = "withr"
+version = "3.0.3"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-06-20/src/contrib/withr_3.0.3.tar.gz"]
+target = "src/withr_3.0.3-937174ff.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
 
 [[targets.packages]]
 package = "plotly"
@@ -2213,34 +2427,6 @@ sources = ["https://p3m.dev/cran/2026-07-23/src/contrib/plotly_4.12.1.tar.gz"]
 target = "src/plotly_4.12.1-fc0784e2.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "16c7d796ec788d5755b6e2ac601f504dc085a8e46689dbb0c153c2b3e4ac99f4" }
-
-[[targets.packages]]
-package = "withr"
-version = "3.0.3"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-06-20/src/contrib/withr_3.0.3.tar.gz"]
-target = "src/withr_3.0.3-937174ff.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
-
-[[targets.packages]]
-package = "jquerylib"
-version = "0.1.4"
-binary = false
-platform = "source"
-dependencies = ["htmltools"]
-sources = ["https://p3m.dev/cran/2021-04-28/src/contrib/jquerylib_0.1.4.tar.gz"]
-target = "src/jquerylib_0.1.4-6380f3d1.tar.gz"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "gtable"
@@ -2276,6 +2462,35 @@ groups = [
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
+package = "crayon"
+version = "1.5.3"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2024-06-21/src/contrib/crayon_1.5.3.tar.gz"]
+target = "src/crayon_1.5.3-f2d80489.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
+
+[[targets.packages]]
+package = "cli"
+version = "3.6.6"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-10/src/contrib/cli_3.6.6.tar.gz"]
+target = "src/cli_3.6.6-20e4b277.tar.gz"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
+
+[[targets.packages]]
 package = "purrr"
 version = "1.2.2"
 binary = false
@@ -2294,35 +2509,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "ac3bc0fc0e789510042522e6c4294336c71447be8f6921b5ef78b9a9fb86617d", RemoteLinkingToHashes = "cli@3.6.6=b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
-
-[[targets.packages]]
-package = "cli"
-version = "3.6.6"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-10/src/contrib/cli_3.6.6.tar.gz"]
-target = "src/cli_3.6.6-20e4b277.tar.gz"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
-
-[[targets.packages]]
-package = "crayon"
-version = "1.5.3"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2024-06-21/src/contrib/crayon_1.5.3.tar.gz"]
-target = "src/crayon_1.5.3-f2d80489.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
 
 [[targets.packages]]
 package = "diffobj"
@@ -2351,6 +2537,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "ce5d88b3fd1df409eaa21aa53bf20b1a9331f75cd69e7e9b2a27b40d2290d219", RemoteLinkingToHashes = "Rcpp@1.1.2=2746cf2fb188e5f0a84dbf5c8f68915b54564ed33e5754572f174e7b32e7f4f3" }
+
+[[targets.packages]]
+package = "jquerylib"
+version = "0.1.4"
+binary = false
+platform = "source"
+dependencies = ["htmltools"]
+sources = ["https://p3m.dev/cran/2021-04-28/src/contrib/jquerylib_0.1.4.tar.gz"]
+target = "src/jquerylib_0.1.4-6380f3d1.tar.gz"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "memoise"
@@ -2632,30 +2832,22 @@ groups = [
 metadata = { RemoteHash = "1c55905d3efc3d5c199ceb0bd12218e97f0d4c64df6038ff41ecef415478a122" }
 
 [[targets.packages]]
-package = "bslib"
-version = "0.12.0"
+package = "readxl"
+version = "1.6.0"
 binary = false
 platform = "source"
 dependencies = [
-    "sass",
-    "mime",
-    "htmltools",
-    "jquerylib",
-    "cachem",
-    "base64enc",
-    "fastmap",
-    "jsonlite",
-    "lifecycle",
-    "memoise",
+    "tibble",
+    "cli",
+    "cellranger",
     "rlang",
+    "cpp11",
+    "progress",
 ]
-sources = ["https://p3m.dev/cran/2026-08-04/src/contrib/bslib_0.12.0.tar.gz"]
-target = "src/bslib_0.12.0-d8cbac28.tar.gz"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+sources = ["https://p3m.dev/cran/2026-10-19/src/contrib/readxl_1.6.0.tar.gz"]
+target = "src/readxl_1.6.0-8e2e8bb4.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "16077587d5188449819a465c7b2065934653f80e36710da911ae238f772b36d1", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "base64enc"
@@ -2698,6 +2890,32 @@ system_requirements = "pandoc (>= 2.8) - http://pandoc.org"
 metadata = { RemoteHash = "f7fab8ae670d18a4b91409d11e4275b565c4081d77c4522443d01f94a8c2acee" }
 
 [[targets.packages]]
+package = "bslib"
+version = "0.12.0"
+binary = false
+platform = "source"
+dependencies = [
+    "sass",
+    "mime",
+    "htmltools",
+    "jquerylib",
+    "cachem",
+    "base64enc",
+    "fastmap",
+    "jsonlite",
+    "lifecycle",
+    "memoise",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2026-08-04/src/contrib/bslib_0.12.0.tar.gz"]
+target = "src/bslib_0.12.0-d8cbac28.tar.gz"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+
+[[targets.packages]]
 package = "rappdirs"
 version = "0.3.4"
 binary = false
@@ -2710,6 +2928,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "2320ebc9ef3b1a32a1e63f94a6ce2c1c34d66782221a6531e786804f681abc66" }
+
+[[targets.packages]]
+package = "plater"
+version = "1.0.5"
+binary = false
+platform = "source"
+dependencies = [
+    "dplyr",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2024-10-26/src/contrib/plater_1.0.5.tar.gz"]
+target = "src/plater_1.0.5-c609e584.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "744c74513a8c3b9b3ef163b8386d7a4240eab130eb6f24a772491d63d6856c15" }
 
 [[targets.packages]]
 package = "highr"
@@ -2747,7 +2979,10 @@ platform = "source"
 dependencies = []
 sources = ["https://p3m.dev/cran/2023-09-25/src/contrib/prettyunits_1.2.0.tar.gz"]
 target = "src/prettyunits_1.2.0-a9c78d7c.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f059f27e2a5c82e351fe05b87ad712f7afc273c651450453f59d99af5deeacea" }
 
 [[targets.packages]]
@@ -2786,7 +3021,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2023-08-28/src/contrib/snakecase_0.11.1.tar.gz"]
 target = "src/snakecase_0.11.1-de62b102.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
@@ -2842,7 +3080,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-02-05/src/contrib/lubridate_1.9.5.tar.gz"]
 target = "src/lubridate_1.9.5-8a38b048.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 system_requirements = "A system with zoneinfo data (e.g. /usr/share/zoneinfo). On Windows the zoneinfo included with R is used."
 metadata = { RemoteHash = "0bc5d10e5a34285d4f9e9c572c058c386b9e1515d8faebc1496b2680138280a8" }
 
@@ -2859,6 +3100,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "56102222347f91ef0446dfb203016ff5935d6d6b0bff3b8776673c5e46a94baf" }
+
+[[targets.packages]]
+package = "cpp11"
+version = "0.5.5"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-05-07/src/contrib/cpp11_0.5.5.tar.gz"]
+target = "src/cpp11_0.5.5-73034f81.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
 package = "vctrs"
@@ -2892,20 +3147,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "3f5b5b1d4e6d12807a95c50b6c88cb1d8af2c5eb5213f08bfe58f278eca2ed23" }
-
-[[targets.packages]]
-package = "cpp11"
-version = "0.5.5"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-05-07/src/contrib/cpp11_0.5.5.tar.gz"]
-target = "src/cpp11_0.5.5-73034f81.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
 package = "otel"
@@ -2995,6 +3236,35 @@ groups = [
 metadata = { RemoteHash = "4589f8b72291329e70b7f3a8c20f2feb4e7764eebad2e6976bc9a3eee7686ce9" }
 
 [[targets.packages]]
+package = "cellranger"
+version = "1.1.0"
+binary = false
+platform = "source"
+dependencies = [
+    "rematch",
+    "tibble",
+]
+sources = ["https://p3m.dev/cran/2017-10-10/src/contrib/cellranger_1.1.0.tar.gz"]
+target = "src/cellranger_1.1.0-0f3ab431.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "5d38f288c752bbb9cea6ff830b8388bdd65a8571fd82d8d96064586bd588cf99" }
+
+[[targets.packages]]
+package = "rlang"
+version = "1.3.0"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-07-06/src/contrib/rlang_1.3.0.tar.gz"]
+target = "src/rlang_1.3.0-cd54cc8f.tar.gz"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
+
+[[targets.packages]]
 package = "testthat"
 version = "3.3.2"
 binary = false
@@ -3021,21 +3291,6 @@ sources = ["https://p3m.dev/cran/2026-01-12/src/contrib/testthat_3.3.2.tar.gz"]
 target = "src/testthat_3.3.2-361a7773.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "5d2e2fa2c3dcb523afb6898c02be9544c24c1c7e0789149c436fef768a409808" }
-
-[[targets.packages]]
-package = "rlang"
-version = "1.3.0"
-binary = false
-platform = "source"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-07-06/src/contrib/rlang_1.3.0.tar.gz"]
-target = "src/rlang_1.3.0-cd54cc8f.tar.gz"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
 
 [[targets.packages]]
 package = "brio"
@@ -3099,7 +3354,10 @@ platform = "source"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-01-30/src/contrib/timechange_0.4.0.tar.gz"]
 target = "src/timechange_0.4.0-66d64ff9.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 system_requirements = "A system with zoneinfo data (e.g. /usr/share/zoneinfo). On Windows the zoneinfo included with R is used."
 metadata = { RemoteHash = "6dc8ff9d339d3c4cff7ddf3800383f3e94f41c021f6c7bacccf971e187f73feb", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
@@ -3128,7 +3386,10 @@ platform = "source"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2025-03-17/src/contrib/tzdb_0.5.0.tar.gz"]
 target = "src/tzdb_0.5.0-f0bce280.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -3193,7 +3454,10 @@ platform = "source"
 dependencies = []
 sources = ["https://p3m.dev/cran/2026-05-26/src/contrib/clipr_0.8.1.tar.gz"]
 target = "src/clipr_0.8.1-4322ae0a.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 system_requirements = "xclip (https://github.com/astrand/xclip) or xsel (http://www.vergenet.net/~conrad/software/xsel/) for accessing the X11 clipboard, or wl-clipboard (https://github.com/bugaevc/wl-clipboard) for systems using Wayland."
 metadata = { RemoteHash = "06e87a9c387da33f4ce8de91d037c090b924689b5ff487d3c0c7506bd4c3f1b6" }
 
@@ -3205,7 +3469,10 @@ platform = "source"
 dependencies = []
 sources = ["https://p3m.dev/cran/2025-03-07/src/contrib/bit_4.6.0.tar.gz"]
 target = "src/bit_4.6.0-a639bb1d.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
 
 [[targets.packages]]
@@ -3233,7 +3500,10 @@ platform = "source"
 dependencies = ["bit"]
 sources = ["https://p3m.dev/cran/2026-09-02/src/contrib/bit64_4.8.6.tar.gz"]
 target = "src/bit64_4.8.6-8edb959f.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
 
 [[targets.packages]]
@@ -3263,6 +3533,7 @@ dependencies = [
     "glue",
     "janitor",
     "lifecycle",
+    "pillar",
     "purrr",
     "readr",
     "rlang",
@@ -3270,12 +3541,13 @@ dependencies = [
     "stringr",
     "tibble",
     "tidyr",
+    "vctrs",
 ]
 sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -3307,6 +3579,10 @@ name = "lifecycle"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "pillar"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "purrr"
 constraint = "*"
 
@@ -3335,6 +3611,10 @@ name = "tidyr"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "vctrs"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "covr"
 constraint = "*"
 
@@ -3349,6 +3629,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "wellr"
+constraint = ">= 0.4.0"
 
 [[targets.direct_dependencies]]
 name = "quarto"
@@ -3389,6 +3673,32 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "427fcebd281d7ea850becce75e0807576dd394a723a814b2d487419b93275a33" }
+
+[[targets.packages]]
+package = "wellr"
+version = "0.4.0"
+binary = false
+platform = "source"
+dependencies = [
+    "janitor",
+    "readxl",
+    "tidyr",
+    "ggplot2",
+    "readr",
+    "purrr",
+    "cli",
+    "dplyr",
+    "plater",
+    "rlang",
+    "tibble",
+    "lifecycle",
+    "stringr",
+    "vctrs",
+]
+sources = ["git+https://github.com/BradyAJohnston/wellr.git#commit=8b8b0ab6143c224cbe717cd574764e915aaf5c48"]
+target = "git/github/BradyAJohnston/wellr/8b8b0ab6143c224cbe717cd574764e915aaf5c48"
+groups = ["dev"]
+metadata = { RemoteHost = "github.com", RemoteRepo = "BradyAJohnston/wellr", RemoteSha = "8b8b0ab6143c224cbe717cd574764e915aaf5c48", RemoteType = "github", RemoteUrl = "https://github.com/BradyAJohnston/wellr.git", RemoteUsername = "BradyAJohnston" }
 
 [[targets.packages]]
 package = "farver"
@@ -3444,7 +3754,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/readr_2.2.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/readr_2.2.0-d00238a0.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "8025d797c183e12ad5ebe4af891dbcb5a8e9bd53aa4765006eb25a07f9a9f473", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
@@ -3470,7 +3783,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/vroom_1.7.1.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/vroom_1.7.1-f9607aa3.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
@@ -3535,6 +3851,25 @@ groups = [
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
 
 [[targets.packages]]
+package = "progress"
+version = "1.2.3"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "prettyunits",
+    "crayon",
+    "hms",
+    "R6",
+]
+sources = ["https://p3m.dev/cran/2023-12-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/progress_1.2.3.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/progress_1.2.3-37446ed2.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
+
+[[targets.packages]]
 package = "tidyselect"
 version = "1.2.1"
 binary = true
@@ -3554,22 +3889,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
-package = "progress"
-version = "1.2.3"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = [
-    "prettyunits",
-    "crayon",
-    "hms",
-    "R6",
-]
-sources = ["https://p3m.dev/cran/2023-12-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/progress_1.2.3.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/progress_1.2.3-37446ed2.tar.gz"
-groups = ["main"]
-metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "rprojroot"
@@ -3778,7 +4097,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2025-10-18/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/hms_1.1.4.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/hms_1.1.4-d509b7d4.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "efc525f797b62b3740d06c6fa8202593ab5aa4fc1edeefb76b6eb9be89e87b94" }
 
 [[targets.packages]]
@@ -3816,8 +4138,36 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-12-23/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/janitor_2.2.1.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/janitor_2.2.1-1f2717b0.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "27c401302a62cafe8e68e66a51073834bc7930872282e0feb151d13629ae6cdf" }
+
+[[targets.packages]]
+package = "rematch"
+version = "2.0.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2023-08-31/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/rematch_2.0.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/rematch_2.0.0-7833b279.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "15daf7bf2907aef8503635bc8631fce9fd75248a1fc2496825588c4bdf785c26" }
+
+[[targets.packages]]
+package = "withr"
+version = "3.0.3"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-06-20/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/withr_3.0.3.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/withr_3.0.3-937174ff.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
 
 [[targets.packages]]
 package = "plotly"
@@ -3850,34 +4200,6 @@ sources = ["https://p3m.dev/cran/2026-07-23/bin/linux/manylinux_2_28-x86_64/4.6/
 target = "bin/linux/manylinux_2_28-x86_64/4.6/plotly_4.12.1-fc0784e2.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "16c7d796ec788d5755b6e2ac601f504dc085a8e46689dbb0c153c2b3e4ac99f4" }
-
-[[targets.packages]]
-package = "withr"
-version = "3.0.3"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-06-20/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/withr_3.0.3.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/withr_3.0.3-937174ff.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
-
-[[targets.packages]]
-package = "jquerylib"
-version = "0.1.4"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = ["htmltools"]
-sources = ["https://p3m.dev/cran/2021-04-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/jquerylib_0.1.4.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/jquerylib_0.1.4-6380f3d1.tar.gz"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "gtable"
@@ -3913,6 +4235,35 @@ groups = [
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
+package = "crayon"
+version = "1.5.3"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2024-06-21/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/crayon_1.5.3.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/crayon_1.5.3-f2d80489.tar.gz"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
+
+[[targets.packages]]
+package = "cli"
+version = "3.6.6"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-10/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/cli_3.6.6.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/cli_3.6.6-20e4b277.tar.gz"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
+
+[[targets.packages]]
 package = "purrr"
 version = "1.2.2"
 binary = true
@@ -3933,21 +4284,6 @@ groups = [
 metadata = { RemoteHash = "ac3bc0fc0e789510042522e6c4294336c71447be8f6921b5ef78b9a9fb86617d", RemoteLinkingToHashes = "cli@3.6.6=b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
 
 [[targets.packages]]
-package = "cli"
-version = "3.6.6"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-10/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/cli_3.6.6.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/cli_3.6.6-20e4b277.tar.gz"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
-
-[[targets.packages]]
 package = "diffobj"
 version = "0.3.9"
 binary = true
@@ -3957,20 +4293,6 @@ sources = ["https://p3m.dev/cran/2026-09-12/bin/linux/manylinux_2_28-x86_64/4.6/
 target = "bin/linux/manylinux_2_28-x86_64/4.6/diffobj_0.3.9-2bdc8978.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "ac5502b9fb37b28dd2cd09061a0a973e7eeea66997b87a7f76f006499e5693bd" }
-
-[[targets.packages]]
-package = "crayon"
-version = "1.5.3"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = []
-sources = ["https://p3m.dev/cran/2024-06-21/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/crayon_1.5.3.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/crayon_1.5.3-f2d80489.tar.gz"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
 
 [[targets.packages]]
 package = "later"
@@ -3988,6 +4310,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "ce5d88b3fd1df409eaa21aa53bf20b1a9331f75cd69e7e9b2a27b40d2290d219", RemoteLinkingToHashes = "Rcpp@1.1.2=2746cf2fb188e5f0a84dbf5c8f68915b54564ed33e5754572f174e7b32e7f4f3" }
+
+[[targets.packages]]
+package = "jquerylib"
+version = "0.1.4"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = ["htmltools"]
+sources = ["https://p3m.dev/cran/2021-04-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/jquerylib_0.1.4.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/jquerylib_0.1.4-6380f3d1.tar.gz"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "memoise"
@@ -4267,30 +4603,22 @@ groups = [
 metadata = { RemoteHash = "1c55905d3efc3d5c199ceb0bd12218e97f0d4c64df6038ff41ecef415478a122" }
 
 [[targets.packages]]
-package = "bslib"
-version = "0.12.0"
+package = "readxl"
+version = "1.6.0"
 binary = true
 platform = "x86_64-unknown-linux-gnu"
 dependencies = [
-    "sass",
-    "mime",
-    "htmltools",
-    "jquerylib",
-    "cachem",
-    "base64enc",
-    "fastmap",
-    "jsonlite",
-    "lifecycle",
-    "memoise",
+    "tibble",
+    "cli",
+    "cellranger",
     "rlang",
+    "cpp11",
+    "progress",
 ]
-sources = ["https://p3m.dev/cran/2026-08-04/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/bslib_0.12.0.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/bslib_0.12.0-d8cbac28.tar.gz"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+sources = ["https://p3m.dev/cran/2026-10-19/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/readxl_1.6.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/readxl_1.6.0-4aa7742a.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "16077587d5188449819a465c7b2065934653f80e36710da911ae238f772b36d1", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "base64enc"
@@ -4332,6 +4660,32 @@ groups = [
 metadata = { RemoteHash = "f7fab8ae670d18a4b91409d11e4275b565c4081d77c4522443d01f94a8c2acee" }
 
 [[targets.packages]]
+package = "bslib"
+version = "0.12.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "sass",
+    "mime",
+    "htmltools",
+    "jquerylib",
+    "cachem",
+    "base64enc",
+    "fastmap",
+    "jsonlite",
+    "lifecycle",
+    "memoise",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2026-08-04/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/bslib_0.12.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/bslib_0.12.0-d8cbac28.tar.gz"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+
+[[targets.packages]]
 package = "rappdirs"
 version = "0.3.4"
 binary = true
@@ -4344,6 +4698,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "2320ebc9ef3b1a32a1e63f94a6ce2c1c34d66782221a6531e786804f681abc66" }
+
+[[targets.packages]]
+package = "plater"
+version = "1.0.5"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "dplyr",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2024-10-26/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/plater_1.0.5.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/plater_1.0.5-c609e584.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "744c74513a8c3b9b3ef163b8386d7a4240eab130eb6f24a772491d63d6856c15" }
 
 [[targets.packages]]
 package = "highr"
@@ -4381,7 +4749,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = []
 sources = ["https://p3m.dev/cran/2023-09-25/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/prettyunits_1.2.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/prettyunits_1.2.0-a9c78d7c.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f059f27e2a5c82e351fe05b87ad712f7afc273c651450453f59d99af5deeacea" }
 
 [[targets.packages]]
@@ -4420,7 +4791,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2023-08-28/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/snakecase_0.11.1.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/snakecase_0.11.1-de62b102.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
@@ -4476,7 +4850,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-02-05/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/lubridate_1.9.5.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/lubridate_1.9.5-8a38b048.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "0bc5d10e5a34285d4f9e9c572c058c386b9e1515d8faebc1496b2680138280a8" }
 
 [[targets.packages]]
@@ -4628,6 +5005,35 @@ groups = [
 metadata = { RemoteHash = "4589f8b72291329e70b7f3a8c20f2feb4e7764eebad2e6976bc9a3eee7686ce9" }
 
 [[targets.packages]]
+package = "cellranger"
+version = "1.1.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "rematch",
+    "tibble",
+]
+sources = ["https://p3m.dev/cran/2017-10-10/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/cellranger_1.1.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/cellranger_1.1.0-0f3ab431.tar.gz"
+groups = ["dev"]
+metadata = { RemoteHash = "5d38f288c752bbb9cea6ff830b8388bdd65a8571fd82d8d96064586bd588cf99" }
+
+[[targets.packages]]
+package = "rlang"
+version = "1.3.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-07-06/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/rlang_1.3.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/rlang_1.3.0-cd54cc8f.tar.gz"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
+
+[[targets.packages]]
 package = "testthat"
 version = "3.3.2"
 binary = true
@@ -4654,21 +5060,6 @@ sources = ["https://p3m.dev/cran/2026-01-12/bin/linux/manylinux_2_28-x86_64/4.6/
 target = "bin/linux/manylinux_2_28-x86_64/4.6/testthat_3.3.2-361a7773.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "5d2e2fa2c3dcb523afb6898c02be9544c24c1c7e0789149c436fef768a409808" }
-
-[[targets.packages]]
-package = "rlang"
-version = "1.3.0"
-binary = true
-platform = "x86_64-unknown-linux-gnu"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-07-06/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/rlang_1.3.0.tar.gz"]
-target = "bin/linux/manylinux_2_28-x86_64/4.6/rlang_1.3.0-cd54cc8f.tar.gz"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
 
 [[targets.packages]]
 package = "brio"
@@ -4731,7 +5122,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/timechange_0.4.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/timechange_0.4.0-9778888d.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "6dc8ff9d339d3c4cff7ddf3800383f3e94f41c021f6c7bacccf971e187f73feb", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -4759,7 +5153,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/tzdb_0.5.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/tzdb_0.5.0-0d46c210.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -4824,7 +5221,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = []
 sources = ["https://p3m.dev/cran/2026-05-26/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/clipr_0.8.1.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/clipr_0.8.1-4322ae0a.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "06e87a9c387da33f4ce8de91d037c090b924689b5ff487d3c0c7506bd4c3f1b6" }
 
 [[targets.packages]]
@@ -4835,7 +5235,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = []
 sources = ["https://p3m.dev/cran/2025-03-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/bit_4.6.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/bit_4.6.0-a639bb1d.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
 
 [[targets.packages]]
@@ -4863,7 +5266,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = ["bit"]
 sources = ["https://p3m.dev/cran/2026-09-02/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/bit64_4.8.6.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/bit64_4.8.6-8edb959f.tar.gz"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
 
 [[targets.packages]]
@@ -4892,6 +5298,7 @@ dependencies = [
     "glue",
     "janitor",
     "lifecycle",
+    "pillar",
     "purrr",
     "readr",
     "rlang",
@@ -4899,12 +5306,13 @@ dependencies = [
     "stringr",
     "tibble",
     "tidyr",
+    "vctrs",
 ]
 sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -4936,6 +5344,10 @@ name = "lifecycle"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "pillar"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "purrr"
 constraint = "*"
 
@@ -4964,6 +5376,10 @@ name = "tidyr"
 constraint = "*"
 
 [[targets.direct_dependencies]]
+name = "vctrs"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "covr"
 constraint = "*"
 
@@ -4978,6 +5394,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "wellr"
+constraint = ">= 0.4.0"
 
 [[targets.direct_dependencies]]
 name = "quarto"
@@ -5018,6 +5438,32 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "427fcebd281d7ea850becce75e0807576dd394a723a814b2d487419b93275a33" }
+
+[[targets.packages]]
+package = "wellr"
+version = "0.4.0"
+binary = false
+platform = "source"
+dependencies = [
+    "janitor",
+    "readxl",
+    "tidyr",
+    "ggplot2",
+    "readr",
+    "purrr",
+    "cli",
+    "dplyr",
+    "plater",
+    "rlang",
+    "tibble",
+    "lifecycle",
+    "stringr",
+    "vctrs",
+]
+sources = ["git+https://github.com/BradyAJohnston/wellr.git#commit=8b8b0ab6143c224cbe717cd574764e915aaf5c48"]
+target = "git/github/BradyAJohnston/wellr/8b8b0ab6143c224cbe717cd574764e915aaf5c48"
+groups = ["dev"]
+metadata = { RemoteHost = "github.com", RemoteRepo = "BradyAJohnston/wellr", RemoteSha = "8b8b0ab6143c224cbe717cd574764e915aaf5c48", RemoteType = "github", RemoteUrl = "https://github.com/BradyAJohnston/wellr.git", RemoteUsername = "BradyAJohnston" }
 
 [[targets.packages]]
 package = "farver"
@@ -5073,7 +5519,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/windows/contrib/4.6/readr_2.2.0.zip"]
 target = "bin/windows/4.6/readr_2.2.0-d00238a0.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "8025d797c183e12ad5ebe4af891dbcb5a8e9bd53aa4765006eb25a07f9a9f473", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
@@ -5099,7 +5548,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/windows/contrib/4.6/vroom_1.7.1.zip"]
 target = "bin/windows/4.6/vroom_1.7.1-f9607aa3.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "7d64f6227fdac3ee64c506654bb1d919e407f92fc2d0d5a2398dbb83001e8790", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276, tzdb@0.5.0=380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db" }
 
 [[targets.packages]]
@@ -5164,6 +5616,25 @@ groups = [
 metadata = { RemoteHash = "d55ef5f08c92652d7a95cfa27584024723ab17873f1b2577dd488cb7c883ceee" }
 
 [[targets.packages]]
+package = "progress"
+version = "1.2.3"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "prettyunits",
+    "crayon",
+    "hms",
+    "R6",
+]
+sources = ["https://p3m.dev/cran/2023-12-07/bin/windows/contrib/4.6/progress_1.2.3.zip"]
+target = "bin/windows/4.6/progress_1.2.3-37446ed2.zip"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
+
+[[targets.packages]]
 package = "tidyselect"
 version = "1.2.1"
 binary = true
@@ -5183,22 +5654,6 @@ groups = [
     "main",
 ]
 metadata = { RemoteHash = "169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c" }
-
-[[targets.packages]]
-package = "progress"
-version = "1.2.3"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = [
-    "prettyunits",
-    "crayon",
-    "hms",
-    "R6",
-]
-sources = ["https://p3m.dev/cran/2023-12-07/bin/windows/contrib/4.6/progress_1.2.3.zip"]
-target = "bin/windows/4.6/progress_1.2.3-37446ed2.zip"
-groups = ["main"]
-metadata = { RemoteHash = "ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "rprojroot"
@@ -5407,7 +5862,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2025-10-18/bin/windows/contrib/4.6/hms_1.1.4.zip"]
 target = "bin/windows/4.6/hms_1.1.4-d509b7d4.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "efc525f797b62b3740d06c6fa8202593ab5aa4fc1edeefb76b6eb9be89e87b94" }
 
 [[targets.packages]]
@@ -5445,8 +5903,36 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-12-23/bin/windows/contrib/4.6/janitor_2.2.1.zip"]
 target = "bin/windows/4.6/janitor_2.2.1-1f2717b0.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "27c401302a62cafe8e68e66a51073834bc7930872282e0feb151d13629ae6cdf" }
+
+[[targets.packages]]
+package = "rematch"
+version = "2.0.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2023-08-31/bin/windows/contrib/4.6/rematch_2.0.0.zip"]
+target = "bin/windows/4.6/rematch_2.0.0-7833b279.zip"
+groups = ["dev"]
+metadata = { RemoteHash = "15daf7bf2907aef8503635bc8631fce9fd75248a1fc2496825588c4bdf785c26" }
+
+[[targets.packages]]
+package = "withr"
+version = "3.0.3"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-06-20/bin/windows/contrib/4.6/withr_3.0.3.zip"]
+target = "bin/windows/4.6/withr_3.0.3-937174ff.zip"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
 
 [[targets.packages]]
 package = "plotly"
@@ -5479,34 +5965,6 @@ sources = ["https://p3m.dev/cran/2026-07-23/bin/windows/contrib/4.6/plotly_4.12.
 target = "bin/windows/4.6/plotly_4.12.1-fc0784e2.zip"
 groups = ["dev"]
 metadata = { RemoteHash = "16c7d796ec788d5755b6e2ac601f504dc085a8e46689dbb0c153c2b3e4ac99f4" }
-
-[[targets.packages]]
-package = "withr"
-version = "3.0.3"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-06-20/bin/windows/contrib/4.6/withr_3.0.3.zip"]
-target = "bin/windows/4.6/withr_3.0.3-937174ff.zip"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "d86c6454164fc85678bfc85e2a6cce42f7461d45fa9a87de71f376e7956c991e" }
-
-[[targets.packages]]
-package = "jquerylib"
-version = "0.1.4"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = ["htmltools"]
-sources = ["https://p3m.dev/cran/2021-04-28/bin/windows/contrib/4.6/jquerylib_0.1.4.zip"]
-target = "bin/windows/4.6/jquerylib_0.1.4-6380f3d1.zip"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "gtable"
@@ -5542,6 +6000,35 @@ groups = [
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
+package = "crayon"
+version = "1.5.3"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2024-06-21/bin/windows/contrib/4.6/crayon_1.5.3.zip"]
+target = "bin/windows/4.6/crayon_1.5.3-f2d80489.zip"
+groups = [
+    "dev",
+    "main",
+]
+metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
+
+[[targets.packages]]
+package = "cli"
+version = "3.6.6"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-04-10/bin/windows/contrib/4.6/cli_3.6.6.zip"]
+target = "bin/windows/4.6/cli_3.6.6-20e4b277.zip"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
+
+[[targets.packages]]
 package = "purrr"
 version = "1.2.2"
 binary = true
@@ -5562,21 +6049,6 @@ groups = [
 metadata = { RemoteHash = "ac3bc0fc0e789510042522e6c4294336c71447be8f6921b5ef78b9a9fb86617d", RemoteLinkingToHashes = "cli@3.6.6=b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
 
 [[targets.packages]]
-package = "cli"
-version = "3.6.6"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-04-10/bin/windows/contrib/4.6/cli_3.6.6.zip"]
-target = "bin/windows/4.6/cli_3.6.6-20e4b277.zip"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "b2b58d6dd82f5798b335e39c00591686a01fd3e94399ef898e146173e36f18f9" }
-
-[[targets.packages]]
 package = "diffobj"
 version = "0.3.9"
 binary = true
@@ -5586,20 +6058,6 @@ sources = ["https://p3m.dev/cran/2026-09-12/bin/windows/contrib/4.6/diffobj_0.3.
 target = "bin/windows/4.6/diffobj_0.3.9-2bdc8978.zip"
 groups = ["dev"]
 metadata = { RemoteHash = "ac5502b9fb37b28dd2cd09061a0a973e7eeea66997b87a7f76f006499e5693bd" }
-
-[[targets.packages]]
-package = "crayon"
-version = "1.5.3"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = []
-sources = ["https://p3m.dev/cran/2024-06-21/bin/windows/contrib/4.6/crayon_1.5.3.zip"]
-target = "bin/windows/4.6/crayon_1.5.3-f2d80489.zip"
-groups = [
-    "dev",
-    "main",
-]
-metadata = { RemoteHash = "3e74a0685541efb5ea763b92cfd5c859df71c46b0605967a0b5dbb7326e9da69" }
 
 [[targets.packages]]
 package = "later"
@@ -5617,6 +6075,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "ce5d88b3fd1df409eaa21aa53bf20b1a9331f75cd69e7e9b2a27b40d2290d219", RemoteLinkingToHashes = "Rcpp@1.1.2=2746cf2fb188e5f0a84dbf5c8f68915b54564ed33e5754572f174e7b32e7f4f3" }
+
+[[targets.packages]]
+package = "jquerylib"
+version = "0.1.4"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = ["htmltools"]
+sources = ["https://p3m.dev/cran/2021-04-28/bin/windows/contrib/4.6/jquerylib_0.1.4.zip"]
+target = "bin/windows/4.6/jquerylib_0.1.4-6380f3d1.zip"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "f0bcc11dcde3a6ff180277e45c24642d3da3c8690900e38f44495efbc9064411" }
 
 [[targets.packages]]
 package = "memoise"
@@ -5896,30 +6368,22 @@ groups = [
 metadata = { RemoteHash = "1c55905d3efc3d5c199ceb0bd12218e97f0d4c64df6038ff41ecef415478a122" }
 
 [[targets.packages]]
-package = "bslib"
-version = "0.12.0"
+package = "readxl"
+version = "1.6.0"
 binary = true
 platform = "x86_64-w64-mingw32"
 dependencies = [
-    "sass",
-    "mime",
-    "htmltools",
-    "jquerylib",
-    "cachem",
-    "base64enc",
-    "fastmap",
-    "jsonlite",
-    "lifecycle",
-    "memoise",
+    "tibble",
+    "cli",
+    "cellranger",
     "rlang",
+    "cpp11",
+    "progress",
 ]
-sources = ["https://p3m.dev/cran/2026-08-04/bin/windows/contrib/4.6/bslib_0.12.0.zip"]
-target = "bin/windows/4.6/bslib_0.12.0-d8cbac28.zip"
-groups = [
-    "dev",
-    "website",
-]
-metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+sources = ["https://p3m.dev/cran/2026-10-19/bin/windows/contrib/4.6/readxl_1.6.0.zip"]
+target = "bin/windows/4.6/readxl_1.6.0-4aa7742a.zip"
+groups = ["dev"]
+metadata = { RemoteHash = "16077587d5188449819a465c7b2065934653f80e36710da911ae238f772b36d1", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4, progress@1.2.3=ea2b079b894de85c3ab12088c9c52aec06432245047a961d5b4b8aa6889f9276" }
 
 [[targets.packages]]
 package = "base64enc"
@@ -5961,6 +6425,32 @@ groups = [
 metadata = { RemoteHash = "f7fab8ae670d18a4b91409d11e4275b565c4081d77c4522443d01f94a8c2acee" }
 
 [[targets.packages]]
+package = "bslib"
+version = "0.12.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "sass",
+    "mime",
+    "htmltools",
+    "jquerylib",
+    "cachem",
+    "base64enc",
+    "fastmap",
+    "jsonlite",
+    "lifecycle",
+    "memoise",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2026-08-04/bin/windows/contrib/4.6/bslib_0.12.0.zip"]
+target = "bin/windows/4.6/bslib_0.12.0-d8cbac28.zip"
+groups = [
+    "dev",
+    "website",
+]
+metadata = { RemoteHash = "26fc11793dc1fdccd6d8d2fc1d638c29c47aa0c2e5cbadc6a35af3819f5446d1" }
+
+[[targets.packages]]
 package = "rappdirs"
 version = "0.3.4"
 binary = true
@@ -5973,6 +6463,20 @@ groups = [
     "website",
 ]
 metadata = { RemoteHash = "2320ebc9ef3b1a32a1e63f94a6ce2c1c34d66782221a6531e786804f681abc66" }
+
+[[targets.packages]]
+package = "plater"
+version = "1.0.5"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "dplyr",
+    "rlang",
+]
+sources = ["https://p3m.dev/cran/2024-10-26/bin/windows/contrib/4.6/plater_1.0.5.zip"]
+target = "bin/windows/4.6/plater_1.0.5-c609e584.zip"
+groups = ["dev"]
+metadata = { RemoteHash = "744c74513a8c3b9b3ef163b8386d7a4240eab130eb6f24a772491d63d6856c15" }
 
 [[targets.packages]]
 package = "highr"
@@ -6010,7 +6514,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = []
 sources = ["https://p3m.dev/cran/2023-09-25/bin/windows/contrib/4.6/prettyunits_1.2.0.zip"]
 target = "bin/windows/4.6/prettyunits_1.2.0-a9c78d7c.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f059f27e2a5c82e351fe05b87ad712f7afc273c651450453f59d99af5deeacea" }
 
 [[targets.packages]]
@@ -6049,7 +6556,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2023-08-28/bin/windows/contrib/4.6/snakecase_0.11.1.zip"]
 target = "bin/windows/4.6/snakecase_0.11.1-de62b102.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "2a5f9791337ca42e392f23fb873eb44f74810583e9aa7c62fda2f28f9e750821" }
 
 [[targets.packages]]
@@ -6105,7 +6615,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2026-02-05/bin/windows/contrib/4.6/lubridate_1.9.5.zip"]
 target = "bin/windows/4.6/lubridate_1.9.5-8a38b048.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "0bc5d10e5a34285d4f9e9c572c058c386b9e1515d8faebc1496b2680138280a8" }
 
 [[targets.packages]]
@@ -6257,6 +6770,35 @@ groups = [
 metadata = { RemoteHash = "4589f8b72291329e70b7f3a8c20f2feb4e7764eebad2e6976bc9a3eee7686ce9" }
 
 [[targets.packages]]
+package = "cellranger"
+version = "1.1.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "rematch",
+    "tibble",
+]
+sources = ["https://p3m.dev/cran/2017-10-10/bin/windows/contrib/4.6/cellranger_1.1.0.zip"]
+target = "bin/windows/4.6/cellranger_1.1.0-0f3ab431.zip"
+groups = ["dev"]
+metadata = { RemoteHash = "5d38f288c752bbb9cea6ff830b8388bdd65a8571fd82d8d96064586bd588cf99" }
+
+[[targets.packages]]
+package = "rlang"
+version = "1.3.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-07-06/bin/windows/contrib/4.6/rlang_1.3.0.zip"]
+target = "bin/windows/4.6/rlang_1.3.0-cd54cc8f.zip"
+groups = [
+    "dev",
+    "main",
+    "website",
+]
+metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
+
+[[targets.packages]]
 package = "testthat"
 version = "3.3.2"
 binary = true
@@ -6283,21 +6825,6 @@ sources = ["https://p3m.dev/cran/2026-01-12/bin/windows/contrib/4.6/testthat_3.3
 target = "bin/windows/4.6/testthat_3.3.2-361a7773.zip"
 groups = ["dev"]
 metadata = { RemoteHash = "5d2e2fa2c3dcb523afb6898c02be9544c24c1c7e0789149c436fef768a409808" }
-
-[[targets.packages]]
-package = "rlang"
-version = "1.3.0"
-binary = true
-platform = "x86_64-w64-mingw32"
-dependencies = []
-sources = ["https://p3m.dev/cran/2026-07-06/bin/windows/contrib/4.6/rlang_1.3.0.zip"]
-target = "bin/windows/4.6/rlang_1.3.0-cd54cc8f.zip"
-groups = [
-    "dev",
-    "main",
-    "website",
-]
-metadata = { RemoteHash = "80aa537d49e72265f443a15e8936128af583caa5e572086518b503cbf064279c" }
 
 [[targets.packages]]
 package = "brio"
@@ -6360,7 +6887,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/windows/contrib/4.6/timechange_0.4.0.zip"]
 target = "bin/windows/4.6/timechange_0.4.0-9778888d.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "6dc8ff9d339d3c4cff7ddf3800383f3e94f41c021f6c7bacccf971e187f73feb", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -6388,7 +6918,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = ["cpp11"]
 sources = ["https://p3m.dev/cran/2026-05-07/bin/windows/contrib/4.6/tzdb_0.5.0.zip"]
 target = "bin/windows/4.6/tzdb_0.5.0-0d46c210.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "380d5237dbfa722fddb7d1d9ad8520a2b26331dbbb77d51850ded332fcf347db", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
 
 [[targets.packages]]
@@ -6453,7 +6986,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = []
 sources = ["https://p3m.dev/cran/2026-05-26/bin/windows/contrib/4.6/clipr_0.8.1.zip"]
 target = "bin/windows/4.6/clipr_0.8.1-4322ae0a.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "06e87a9c387da33f4ce8de91d037c090b924689b5ff487d3c0c7506bd4c3f1b6" }
 
 [[targets.packages]]
@@ -6464,7 +7000,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = []
 sources = ["https://p3m.dev/cran/2025-03-07/bin/windows/contrib/4.6/bit_4.6.0.zip"]
 target = "bin/windows/4.6/bit_4.6.0-a639bb1d.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
 
 [[targets.packages]]
@@ -6492,7 +7031,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = ["bit"]
 sources = ["https://p3m.dev/cran/2026-09-02/bin/windows/contrib/4.6/bit64_4.8.6.zip"]
 target = "bin/windows/4.6/bit64_4.8.6-8edb959f.zip"
-groups = ["main"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
 
 [[targets.packages]]
@@ -6521,6 +7063,7 @@ dependencies = [
     "glue",
     "janitor",
     "lifecycle",
+    "pillar",
     "purrr",
     "readr",
     "rlang",
@@ -6528,9 +7071,10 @@ dependencies = [
     "stringr",
     "tibble",
     "tidyr",
+    "vctrs",
 ]
 sources = ["file:///Users/brady/git/r/chromr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "489d1c61eac4e1484285f7cb196b86ea0a54868458d9df06a01089674a7ef24a", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }
+metadata = { RemoteSha = "6b9379e914144dd8cc576b855d8f23da79648842b08dcb761811572619387d34", RemoteType = "local", RemoteUrl = "/Users/brady/git/r/chromr" }

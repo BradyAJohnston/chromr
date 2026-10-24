@@ -101,7 +101,7 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     data$volume <- stats::approx(unique(data$volume), n = nrow(data))$y
   }
 
-  order_traces(data)
+  tidy_traces(data)
 }
 
 

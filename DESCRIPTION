@@ -20,18 +20,23 @@ Imports:
     glue,
     janitor,
     lifecycle,
+    pillar,
     purrr,
     readr,
     rlang (>= 1.1.0),
     scales,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    vctrs
 Suggests: 
     covr,
     plotly,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    wellr (>= 0.4.0)
+Remotes: 
+    BradyAJohnston/wellr
 Config/Needs/website: quarto
 Config/roxygen2/version: 8.1.1
 Config/testthat/edition: 3

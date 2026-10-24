@@ -136,7 +136,7 @@ chrom_plot_fractions <- function(
   if (fractions_present) {
     lab_data <- data |>
       dplyr::filter(
-        .data$fraction != 0,
+        is_collected(.data$fraction),
         .data$fraction %in% frac_numbers,
         .data$fraction %% frac_labelling == 0,
         wl_number(.data$wl) %in% wl_frac
@@ -149,7 +149,7 @@ chrom_plot_fractions <- function(
         position = "identity",
         data = dplyr::filter(
           data,
-          .data$fraction != 0,
+          is_collected(.data$fraction),
           wl_number(.data$wl) %in% wl_frac,
           .data$fraction %in% frac_numbers
         ),

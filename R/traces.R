@@ -41,8 +41,12 @@ trace_wavelength <- function(name, unit) {
   as.numeric(dplyr::coalesce(nm, uv))
 }
 
-# Puts the standard columns first: time, volume, fraction, then absorbance.
-order_traces <- function(data) {
+# Gives the standard columns their types, and puts them first: time, volume,
+# fraction, then absorbance.
+tidy_traces <- function(data) {
+  if ("fraction" %in% names(data)) {
+    data$fraction <- fraction(data$fraction)
+  }
   absorbance <- stringr::str_subset(names(data), "^(a\\d+|uv)$")
   dplyr::relocate(
     data,
@@ -88,7 +92,7 @@ combine_traces <- function(traces) {
     }
   }
 
-  order_traces(tibble::as_tibble(out))
+  tidy_traces(tibble::as_tibble(out))
 }
 
 interpolate_trace <- function(trace, volume) {
