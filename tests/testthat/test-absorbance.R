@@ -102,7 +102,7 @@ test_that("pivoting keeps the unit and gets back the wavelengths", {
   long <- pivot_wl_longer(dat)
   expect_equal(absorbance_unit(long$abs), "AU")
   expect_equal(unique(long$wl), c("a280", "a260", "a550", "a650", "uv"))
-  expect_equal(pivot_wl_wider(long)[names(dat)], dat)
+  expect_equal(pivot_wl_wider(long)[names(dat)], as_plain_tibble(dat))
 })
 
 test_that("plots label absorbance with its unit", {

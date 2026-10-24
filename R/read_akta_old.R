@@ -45,7 +45,8 @@
 #'   each fraction is given by the next mark.
 #' @inheritSection chrom_read_quadtech Columns
 #'
-#' @return a [tibble][tibble::tibble-package]
+#' @return A chromatogram: a [tibble][tibble::tibble-package] with the run's
+#'   metadata, see [chrom_meta()].
 #' @export
 #'
 #' @examples
@@ -97,7 +98,12 @@ read_akta_old <- function(file, fraction_size = deprecated()) {
     x
   })
 
-  combine_traces(traces)
+  combine_traces(
+    traces,
+    instrument = "\u00c4KTA",
+    run = stringr::str_remove(prefix, "_$"),
+    file = file
+  )
 }
 
 akta_encoding <- function(file) {

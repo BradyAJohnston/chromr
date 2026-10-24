@@ -50,10 +50,11 @@ trace_wavelength <- function(name, unit) {
   as.numeric(dplyr::coalesce(nm, uv))
 }
 
-# Gives the standard columns their types, and puts them first: time, volume,
-# fraction, then absorbance. `units` are the instrument's units for each
-# column, named by column.
-tidy_traces <- function(data, units) {
+# Gives the standard columns their types, puts them first (time, volume,
+# fraction, then absorbance), and makes a chromatogram. `units` are the
+# instrument's units for each column, named by column, and `...` the other
+# metadata for `chrom_meta_list()`.
+tidy_traces <- function(data, units, ...) {
   if ("fraction" %in% names(data)) {
     data$fraction <- fraction(data$fraction)
   }
@@ -65,23 +66,33 @@ tidy_traces <- function(data, units) {
       unit = absorbance_unit_from(units[[col]])
     )
   }
-  dplyr::relocate(
+  data <- dplyr::relocate(
     data,
     dplyr::any_of(c("time", "volume", "fraction")),
     dplyr::all_of(absorbance)
+  )
+  other <- setdiff(names(data), c(absorbance, "fraction"))
+  units <- unlist(units)[intersect(other, names(units))]
+  if ("volume" %in% other) {
+    units[["volume"]] <- "mL"
+  }
+  new_chrom(
+    data,
+    chrom_meta_list(units = units[intersect(other, names(units))], ...)
   )
 }
 
 # Combines traces that were each recorded at their own volumes, as NGC and
 # ÄKTA exports are, into one row per volume. `traces` is a list of lists with
-# the elements `name`, `unit`, `volume` and `value`.
+# the elements `name`, `unit`, `volume` and `value`, with volumes in mL.
+# `...` is the metadata for `chrom_meta_list()`.
 #
 # The volumes are those of the first absorbance trace, or otherwise the trace
 # with the most points; the other traces are interpolated onto them. Fraction
 # marks give the fraction each volume was collected into: the last mark at or
 # before it, or `NA` before the first mark and after a mark that isn't a
 # fraction number, such as "Waste".
-combine_traces <- function(traces) {
+combine_traces <- function(traces, ...) {
   columns <- purrr::map_chr(traces, \(x) trace_column(x$name, x$unit))
   is_fraction <- columns == "fraction"
 
@@ -111,7 +122,7 @@ combine_traces <- function(traces) {
     }
   }
 
-  tidy_traces(tibble::as_tibble(out), units)
+  tidy_traces(tibble::as_tibble(out), units, ...)
 }
 
 interpolate_trace <- function(trace, volume) {

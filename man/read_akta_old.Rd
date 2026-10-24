@@ -13,7 +13,8 @@ read_akta_old(file, fraction_size = deprecated())
 each fraction is given by the next mark.}
 }
 \value{
-a \link[tibble:tibble-package]{tibble}
+A chromatogram: a \link[tibble:tibble-package]{tibble} with the run's
+metadata, see \code{\link[=chrom_meta]{chrom_meta()}}.
 }
 \description{
 Each trace in an ÄKTA export is recorded at its own volumes. The traces are
@@ -28,14 +29,18 @@ The readers all give one row per sampled point, with the columns the
 instrument recorded:
 \itemize{
 \item \code{time}, in seconds, when the instrument records it, and \code{volume}, in mL.
-\item \code{fraction}, the fraction each row was collected into, or 0 or \code{NA} when
-it wasn't collected.
+\item \code{fraction}, the fraction each row was collected into, or \code{NA} when it
+wasn't collected.
 \item Absorbance, named after its wavelength in nm, such as \code{a280}, or \code{uv} when
 the instrument doesn't record the wavelength.
 \item The other traces under standard names: \code{conductivity},
 \code{conductivity_percent}, \code{percent_b}, \code{pressure}, \code{flow} and
 \code{temperature}.
 }
+
+\code{fraction} is a \link{fraction} vector and the absorbance columns are
+\link{absorbance} vectors, which record their wavelength and unit. The units of
+the other columns are in \code{\link[=chrom_meta]{chrom_meta()}}.
 }
 
 \examples{

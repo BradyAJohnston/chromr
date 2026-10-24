@@ -7,7 +7,8 @@
 #' @param file File path to the `.csv` file.
 #' @param skip Number of lines to skip before begin reading. Usually 1 line.
 #' @inheritSection chrom_read_quadtech Columns
-#' @return a [tibble][tibble::tibble-package]
+#' @return A chromatogram: a [tibble][tibble::tibble-package] with the run's
+#'   metadata, see [chrom_meta()].
 #' @export
 #'
 #' @examples
@@ -32,6 +33,13 @@ chrom_read_ngc <- function(file, skip = 1) {
     col_types = readr::cols(.default = "d")
   )
 
+  run <- if (skip > 0) {
+    first <- readr::read_lines(file, n_max = 1)
+    stringr::str_extract(first, "^[^,]*")
+  } else {
+    NA_character_
+  }
+
   # Columns come in pairs: "<trace>_volume" and "<trace>_<unit>".
   traces <- purrr::map(seq(1, length(header), by = 2), \(i) {
     list(
@@ -42,7 +50,7 @@ chrom_read_ngc <- function(file, skip = 1) {
     )
   })
 
-  combine_traces(traces)
+  combine_traces(traces, instrument = "BioRad NGC", run = run, file = file)
 }
 
 #' Read BioRad QuadTech Chromatogram Files
@@ -56,15 +64,20 @@ chrom_read_ngc <- function(file, skip = 1) {
 #' instrument recorded:
 #'
 #' * `time`, in seconds, when the instrument records it, and `volume`, in mL.
-#' * `fraction`, the fraction each row was collected into, or 0 or `NA` when
-#'   it wasn't collected.
+#' * `fraction`, the fraction each row was collected into, or `NA` when it
+#'   wasn't collected.
 #' * Absorbance, named after its wavelength in nm, such as `a280`, or `uv` when
 #'   the instrument doesn't record the wavelength.
 #' * The other traces under standard names: `conductivity`,
 #'   `conductivity_percent`, `percent_b`, `pressure`, `flow` and
 #'   `temperature`.
 #'
-#' @return a [tibble][tibble::tibble-package]
+#' `fraction` is a [fraction] vector and the absorbance columns are
+#' [absorbance] vectors, which record their wavelength and unit. The units of
+#' the other columns are in [chrom_meta()].
+#'
+#' @return A chromatogram: a [tibble][tibble::tibble-package] with the run's
+#'   metadata, see [chrom_meta()].
 #' @export
 #'
 #' @examples
@@ -103,7 +116,19 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     data$volume <- stats::approx(unique(data$volume), n = nrow(data))$y
   }
 
-  tidy_traces(data, units)
+  info <- function(name) {
+    value <- channels$unit[channels$name == name]
+    if (length(value) == 0) NA_character_ else value[[1]]
+  }
+  tidy_traces(
+    data,
+    units,
+    instrument = "BioRad QuadTec",
+    run = info("Run Name"),
+    date = stringr::str_squish(info("Run Date")),
+    method = info("Method Name"),
+    file = file
+  )
 }
 
 
@@ -176,7 +201,11 @@ chrom_add_volume <-
   function(.data, flow_rate = 0.5, time = "second") {
     time_adjust <- switch(time, "second" = 60, "minute" = 1, "hour" = 1 / 60)
 
-    .data |>
+    out <- .data |>
       dplyr::mutate(volume = .data$time / time_adjust * flow_rate) |>
       dplyr::select("time", "volume", dplyr::everything())
+    if (!is.null(chrom_meta(out))) {
+      attr(out, "chrom_meta")$units[["volume"]] <- "mL"
+    }
+    out
   }

@@ -14,6 +14,8 @@
 #'
 #' @return a [tibble][tibble::tibble-package] which combines the given runs,
 #'   with a `run` column giving the number of the run each row comes from.
+#'   If all the runs are chromatograms, it is a chromatogram whose metadata has
+#'   the run, date, method and file of each run; see [chrom_meta()].
 #' @export
 #'
 #' @examples
@@ -58,8 +60,11 @@ chrom_append_run <- function(.data, ..., adjust_fractions = FALSE) {
     runs[[i]] <- run
   }
 
-  dplyr::bind_rows(runs, .id = "run") |>
+  meta <- chrom_meta_append(runs)
+  runs <- purrr::map(runs, as_plain_tibble)
+  out <- dplyr::bind_rows(runs, .id = "run") |>
     dplyr::mutate(run = as.numeric(.data$run))
+  if (is.null(meta)) out else new_chrom(out, meta)
 }
 
 # Rows collected into a fraction: instruments record 0 or NA when they aren't

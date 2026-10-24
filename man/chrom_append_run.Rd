@@ -20,6 +20,8 @@ they are.}
 \value{
 a \link[tibble:tibble-package]{tibble} which combines the given runs,
 with a \code{run} column giving the number of the run each row comes from.
+If all the runs are chromatograms, it is a chromatogram whose metadata has
+the run, date, method and file of each run; see \code{\link[=chrom_meta]{chrom_meta()}}.
 }
 \description{
 Joins runs end to end: the time and volume of each run continue from the end
