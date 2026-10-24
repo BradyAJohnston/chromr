@@ -4,19 +4,40 @@
 \alias{read_akta_old}
 \title{Read a .asc chromatogram from an old AKTA Pure}
 \usage{
-read_akta_old(file, fraction_size = 2)
+read_akta_old(file, fraction_size = deprecated())
 }
 \arguments{
 \item{file}{Filepath to read}
 
-\item{fraction_size}{Currently unused.}
+\item{fraction_size}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Not used: the end of
+each fraction is given by the next mark.}
 }
 \value{
 a \link[tibble:tibble-package]{tibble}
 }
 \description{
-Read a .asc chromatogram from an old AKTA Pure
+Each trace in an ÄKTA export is recorded at its own volumes. The traces are
+combined into one row per volume of the UV trace, and the other traces are
+interpolated onto those volumes. The fraction marks give the fraction of
+each row; rows before the first mark, or after a mark such as "Waste", have
+no fraction. Injection marks and the logbook are dropped.
 }
+\section{Columns}{
+
+The readers all give one row per sampled point, with the columns the
+instrument recorded:
+\itemize{
+\item \code{time}, in seconds, when the instrument records it, and \code{volume}, in mL.
+\item \code{fraction}, the fraction each row was collected into, or 0 or \code{NA} when
+it wasn't collected.
+\item Absorbance, named after its wavelength in nm, such as \code{a280}, or \code{uv} when
+the instrument doesn't record the wavelength.
+\item The other traces under standard names: \code{conductivity},
+\code{conductivity_percent}, \code{percent_b}, \code{pressure}, \code{flow} and
+\code{temperature}.
+}
+}
+
 \examples{
 fl <- system.file('extdata', 'example_akta_2.asc', package = 'chromr')
 

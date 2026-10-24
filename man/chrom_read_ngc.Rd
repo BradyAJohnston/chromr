@@ -15,8 +15,26 @@ chrom_read_ngc(file, skip = 1)
 a \link[tibble:tibble-package]{tibble}
 }
 \description{
-Read .csv Chromatogram from the BioRad NGC
+Each trace in an NGC export is recorded at its own volumes. The traces are
+combined into one row per volume of the first absorbance trace, and the
+other traces are interpolated onto those volumes.
 }
+\section{Columns}{
+
+The readers all give one row per sampled point, with the columns the
+instrument recorded:
+\itemize{
+\item \code{time}, in seconds, when the instrument records it, and \code{volume}, in mL.
+\item \code{fraction}, the fraction each row was collected into, or 0 or \code{NA} when
+it wasn't collected.
+\item Absorbance, named after its wavelength in nm, such as \code{a280}, or \code{uv} when
+the instrument doesn't record the wavelength.
+\item The other traces under standard names: \code{conductivity},
+\code{conductivity_percent}, \code{percent_b}, \code{pressure}, \code{flow} and
+\code{temperature}.
+}
+}
+
 \examples{
 fl <- system.file(
   "extdata",

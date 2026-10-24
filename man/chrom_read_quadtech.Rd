@@ -7,7 +7,7 @@
 chrom_read_quadtech(file, interp_volume = TRUE)
 }
 \arguments{
-\item{file}{Exported \code{.TXT} chromatogram file from the BioRad QuadTech.}
+\item{file}{Exported \code{.TXT} chromatogram file from the BioRad QuadTec.}
 
 \item{interp_volume}{Logical. If TRUE, interpolates the values in the volume
 column based on the values in the time column.}
@@ -18,6 +18,22 @@ a \link[tibble:tibble-package]{tibble}
 \description{
 Read BioRad QuadTech Chromatogram Files
 }
+\section{Columns}{
+
+The readers all give one row per sampled point, with the columns the
+instrument recorded:
+\itemize{
+\item \code{time}, in seconds, when the instrument records it, and \code{volume}, in mL.
+\item \code{fraction}, the fraction each row was collected into, or 0 or \code{NA} when
+it wasn't collected.
+\item Absorbance, named after its wavelength in nm, such as \code{a280}, or \code{uv} when
+the instrument doesn't record the wavelength.
+\item The other traces under standard names: \code{conductivity},
+\code{conductivity_percent}, \code{percent_b}, \code{pressure}, \code{flow} and
+\code{temperature}.
+}
+}
+
 \examples{
 fl <- system.file("extdata",
   "example_quadtec_3.txt",

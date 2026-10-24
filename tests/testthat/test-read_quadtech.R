@@ -164,7 +164,9 @@ test_that("read quadtech file with volume", {
       -1.8e-05,
       -0.000128,
       0.004128
-    )
+    ) |>
+      dplyr::rename(uv = au, conductivity = m_s_cm, pressure = psi) |>
+      dplyr::relocate(time, volume, a280, a260, a550, a650, uv)
   )
 
   expect_equal(
@@ -250,6 +252,8 @@ test_that("read quadtech file with volume", {
       -1.8e-05,
       -0.000128,
       0.004128
-    )
+    ) |>
+      dplyr::rename(uv = au, conductivity = m_s_cm, pressure = psi) |>
+      dplyr::relocate(time, volume, a280, a260, a550, a650, uv)
   )
 })

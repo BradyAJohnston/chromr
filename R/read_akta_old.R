@@ -32,31 +32,18 @@
   }
 }
 
-.split_columns <- function(.data) {
-  purrr::map(seq(1, ncol(.data), by = 2), \(x) {
-    .data[, c(x, x + 1)]
-  })
-}
-
-
-read_the_file <- function(file) {
-  info_lines <- readr::read_lines(file, n_max = 3) |>
-    stringr::str_split(pattern = "\t")
-
-  unit_lines <- info_lines[[3]]
-
-  info <- info_lines[[2]] |>
-    unlist() |>
-    stringr::str_split(pattern = " ") |>
-    purrr::map(\(x) x[length(x)]) |>
-    unlist()
-
-  readr::read_tsv(file, skip = 3, col_names = info)
-}
 #' Read a .asc chromatogram from an old AKTA Pure
 #'
+#' Each trace in an ÄKTA export is recorded at its own volumes. The traces are
+#' combined into one row per volume of the UV trace, and the other traces are
+#' interpolated onto those volumes. The fraction marks give the fraction of
+#' each row; rows before the first mark, or after a mark such as "Waste", have
+#' no fraction. Injection marks and the logbook are dropped.
+#'
 #' @param file Filepath to read
-#' @param fraction_size Currently unused.
+#' @param fraction_size `r lifecycle::badge("deprecated")` Not used: the end of
+#'   each fraction is given by the next mark.
+#' @inheritSection chrom_read_quadtech Columns
 #'
 #' @return a [tibble][tibble::tibble-package]
 #' @export
@@ -65,57 +52,55 @@ read_the_file <- function(file) {
 #' fl <- system.file('extdata', 'example_akta_2.asc', package = 'chromr')
 #'
 #' read_akta_old(fl)
-read_akta_old <- function(file, fraction_size = 2) {
-  raw_dat <- read_the_file(file) |>
-    janitor::clean_names()
+read_akta_old <- function(file, fraction_size = deprecated()) {
+  if (lifecycle::is_present(fraction_size)) {
+    lifecycle::deprecate_warn(
+      "0.3.0",
+      "read_akta_old(fraction_size)",
+      details = "The end of each fraction is given by the next mark."
+    )
+  }
 
-  bad_columns <-
-    which(stringr::str_detect(colnames(raw_dat), "logbook|inject"))
+  locale <- readr::locale(encoding = akta_encoding(file))
+  header <- readr::read_lines(file, skip = 1, n_max = 2, locale = locale) |>
+    stringr::str_split("\t")
+  dat <- readr::read_tsv(
+    file,
+    skip = 3,
+    col_names = FALSE,
+    col_types = readr::cols(.default = "c"),
+    locale = locale,
+    trim_ws = TRUE
+  )
 
-  raw_dat[, -c(bad_columns, bad_columns + 1)] |>
+  # Columns come in pairs, volume then value, named "<run>_<trace>" with the
+  # unit of each column on the line below.
+  starts <- seq(1, length(header[[1]]) - 1, by = 2)
+  labels <- header[[1]][starts]
+  prefix <- stringr::str_extract(.find_common_start(labels), "^.*_")
+  traces <- purrr::map(starts, \(i) {
+    list(
+      name = stringr::str_remove(header[[1]][[i]], stringr::fixed(prefix)),
+      unit = header[[2]][[i + 1]],
+      volume = as.numeric(dat[[i]]),
+      value = dat[[i + 1]]
+    )
+  })
+  names <- purrr::map_chr(traces, "name")
+  traces <- traces[!stringr::str_detect(names, "(?i)inject|logbook")]
+  is_fraction <- stringr::str_detect(
+    purrr::map_chr(traces, "name"),
+    "(?i)^fraction"
+  )
+  traces[!is_fraction] <- purrr::map(traces[!is_fraction], \(x) {
+    x$value <- as.numeric(x$value)
+    x
+  })
 
-    .split_columns() |>
-    purrr::map(\(x) {
-      name <- colnames(x)[1]
-      colnames(x) <- c("volume", name)
-      janitor::clean_names(x) |>
-        dplyr::mutate(id = dplyr::row_number()) |>
-        tidyr::pivot_longer(-c('volume', 'id'), values_transform = as.numeric)
-    }) |>
-    dplyr::bind_rows() |>
-    tidyr::drop_na() -> dat
+  combine_traces(traces)
+}
 
-  # cleanup names
-  dat$name <-
-    stringr::str_remove(dat$name, .find_common_start(dat$name))
-
-  fractions <- dat |>
-    dplyr::filter(stringr::str_detect(.data$name, "fraction"))
-
-  # get the volumes for starting and ending fractions,
-  # adding in the final stop which will be usually 2ml + last start volume
-  volumes <- fractions$volume
-  n <- length(volumes)
-  fraction_breaks <-
-    c(volumes, volumes[n] + (volumes[n] - volumes[n - 1]))
-
-  dat <-
-    dplyr::filter(
-      dat,
-      stringr::str_detect(.data$name, "fraction", negate = TRUE)
-    ) |>
-    dplyr::mutate(
-      volume = mean(.data$volume),
-      fraction = as.numeric(
-        cut(
-          .data$volume,
-          breaks = fraction_breaks,
-          labels = fractions$id,
-          include.lowest = TRUE
-        )
-      ),
-      .by = "id"
-    ) |>
-    dplyr::select(-"id") |>
-    tidyr::pivot_wider(values_from = 'value', names_from = 'name')
+akta_encoding <- function(file) {
+  guess <- readr::guess_encoding(file, n_max = 3)$encoding
+  if (length(guess) == 0 || guess[[1]] == "ASCII") "UTF-8" else guess[[1]]
 }

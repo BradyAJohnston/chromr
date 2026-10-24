@@ -1,8 +1,12 @@
 #' Read .csv Chromatogram from the BioRad NGC
 #'
+#' Each trace in an NGC export is recorded at its own volumes. The traces are
+#' combined into one row per volume of the first absorbance trace, and the
+#' other traces are interpolated onto those volumes.
+#'
 #' @param file File path to the `.csv` file.
 #' @param skip Number of lines to skip before begin reading. Usually 1 line.
-#' @importFrom rlang .data
+#' @inheritSection chrom_read_quadtech Columns
 #' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
@@ -17,32 +21,49 @@
 #' dat
 #'
 chrom_read_ngc <- function(file, skip = 1) {
-  dat <- readr::read_csv(file = file, skip = skip, col_types = readr::cols())
+  check_number_whole(skip, min = 0)
+  header <- readr::read_lines(file, skip = skip, n_max = 1)
+  header <- readr::read_csv(I(header), col_names = FALSE, col_types = "c")
+  header <- unlist(header, use.names = FALSE)
+  dat <- readr::read_csv(
+    file,
+    skip = skip + 1,
+    col_names = FALSE,
+    col_types = readr::cols(.default = "d")
+  )
 
-  dat <- janitor::clean_names(dat)
+  # Columns come in pairs: "<trace>_volume" and "<trace>_<unit>".
+  traces <- purrr::map(seq(1, length(header), by = 2), \(i) {
+    list(
+      name = stringr::str_remove(header[[i + 1]], "_[^_]*$"),
+      unit = stringr::str_extract(header[[i + 1]], "[^_]*$"),
+      volume = dat[[i]],
+      value = dat[[i + 1]]
+    )
+  })
 
-  dat <- dat |>
-    dplyr::mutate(id = dplyr::row_number()) |>
-    tidyr::pivot_longer(-"id") |>
-    dplyr::mutate(
-      type = stringr::str_extract(.data$name, "^[^\\_]+"),
-      volume = stringr::str_detect(.data$name, "volume")
-    ) |>
-    dplyr::group_by(.data$type, .data$id) |>
-    dplyr::mutate(volume = dplyr::if_else(.data$volume, .data$value, NaN)) |>
-    tidyr::fill("volume") |>
-    dplyr::filter(stringr::str_detect(.data$name, "volume", negate = TRUE)) |>
-    dplyr::select("volume", "type", "value", "name")
-
-  dat
+  combine_traces(traces)
 }
 
 #' Read BioRad QuadTech Chromatogram Files
 #'
-#' @param file Exported `.TXT` chromatogram file from the BioRad QuadTech.
+#' @param file Exported `.TXT` chromatogram file from the BioRad QuadTec.
 #' @param interp_volume Logical. If TRUE, interpolates the values in the volume
 #'   column based on the values in the time column.
-#' @importFrom rlang .data
+#'
+#' @section Columns:
+#' The readers all give one row per sampled point, with the columns the
+#' instrument recorded:
+#'
+#' * `time`, in seconds, when the instrument records it, and `volume`, in mL.
+#' * `fraction`, the fraction each row was collected into, or 0 or `NA` when
+#'   it wasn't collected.
+#' * Absorbance, named after its wavelength in nm, such as `a280`, or `uv` when
+#'   the instrument doesn't record the wavelength.
+#' * The other traces under standard names: `conductivity`,
+#'   `conductivity_percent`, `percent_b`, `pressure`, `flow` and
+#'   `temperature`.
+#'
 #' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
@@ -63,72 +84,44 @@ chrom_read_ngc <- function(file, skip = 1) {
 #'   chrom_read_quadtech() |>
 #'   chrom_plot()
 chrom_read_quadtech <- function(file, interp_volume = TRUE) {
+  check_bool(interp_volume)
   start_line <- chrom_find_data_start_line(file, n_lines = 50)
 
   data <- readr::read_csv(
     file = file,
     skip = start_line - 2,
     col_types = readr::cols()
-  ) |>
-    rename_columns()
+  )
 
-  met <- chrom_get_meta_quadtech(file, start_line = start_line)
+  channels <- chrom_get_meta_quadtech(file, start_line = start_line)
+  units <- channels$unit[match(names(data), channels$name)]
+  names(data) <- trace_column(names(data), dplyr::coalesce(units, ""))
 
-  wavelengths <- met |>
-    dplyr::filter(stringr::str_detect(.data$meta, "Quad")) |>
-    dplyr::mutate(
-      wl = as.numeric(stringr::str_extract(.data$value, "\\d{3}")),
-      channel = as.numeric(stringr::str_extract(.data$meta, "\\d$"))
-    )
-
-  volume_present <- check_column_exist(data, "volume")
-  fraction_present <- check_column_exist(data, "fraction")
-
-  if (interp_volume & volume_present) {
-    data <- data |>
-      dplyr::mutate(
-        volume = stats::approx(unique(.data$volume), n = nrow(data))$y
-      )
+  if (interp_volume && "volume" %in% names(data)) {
+    data$volume <- stats::approx(unique(data$volume), n = nrow(data))$y
   }
 
-  col_names <- dplyr::pull(met, .data$value, .data$meta)
-
-  data <- data |>
-    dplyr::rename_with(
-      .fn = ~ col_names[.x],
-      .cols = dplyr::any_of(names(col_names))
-    ) |>
-    janitor::clean_names() |>
-    dplyr::rename_with(
-      ~ paste0("a", stringr::str_extract(.x, "\\d{1,3}")),
-      .cols = dplyr::matches("nm_au")
-    ) |>
-    dplyr::select(-dplyr::matches("a\\d{1,3}"), dplyr::everything())
-
-  data
+  order_traces(data)
 }
 
 
-#' Reads Metadata from QuadTech Chromatogram
+#' Reads the Channels of a QuadTech Chromatogram
 #'
 #' @param file Path to the chromatogram file.
 #' @param start_line Start of the data and thus end of the metadata. Determined
 #'   with `chromr::chrom_find_data_start_line()`
 #'
-#' @return a [tibble][tibble::tibble-package]
+#' @return a [tibble][tibble::tibble-package] with the `name` and `unit` of
+#'   each channel, such as "QuadTec 1" and "(280.0 nm), AU".
+#' @noRd
 chrom_get_meta_quadtech <- function(file, start_line) {
-  met <-
-    purrr::quietly(readr::read_csv)(
-      file,
-      n_max = start_line - 3,
-      col_names = FALSE,
-      col_types = readr::cols()
-    )
+  lines <- readr::read_lines(file, n_max = start_line - 2)
+  lines <- stringr::str_split_fixed(lines, ",", 2)
 
-  met <- met$result |>
-    dplyr::rename(meta = 1, value = 2)
-
-  met
+  tibble::tibble(
+    name = stringr::str_squish(lines[, 1]),
+    unit = stringr::str_squish(lines[, 2])
+  )
 }
 
 
@@ -142,6 +135,7 @@ chrom_get_meta_quadtech <- function(file, start_line) {
 #' @param n_lines Number of lines to search for the start of the data.
 #'
 #' @return Single integer of the start of the data.
+#' @noRd
 chrom_find_data_start_line <- function(file, n_lines = 50) {
   start_line <- readr::read_lines(file, n_max = n_lines) |>
     stringr::str_trim() |>
