@@ -35,17 +35,19 @@
 #' ggplot(data, aes(x = x, y = y, fraction = frac)) +
 #'   geom_fraction_bars(period = 3, initial = 1, alpha = 0.2)
 #' }
-geom_fraction_bars <- function(mapping = NULL,
-                               data = NULL,
-                               position = "identity",
-                               na.rm = FALSE,
-                               show.legend = FALSE,
-                               alpha = 0.3,
-                               period = 5,
-                               initial = 0L,
-                               lines = NA,
-                               inherit.aes = TRUE,
-                               ...) {
+geom_fraction_bars <- function(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  alpha = 0.3,
+  period = 5,
+  initial = 0L,
+  lines = NA,
+  inherit.aes = TRUE,
+  ...
+) {
   ggplot2::layer(
     stat = StatFraction,
     geom = ggplot2::GeomArea,
@@ -97,17 +99,19 @@ geom_fraction_bars <- function(mapping = NULL,
 #' ggplot(data, aes(x = x, y = y, fraction = frac)) +
 #'   geom_fraction_label(xpos = mean, ypos = max)
 #' }
-geom_fraction_label <- function(mapping = NULL,
-                                data = NULL,
-                                position = "identity",
-                                na.rm = FALSE,
-                                show.legend = NA,
-                                xpos = mean,
-                                ypos = 0,
-                                period = 5,
-                                initial = 0L,
-                                inherit.aes = TRUE,
-                                ...) {
+geom_fraction_label <- function(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  xpos = mean,
+  ypos = 0,
+  period = 5,
+  initial = 0L,
+  inherit.aes = TRUE,
+  ...
+) {
   ggplot2::layer(
     stat = StatFractionGroup,
     geom = ggplot2::GeomLabel,
@@ -143,13 +147,15 @@ geom_fraction_label <- function(mapping = NULL,
 #'
 #' @return A data frame with computed positions and labels.
 #' @keywords internal
-.compute_group_frac <- function(data,
-                                scales,
-                                period = 5,
-                                xpos = mean,
-                                ypos = 0,
-                                lines = NA,
-                                initial = 0L) {
+.compute_group_frac <- function(
+  data,
+  scales,
+  period = 5,
+  xpos = mean,
+  ypos = 0,
+  lines = NA,
+  initial = 0L
+) {
   if (rlang::is_callable(xpos)) {
     xfun <- function(x) {
       xpos(x)
@@ -196,11 +202,13 @@ geom_fraction_label <- function(mapping = NULL,
 #'
 #' @return A data frame with computed groups and fill values.
 #' @keywords internal
-.comput_frac_identity <- function(data,
-                                  scales,
-                                  period = 5,
-                                  initial = 0L,
-                                  lines = NA) {
+.comput_frac_identity <- function(
+  data,
+  scales,
+  period = 5,
+  initial = 0L,
+  lines = NA
+) {
   if (any(is.na(lines)) | !check_column_exist(data, "colour")) {
     mask <- rep(TRUE, nrow(data))
   } else {
@@ -209,8 +217,10 @@ geom_fraction_label <- function(mapping = NULL,
 
   data |>
     dplyr::filter(.data$fraction != 0, mask) |>
-    dplyr::mutate(fill = factor((.data$fraction - initial) %% period),
-                  group = interaction(.data$group, .data$fraction))
+    dplyr::mutate(
+      fill = factor((.data$fraction - initial) %% period),
+      group = interaction(.data$group, .data$fraction)
+    )
 }
 
 #' Fraction Label Stat for ggplot2

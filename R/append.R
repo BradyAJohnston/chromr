@@ -44,18 +44,22 @@ chrom_append_run <- function(.data, ..., adjust_fractions = FALSE) {
       time = dplyr::if_else(
         .data$run == 1,
         .data$time,
-        .data$time + max_values$time[dplyr::if_else(
-          .data$run == 1,
-          1,
-          .data$run - 1)]
+        .data$time +
+          max_values$time[dplyr::if_else(
+            .data$run == 1,
+            1,
+            .data$run - 1
+          )]
       ),
       volume = dplyr::if_else(
         .data$run == 1,
         .data$volume,
-        .data$volume + max_values$volume[dplyr::if_else(
-          .data$run == 1,
-          1,
-          .data$run - 1)]
+        .data$volume +
+          max_values$volume[dplyr::if_else(
+            .data$run == 1,
+            1,
+            .data$run - 1
+          )]
       )
     )
 

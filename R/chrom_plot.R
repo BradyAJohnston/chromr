@@ -21,15 +21,17 @@
 #'   chrom_add_volume(0.3) |>
 #'   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 chrom_plot <-
-  function(data,
-           xlim = NULL,
-           ylim = NULL) {
-    dat <- tidyr::pivot_longer(data, dplyr::matches("a\\d{2,3}"), names_to = "wl")
+  function(data, xlim = NULL, ylim = NULL) {
+    dat <- tidyr::pivot_longer(
+      data,
+      dplyr::matches("a\\d{2,3}"),
+      names_to = "wl"
+    )
 
-      plt <- ggplot2::ggplot(
-        data = dat,
-        ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))
-        ) +
+    plt <- ggplot2::ggplot(
+      data = dat,
+      ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))
+    ) +
       ggplot2::geom_line() +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +
       ggplot2::scale_colour_discrete(
@@ -55,7 +57,7 @@ chrom_plot <-
         colour = "Wavelength (nm)"
       )
 
-      plt
+    plt
   }
 
 #' Plot Chromatogram with Fractions
@@ -90,13 +92,15 @@ chrom_plot <-
 #'
 #' dat <- chrom_append_run(df1, df2)
 #' chrom_plot_fractions(dat, wl_frac = c(280, 488))
-chrom_plot_fractions <- function(data,
-                                 wl_frac = 280,
-                                 fractions = TRUE,
-                                 frac_include = "all",
-                                 frac_labelling = 5,
-                                 frac_text_size = 3,
-                                 frac_text_adjust = 1.3) {
+chrom_plot_fractions <- function(
+  data,
+  wl_frac = 280,
+  fractions = TRUE,
+  frac_include = "all",
+  frac_labelling = 5,
+  frac_text_size = 3,
+  frac_text_adjust = 1.3
+) {
   if (fractions) {
     frac_numbers <- data$fraction
 
@@ -104,14 +108,22 @@ chrom_plot_fractions <- function(data,
       stopifnot(is.numeric(frac_include))
       frac_limits <- length(frac_include)
       if (frac_limits == 2) {
-        frac_numbers <- frac_numbers[frac_numbers >= frac_include[1] & frac_numbers <= frac_include[2]]
+        frac_numbers <- frac_numbers[
+          frac_numbers >= frac_include[1] & frac_numbers <= frac_include[2]
+        ]
       }
     }
   }
 
-  fractions_present <- TRUE %in% stringr::str_detect(colnames(data), "frac") & fractions
+  fractions_present <- TRUE %in%
+    stringr::str_detect(colnames(data), "frac") &
+    fractions
 
-  data <- tidyr::pivot_longer(data, dplyr::matches("a\\d{2,3}"), names_to = "wl")
+  data <- tidyr::pivot_longer(
+    data,
+    dplyr::matches("a\\d{2,3}"),
+    names_to = "wl"
+  )
 
   plt <- ggplot2::ggplot(data, ggplot2::aes(.data$volume, .data$value))
 
@@ -129,9 +141,12 @@ chrom_plot_fractions <- function(data,
     plt <- plt +
       ggplot2::geom_area(
         position = "identity",
-        data = dplyr::filter(data, .data$fraction != 0,
-                             stringr::str_detect(.data$wl, paste(wl_frac, collapse = "|")),
-                             .data$fraction %in% frac_numbers),
+        data = dplyr::filter(
+          data,
+          .data$fraction != 0,
+          stringr::str_detect(.data$wl, paste(wl_frac, collapse = "|")),
+          .data$fraction %in% frac_numbers
+        ),
         ggplot2::aes(
           fill = factor(.data$fraction %% 5),
           group = interaction(.data$fraction, .data$wl)
@@ -162,7 +177,8 @@ chrom_plot_fractions <- function(data,
     ggplot2::scale_colour_discrete(
       labels = function(x) stringr::str_extract(x, "\\d{3}"),
     ) +
-    ggplot2::scale_fill_manual( # values = RColorBrewer::brewer.pal(7, "Greys")[2:6]
+    ggplot2::scale_fill_manual(
+      # values = RColorBrewer::brewer.pal(7, "Greys")[2:6]
       values = grDevices::gray(seq(0.85, 0.65, length.out = 5))
     ) +
     # theme_bw(base_size = 20) +
@@ -170,6 +186,9 @@ chrom_plot_fractions <- function(data,
     ggplot2::theme(
       legend.position = c(0.05, 0.95),
       legend.justification = c(0, 1),
-      legend.background = ggplot2::element_rect(colour = "gray30", linewidth = 0.8)
+      legend.background = ggplot2::element_rect(
+        colour = "gray30",
+        linewidth = 0.8
+      )
     )
 }

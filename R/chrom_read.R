@@ -17,9 +17,7 @@
 #' dat
 #'
 chrom_read_ngc <- function(file, skip = 1) {
-  dat <- readr::read_csv(file = file,
-                         skip = skip,
-                         col_types = readr::cols())
+  dat <- readr::read_csv(file = file, skip = skip, col_types = readr::cols())
 
   dat <- janitor::clean_names(dat)
 
@@ -67,16 +65,14 @@ chrom_read_ngc <- function(file, skip = 1) {
 chrom_read_quadtech <- function(file, interp_volume = TRUE) {
   start_line <- chrom_find_data_start_line(file, n_lines = 50)
 
-  data <- readr::read_csv(file = file,
-                          skip = start_line - 2,
-                          col_types = readr::cols()) |>
+  data <- readr::read_csv(
+    file = file,
+    skip = start_line - 2,
+    col_types = readr::cols()
+  ) |>
     rename_columns()
 
   met <- chrom_get_meta_quadtech(file, start_line = start_line)
-
-
-
-
 
   wavelengths <- met |>
     dplyr::filter(stringr::str_detect(.data$meta, "Quad")) |>
@@ -90,17 +86,23 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 
   if (interp_volume & volume_present) {
     data <- data |>
-      dplyr::mutate(volume = stats::approx(unique(.data$volume), n = nrow(data))$y)
+      dplyr::mutate(
+        volume = stats::approx(unique(.data$volume), n = nrow(data))$y
+      )
   }
 
   col_names <- dplyr::pull(met, .data$value, .data$meta)
 
   data <- data |>
-    dplyr::rename_with(.fn = ~ col_names[.x],
-                       .cols = dplyr::any_of(names(col_names))) |>
+    dplyr::rename_with(
+      .fn = ~ col_names[.x],
+      .cols = dplyr::any_of(names(col_names))
+    ) |>
     janitor::clean_names() |>
-    dplyr::rename_with(~ paste0("a", stringr::str_extract(.x, "\\d{1,3}")),
-                       .cols = dplyr::matches("nm_au")) |>
+    dplyr::rename_with(
+      ~ paste0("a", stringr::str_extract(.x, "\\d{1,3}")),
+      .cols = dplyr::matches("nm_au")
+    ) |>
     dplyr::select(-dplyr::matches("a\\d{1,3}"), dplyr::everything())
 
   data
@@ -175,13 +177,8 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #' dat |>
 #'   chrom_add_volume(0.3)
 chrom_add_volume <-
-  function(.data,
-           flow_rate = 0.5,
-           time = "second") {
-    time_adjust <- switch(time,
-                          "second" = 60,
-                          "minute" = 1,
-                          "hour" = 1 / 60)
+  function(.data, flow_rate = 0.5, time = "second") {
+    time_adjust <- switch(time, "second" = 60, "minute" = 1, "hour" = 1 / 60)
 
     .data |>
       dplyr::mutate(volume = .data$time / time_adjust * flow_rate) |>

@@ -57,7 +57,11 @@ pivot_wl_longer <- function(data, values_to = "abs", names_to = "wl") {
 #'   names_from = "wavelength_nm"
 #' )
 #' }
-pivot_wl_wider <- function(data, values_from = "abs|absorbance", names_from = "wl|wavelength") {
+pivot_wl_wider <- function(
+  data,
+  values_from = "abs|absorbance",
+  names_from = "wl|wavelength"
+) {
   tidyr::pivot_wider(
     data = data,
     values_from = dplyr::matches(values_from),

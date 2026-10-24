@@ -101,8 +101,10 @@ read_akta_old <- function(file, fraction_size = 2) {
     c(volumes, volumes[n] + (volumes[n] - volumes[n - 1]))
 
   dat <-
-    dplyr::filter(dat,
-                  stringr::str_detect(.data$name, "fraction", negate = TRUE)) |>
+    dplyr::filter(
+      dat,
+      stringr::str_detect(.data$name, "fraction", negate = TRUE)
+    ) |>
     dplyr::mutate(
       volume = mean(.data$volume),
       fraction = as.numeric(
@@ -117,5 +119,4 @@ read_akta_old <- function(file, fraction_size = 2) {
     ) |>
     dplyr::select(-"id") |>
     tidyr::pivot_wider(values_from = 'value', names_from = 'name')
-
 }
