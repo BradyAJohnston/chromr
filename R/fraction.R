@@ -162,7 +162,9 @@ rescale.chromr_fraction <- function(x, ...) {
 #' fraction starts at the first point collected into it and ends at the first
 #' point after it, so the fractions of a run meet end to end. These are the
 #' sampled volumes, so they are within one point of the volumes the fraction
-#' collector recorded.
+#' collector recorded. A fraction collected into more than once, as when the
+#' collector runs out of tubes and starts again at the first, has a row for
+#' each time.
 #'
 #' @param data A chromatogram from `chrom_read_*()`, with `volume` and
 #'   `fraction` columns. Appended runs, with a `run` column, are handled run by
@@ -203,12 +205,7 @@ fraction_bounds <- function(volume, fraction) {
     start = volume[first],
     end = volume[next_point]
   ) |>
-    dplyr::filter(.data$fraction > 0) |>
-    dplyr::summarise(
-      start = min(.data$start),
-      end = max(.data$end),
-      .by = "fraction"
-    )
+    dplyr::filter(.data$fraction > 0)
 }
 
 #' The well each fraction was collected into

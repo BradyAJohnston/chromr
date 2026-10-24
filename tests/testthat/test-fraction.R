@@ -111,3 +111,19 @@ test_that("fraction_to_well() gives the well of each fraction", {
   )
   expect_equal(wellr::well_plate_size(fraction_to_well(1, plate = 24)), 24)
 })
+
+test_that("chrom_fractions() gives a row each time a fraction is collected", {
+  dat <- tibble::tibble(
+    volume = c(0, 1, 2, 3, 4, 5),
+    fraction = fraction(c(1, 2, 1, 1, 0, 0))
+  )
+
+  expect_equal(
+    chrom_fractions(dat),
+    tibble::tibble(
+      fraction = fraction(c(1, 2, 1)),
+      start = c(0, 1, 2),
+      end = c(1, 2, 4)
+    )
+  )
+})
