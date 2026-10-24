@@ -177,9 +177,9 @@ geom_fraction_label <- function(mapping = NULL,
 
   data |>
     dplyr::filter(mask) |>
-    dplyr::summarise(x = xfun(x), y = yfun(y), .by = fraction) |>
-    dplyr::filter(fraction %% period == initial, fraction != 0) |>
-    dplyr::mutate(label = fraction)
+    dplyr::summarise(x = xfun(.data$x), y = yfun(.data$y), .by = "fraction") |>
+    dplyr::filter(.data$fraction %% period == initial, .data$fraction != 0) |>
+    dplyr::mutate(label = .data$fraction)
 }
 
 #' Compute Identity Statistics for Fraction Bars
@@ -208,9 +208,9 @@ geom_fraction_label <- function(mapping = NULL,
   }
 
   data |>
-    dplyr::filter(fraction != 0, mask) |>
-    dplyr::mutate(fill = factor((fraction - initial) %% period),
-                  group = interaction(group, fraction))
+    dplyr::filter(.data$fraction != 0, mask) |>
+    dplyr::mutate(fill = factor((.data$fraction - initial) %% period),
+                  group = interaction(.data$group, .data$fraction))
 }
 
 #' Fraction Label Stat for ggplot2

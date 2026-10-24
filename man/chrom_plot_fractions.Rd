@@ -26,12 +26,12 @@ fractions, or a numeric vector of length 2, specifying the limits for the
 fractions to be included (e.g. c(10, 30) includes fractions from 10 till
 30, including both).}
 
-\item{frac_labelling}{How often to label the fractions. Every $n_{th}$
+\item{frac_labelling}{How often to label the fractions. Every nth
 fraction is labelled.}
 
 \item{frac_text_size}{Size of the labels for the fractionation.}
 
-\item{frac_text_adjust}{`vjust` for the labels for the fractionation.}
+\item{frac_text_adjust}{\code{vjust} for the labels for the fractionation.}
 }
 \value{
 a ggplot object.
@@ -41,15 +41,15 @@ Plot Chromatogram with Fractions
 }
 \examples{
 fl1 <- system.file("extdata",
-  "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+  "example_quadtec_1.TXT",
   package = "chromr"
 )
 fl2 <- system.file("extdata",
-  "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+  "example_quadtec_2.TXT",
   package = "chromr"
 )
 df1 <- chrom_read_quadtech(fl1)
-df2 <- chrom_read_quadtech(fl2)matches
+df2 <- chrom_read_quadtech(fl2)
 
 dat <- chrom_append_run(df1, df2)
 chrom_plot_fractions(dat, wl_frac = c(280, 488))

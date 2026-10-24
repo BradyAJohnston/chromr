@@ -14,7 +14,7 @@ chrom_add_volume(.data, flow_rate = 0.5, time = "second")
 \item{time}{Time unit when exported.}
 }
 \value{
-a [tibble][tibble::tibble-package]
+a \link[tibble:tibble-package]{tibble}
 }
 \description{
 Adds a column with calculated volums from the time column given a particular
@@ -23,7 +23,7 @@ flow rate. Currently only constant flow rates are supported.
 \examples{
 fl <- system.file(
   "extdata",
-  "sec_no_volume.txt",
+  "example_quadtec_4.txt",
   package = "chromr"
 )
 # read just the data

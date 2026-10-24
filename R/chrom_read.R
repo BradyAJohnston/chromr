@@ -50,7 +50,7 @@ chrom_read_ngc <- function(file, skip = 1) {
 #'
 #' @examples
 #' fl <- system.file("extdata",
-#'   "sec.txt",
+#'   "example_quadtec_3.txt",
 #'   package = "chromr"
 #' )
 #' # just read
@@ -164,7 +164,7 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #' @examples
 #' fl <- system.file(
 #'   "extdata",
-#'   "sec_no_volume.txt",
+#'   "example_quadtec_4.txt",
 #'   package = "chromr"
 #' )
 #' # read just the data

@@ -18,7 +18,7 @@ A data frame in long format with wavelength measurements
 }
 \description{
 Converts wavelength data from wide to long format, specifically handling
-columns that match the pattern "(a|A)\\d{2,3}" (e.g., "A280", "a340").
+columns that match the pattern \code{"(a|A)\\\\d{2,3}"} (e.g., "A280", "a340").
 }
 \examples{
 \dontrun{

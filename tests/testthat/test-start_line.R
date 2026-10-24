@@ -3,7 +3,7 @@ test_that("finds data start line", {
     {
       fl <- system.file(
         "extdata",
-        "sec.txt",
+        "example_quadtec_3.txt",
         package = "chromr"
       )
 
@@ -15,7 +15,7 @@ test_that("finds data start line", {
     {
       fl <- system.file(
         "extdata",
-        "sec_no_volume.txt",
+        "example_quadtec_4.txt",
         package = "chromr"
       )
 

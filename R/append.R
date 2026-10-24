@@ -16,11 +16,11 @@
 #' @examples
 #'
 #' fl1 <- system.file("extdata",
-#'   "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+#'   "example_quadtec_1.TXT",
 #'   package = "chromr"
 #' )
 #' fl2 <- system.file("extdata",
-#'   "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+#'   "example_quadtec_2.TXT",
 #'   package = "chromr"
 #' )
 #' df1 <- chrom_read_quadtech(fl1)

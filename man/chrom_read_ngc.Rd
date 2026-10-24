@@ -7,12 +7,12 @@
 chrom_read_ngc(file, skip = 1)
 }
 \arguments{
-\item{file}{File path to the `.csv` file.}
+\item{file}{File path to the \code{.csv} file.}
 
 \item{skip}{Number of lines to skip before begin reading. Usually 1 line.}
 }
 \value{
-a [tibble][tibble::tibble-package]
+a \link[tibble:tibble-package]{tibble}
 }
 \description{
 Read .csv Chromatogram from the BioRad NGC

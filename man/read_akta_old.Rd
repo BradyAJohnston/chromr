@@ -8,15 +8,17 @@ read_akta_old(file, fraction_size = 2)
 }
 \arguments{
 \item{file}{Filepath to read}
+
+\item{fraction_size}{Currently unused.}
 }
 \value{
-a [tibble][tibble::tibble-package]
+a \link[tibble:tibble-package]{tibble}
 }
 \description{
 Read a .asc chromatogram from an old AKTA Pure
 }
 \examples{
-fl <- system.file('extdata', 'example_akta_old.asc', package = 'wellr')
+fl <- system.file('extdata', 'example_akta_2.asc', package = 'chromr')
 
 read_akta_old(fl)
 }

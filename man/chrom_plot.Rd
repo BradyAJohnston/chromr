@@ -15,7 +15,7 @@ chrom_plot(data, xlim = NULL, ylim = NULL)
 \item{ylim}{Limits for the y axis.}
 }
 \value{
-a `ggplot2::ggplot()` plot.
+a \code{ggplot2::ggplot()} plot.
 }
 \description{
 Plot a Chromatogram
@@ -23,7 +23,7 @@ Plot a Chromatogram
 \examples{
 fl <- system.file(
   "extdata",
-  "sec_no_volume.txt",
+  "example_quadtec_4.txt",
   package = "chromr"
 )
 

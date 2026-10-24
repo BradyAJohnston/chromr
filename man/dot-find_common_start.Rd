@@ -11,7 +11,7 @@
 }
 \value{
 Single character that is common to the start of all the strings.
- Returns empty string if nothing in common.
+Returns empty string if nothing in common.
 }
 \description{
 Walks along all strings until there is a character that is not shared

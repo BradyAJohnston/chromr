@@ -16,6 +16,6 @@ Single integer of the start of the data.
 }
 \description{
 Finds the line where the tabular data begins. This is then used to
-start the reading of the data with `readr::read_csv()` and end the reading
+start the reading of the data with \code{readr::read_csv()} and end the reading
 of the metadata.
 }

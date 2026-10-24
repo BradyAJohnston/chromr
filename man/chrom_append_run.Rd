@@ -7,16 +7,16 @@
 chrom_append_run(.data, ..., adjust_fractions = FALSE)
 }
 \arguments{
-\item{.data}{A data frame created through `chrom_read_*()`}
+\item{.data}{A data frame created through \verb{chrom_read_*()}}
 
-\item{...}{Runs created through `chrom_read_*()`}
+\item{...}{Runs created through \verb{chrom_read_*()}}
 
 \item{adjust_fractions}{Logical. FALSE keeps the fraction numbering as-is.
 TRUE starts the number of the subsequent fractions by adding the previous
 fractions.}
 }
 \value{
-a [tibble][tibble::tibble-package] which combines the given runs.
+a \link[tibble:tibble-package]{tibble} which combines the given runs.
 }
 \description{
 Sums the volume and the time columns. Optionally continues the numbering of
@@ -25,11 +25,11 @@ the fractions after the previous runs.
 \examples{
 
 fl1 <- system.file("extdata",
-  "20220809_SFPQfl_TEVdig_S200_part1.TXT",
+  "example_quadtec_1.TXT",
   package = "chromr"
 )
 fl2 <- system.file("extdata",
-  "20220809_SFPQfl_TEVdig_S200_part2.TXT",
+  "example_quadtec_2.TXT",
   package = "chromr"
 )
 df1 <- chrom_read_quadtech(fl1)

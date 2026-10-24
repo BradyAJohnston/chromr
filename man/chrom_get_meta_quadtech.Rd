@@ -10,10 +10,10 @@ chrom_get_meta_quadtech(file, start_line)
 \item{file}{Path to the chromatogram file.}
 
 \item{start_line}{Start of the data and thus end of the metadata. Determined
-with `chromr::chrom_find_data_start_line()`}
+with \code{chromr::chrom_find_data_start_line()}}
 }
 \value{
-a [tibble][tibble::tibble-package]
+a \link[tibble:tibble-package]{tibble}
 }
 \description{
 Reads Metadata from QuadTech Chromatogram

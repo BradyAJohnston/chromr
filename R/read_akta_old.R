@@ -52,17 +52,18 @@ read_the_file <- function(file) {
     purrr::map(\(x) x[length(x)]) |>
     unlist()
 
-  readr::read_csv(file, skip = 3, col_names = info)
+  readr::read_tsv(file, skip = 3, col_names = info)
 }
 #' Read a .asc chromatogram from an old AKTA Pure
 #'
 #' @param file Filepath to read
+#' @param fraction_size Currently unused.
 #'
 #' @return a [tibble][tibble::tibble-package]
 #' @export
 #'
 #' @examples
-#' fl <- system.file('extdata', 'example_akta_old.asc', package = 'wellr')
+#' fl <- system.file('extdata', 'example_akta_2.asc', package = 'chromr')
 #'
 #' read_akta_old(fl)
 read_akta_old <- function(file, fraction_size = 2) {
@@ -112,7 +113,7 @@ read_akta_old <- function(file, fraction_size = 2) {
           include.lowest = TRUE
         )
       ),
-      .by = .data$id
+      .by = "id"
     ) |>
     dplyr::select(-"id") |>
     tidyr::pivot_wider(values_from = 'value', names_from = 'name')

@@ -7,20 +7,20 @@
 chrom_read_quadtech(file, interp_volume = TRUE)
 }
 \arguments{
-\item{file}{Exported `.TXT` chromatogram file from the BioRad QuadTech.}
+\item{file}{Exported \code{.TXT} chromatogram file from the BioRad QuadTech.}
 
 \item{interp_volume}{Logical. If TRUE, interpolates the values in the volume
 column based on the values in the time column.}
 }
 \value{
-a [tibble][tibble::tibble-package]
+a \link[tibble:tibble-package]{tibble}
 }
 \description{
 Read BioRad QuadTech Chromatogram Files
 }
 \examples{
 fl <- system.file("extdata",
-  "sec.txt",
+  "example_quadtec_3.txt",
   package = "chromr"
 )
 # just read
