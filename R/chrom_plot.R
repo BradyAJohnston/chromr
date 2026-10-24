@@ -51,7 +51,7 @@ chrom_plot <-
         )
       ) +
       ggplot2::labs(
-        x = "Volume (mL)",
+        x = unit_title("Volume", data$volume),
         y = absorbance_title(data, absorbance),
         colour = "Wavelength (nm)"
       )
@@ -126,6 +126,7 @@ chrom_plot_fractions <- function(
 
   absorbance <- absorbance_columns(data)
   y_title <- absorbance_title(data, absorbance)
+  x_title <- unit_title("Volume", data$volume)
   data <- tidyr::pivot_longer(
     data,
     dplyr::all_of(absorbance),
@@ -177,7 +178,7 @@ chrom_plot_fractions <- function(
     ggplot2::coord_cartesian(ylim = c(0, NA)) +
     ggplot2::labs(
       colour = "Wavelength (nm)",
-      x = "Volume (mL)",
+      x = x_title,
       y = y_title
     ) +
     ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +

@@ -7,26 +7,13 @@ test_that("readers record the run's metadata", {
   expect_equal(quadtec$date, "04:43:33 PM 08-09-22")
   expect_equal(quadtec$method, "S200_16/600_overnight_pumpA")
   expect_equal(quadtec$file, "example_quadtec_1.TXT")
-  expect_equal(
-    quadtec$units,
-    c(
-      time = "s",
-      volume = "mL",
-      percent_b = "%B",
-      conductivity = "mS/cm",
-      pressure = "PSI"
-    )
-  )
-
   ngc <- chrom_meta(chrom_read_ngc(example_file("ngc_sec.csv")))
   expect_equal(ngc$instrument, "BioRad NGC")
   expect_equal(ngc$run, "20191126_IMAC")
-  expect_equal(ngc$units[["pressure"]], "psi")
 
   akta <- chrom_meta(read_akta_old(example_file("example_akta_1.asc")))
   expect_equal(akta$instrument, "ÄKTA")
   expect_equal(akta$run, "20220817 DAZAP1 WA construct 2001:10")
-  expect_equal(akta$units, c(volume = "mL"))
 })
 
 test_that("chromatograms print their metadata", {
@@ -68,11 +55,64 @@ test_that("chrom_append_run() combines the metadata", {
   expect_s3_class(plain_runs, "tbl_df")
 })
 
-test_that("chrom_add_volume() records the volume unit", {
+test_that("readers give the other columns their units", {
+  quadtec <- chrom_read_quadtech(example_file("example_quadtec_1.TXT"))
+  ngc <- chrom_read_ngc(example_file("ngc_sec.csv"))
+  akta <- read_akta_old(example_file("example_akta_2.asc"))
+
+  units <- function(data) {
+    purrr::map_chr(
+      dplyr::select(data, dplyr::where(is_quantity)),
+      quantity_unit
+    )
+  }
+  expect_equal(
+    units(quadtec),
+    c(
+      time = "s",
+      volume = "mL",
+      percent_b = "%",
+      conductivity = "mS/cm",
+      pressure = "psi"
+    )
+  )
+  expect_equal(
+    units(ngc),
+    c(volume = "mL", conductivity = "mS/cm", percent_b = "%", pressure = "psi")
+  )
+  expect_equal(
+    units(akta),
+    c(
+      volume = "mL",
+      conductivity = "mS/cm",
+      conductivity_percent = "%",
+      percent_b = "%",
+      pressure = "MPa",
+      flow = "mL/min",
+      temperature = "\u00b0C"
+    )
+  )
+})
+
+test_that("chrom_add_volume() uses the unit of time", {
   dat <- chrom_read_quadtech(example_file("example_quadtec_4.txt"))
 
+  with_volume <- chrom_add_volume(dat, 0.3)
+  expect_equal(quantity_unit(with_volume$volume), "mL")
+  # 0.2 s at 0.3 mL/min
+  expect_equal(vctrs::vec_data(with_volume$volume[2]), 0.2 / 60 * 0.3)
   expect_equal(
-    chrom_meta(chrom_add_volume(dat, 0.3))$units,
-    c(time = "s", volume = "mL")
+    chrom_add_volume(plain(dat), 0.3, time = "minute")$volume[2],
+    quantity(0.2 * 0.3, "mL")
+  )
+})
+
+test_that("chrom_append_run() offsets runs in the unit of the first", {
+  run1 <- tibble::tibble(time = quantity(c(0, 60), "s"))
+  run2 <- tibble::tibble(time = quantity(c(0, 1), "min"))
+
+  expect_equal(
+    chrom_append_run(run1, run2)$time,
+    quantity(c(0, 60, 60, 120), "s")
   )
 })

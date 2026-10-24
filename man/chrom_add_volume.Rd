@@ -11,7 +11,8 @@ chrom_add_volume(.data, flow_rate = 0.5, time = "second")
 
 \item{flow_rate}{Flow rate in ml/min.}
 
-\item{time}{Time unit when exported.}
+\item{time}{Time unit when exported, used when the time column doesn't
+record its unit, as columns from \verb{chrom_read_*()} do.}
 }
 \value{
 a \link[tibble:tibble-package]{tibble}

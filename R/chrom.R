@@ -11,8 +11,9 @@
 #' * `date` and `method`: the date and method of the run, as recorded, if the
 #'   instrument records them.
 #' * `file`: the name of the file it was read from.
-#' * `units`: the units of the columns other than absorbance, whose units are
-#'   part of the [absorbance] values.
+#'
+#' The units of the columns are part of the columns: see [quantity()] and
+#' [absorbance()].
 #'
 #' Appended runs, from [chrom_append_run()], have one `run`, `date`, `method`
 #' and `file` for each run.
@@ -31,7 +32,6 @@
 #' dat
 #'
 #' chrom_meta(dat)
-#' chrom_meta(dat)$units
 chrom_meta <- function(x) {
   attr(x, "chrom_meta", exact = TRUE)
 }
@@ -45,19 +45,14 @@ chrom_meta_list <- function(
   run = NA_character_,
   date = NA_character_,
   method = NA_character_,
-  file = NA_character_,
-  units = character()
+  file = NA_character_
 ) {
-  units[] <- stringr::str_squish(units)
-  units[tolower(units) == "ml"] <- "mL"
-  units[tolower(units) == "second"] <- "s"
   list(
     instrument = instrument,
     run = run,
     date = date,
     method = method,
-    file = basename(file),
-    units = units
+    file = basename(file)
   )
 }
 
@@ -68,16 +63,12 @@ chrom_meta_append <- function(runs) {
     return(NULL)
   }
   field <- function(name) purrr::map_chr(metas, name)
-  units <- purrr::reduce(purrr::map(metas, "units"), \(x, y) {
-    c(x, y[setdiff(names(y), names(x))])
-  })
   list(
     instrument = unique(field("instrument")),
     run = field("run"),
     date = field("date"),
     method = field("method"),
-    file = field("file"),
-    units = units
+    file = field("file")
   )
 }
 
@@ -89,12 +80,9 @@ tbl_sum.chromr_chrom <- function(x, ...) {
   if (is.null(meta)) {
     return(header)
   }
-  info <- c(
-    Instrument = paste(meta$instrument, collapse = ", "),
-    Run = paste(meta$run, collapse = ", "),
-    Date = paste(meta$date, collapse = ", ")
-  )
-  c(header, info[!is.na(info) & info != "NA"])
+  info <- list(Instrument = meta$instrument, Run = meta$run, Date = meta$date)
+  info <- info[!purrr::map_lgl(info, \(x) all(is.na(x)))]
+  c(header, purrr::map_chr(info, \(x) paste(x, collapse = ", ")))
 }
 
 as_plain_tibble <- function(data) {

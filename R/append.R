@@ -43,6 +43,11 @@ chrom_append_run <- function(.data, ..., adjust_fractions = FALSE) {
     run <- runs[[i]]
     for (col in c("time", "volume")) {
       if (i > 1 && col %in% names(run)) {
+        # Offset in the unit of the first run.
+        first <- runs[[1]][[col]]
+        if (is_quantity(first) && is_quantity(run[[col]])) {
+          run[[col]] <- quantity_convert(run[[col]], quantity_unit(first))
+        }
         run[[col]] <- run[[col]] + ends[[col]]
       }
     }

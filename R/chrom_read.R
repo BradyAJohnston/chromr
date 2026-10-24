@@ -73,8 +73,9 @@ chrom_read_ngc <- function(file, skip = 1) {
 #'   `temperature`.
 #'
 #' `fraction` is a [fraction] vector and the absorbance columns are
-#' [absorbance] vectors, which record their wavelength and unit. The units of
-#' the other columns are in [chrom_meta()].
+#' [absorbance] vectors, which record their wavelength and unit. The other
+#' columns are [quantity] vectors with the unit recorded in the file, such as
+#' `s`, `mL`, `mS/cm`, `psi` or `MPa`.
 #'
 #' @return A chromatogram: a [tibble][tibble::tibble-package] with the run's
 #'   metadata, see [chrom_meta()].
@@ -179,7 +180,8 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #'
 #' @param .data Data frame or tibble with a column called 'time'.
 #' @param flow_rate Flow rate in ml/min.
-#' @param time Time unit when exported.
+#' @param time Time unit when exported, used when the time column doesn't
+#'   record its unit, as columns from `chrom_read_*()` do.
 #'
 #' @return a [tibble][tibble::tibble-package]
 #' @export
@@ -199,13 +201,14 @@ chrom_find_data_start_line <- function(file, n_lines = 50) {
 #'   chrom_add_volume(0.3)
 chrom_add_volume <-
   function(.data, flow_rate = 0.5, time = "second") {
-    time_adjust <- switch(time, "second" = 60, "minute" = 1, "hour" = 1 / 60)
-
-    out <- .data |>
-      dplyr::mutate(volume = .data$time / time_adjust * flow_rate) |>
-      dplyr::select("time", "volume", dplyr::everything())
-    if (!is.null(chrom_meta(out))) {
-      attr(out, "chrom_meta")$units[["volume"]] <- "mL"
+    minutes <- if (is_quantity(.data$time)) {
+      vctrs::vec_data(quantity_convert(.data$time, "min"))
+    } else {
+      time_adjust <- switch(time, "second" = 60, "minute" = 1, "hour" = 1 / 60)
+      .data$time / time_adjust
     }
-    out
+
+    .data |>
+      dplyr::mutate(volume = quantity(minutes * flow_rate, "mL")) |>
+      dplyr::select("time", "volume", dplyr::everything())
   }

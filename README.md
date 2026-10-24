@@ -51,20 +51,20 @@ dat
 #> # Instrument:     BioRad QuadTec
 #> # Run:            20220801_dsnPPR10_Cy3_1_AF647_2
 #> # Date:           02:10:17 PM 08-01-22
-#>     time  volume    a280     a260     a550     a650   uv percent_b conductivity
-#>    <dbl>   <dbl>    <AU>     <AU>     <AU>     <AU> <AU>     <dbl>        <dbl>
-#>  1     0 0        0       0        5.51e-3  0          0         0         16.0
-#>  2     1 0.00501  4  e-6  1.3 e-5 -1.6 e-4  1.87e-3    0         0         16.0
-#>  3     2 0.0100   0      -8   e-6 -6.40e-5  1.80e-3    0         0         16.0
-#>  4     3 0.0150  -1.3e-5 -2.20e-5 -6.40e-5  3.39e-3    0         0         16.0
-#>  5     4 0.0200  -6  e-6 -1.5 e-5 -9.5 e-5  3.91e-3    0         0         16.0
-#>  6     5 0.0250  -6  e-6 -1.80e-5 -1.28e-4  4.13e-3    0         0         16.0
-#>  7     6 0.0300  -6  e-6 -2.90e-5 -1.93e-4  3.76e-3    0         0         16.0
-#>  8     7 0.0350  -2  e-6 -8   e-6 -1.28e-4  1.92e-3    0         0         16.0
-#>  9     8 0.0400   3  e-6 -1.10e-5 -6.40e-5  8.83e-4    0         0         16.0
-#> 10     9 0.0450  -8  e-6 -9   e-6 -9.60e-5 -3.2 e-4    0         0         16.0
+#>    time  volume     a280     a260     a550     a650   uv percent_b conductivity
+#>     <s>    <mL>     <AU>     <AU>     <AU>     <AU> <AU>       <%>      <mS/cm>
+#>  1    0 0         0       0        5.51e-3  0          0         0         16.0
+#>  2    1 0.00501   4  e-6  1.3 e-5 -1.6 e-4  1.87e-3    0         0         16.0
+#>  3    2 0.0100    0      -8   e-6 -6.40e-5  1.80e-3    0         0         16.0
+#>  4    3 0.0150   -1.3e-5 -2.20e-5 -6.40e-5  3.39e-3    0         0         16.0
+#>  5    4 0.0200   -6  e-6 -1.5 e-5 -9.5 e-5  3.91e-3    0         0         16.0
+#>  6    5 0.0250   -6  e-6 -1.80e-5 -1.28e-4  4.13e-3    0         0         16.0
+#>  7    6 0.0300   -6  e-6 -2.90e-5 -1.93e-4  3.76e-3    0         0         16.0
+#>  8    7 0.0350   -2  e-6 -8   e-6 -1.28e-4  1.92e-3    0         0         16.0
+#>  9    8 0.0400    3  e-6 -1.10e-5 -6.40e-5  8.83e-4    0         0         16.0
+#> 10    9 0.0450   -8  e-6 -9   e-6 -9.60e-5 -3.2 e-4    0         0         16.0
 #> # ℹ 950 more rows
-#> # ℹ 1 more variable: pressure <dbl>
+#> # ℹ 1 more variable: pressure <psi>
 ```
 
 ``` r
@@ -119,8 +119,11 @@ style="width:100.0%" />
 ## Units, fractions and wells
 
 Every reader gives the same columns, and records the run it came from.
-Absorbance columns know their wavelength and unit, so plots are labelled
-with the unit, and joining runs in AU and mAU converts them to mAU.
+Each column keeps the unit recorded in the file, shown under its name:
+absorbance also knows its wavelength. Plots are labelled with the units,
+and joining runs recorded in different units, such as AU and mAU or psi
+and MPa, converts them to the units of the first. The columns still
+compare and do arithmetic with plain numbers.
 
 ``` r
 ngc <- chrom_read_ngc(system.file("extdata", "ngc_sec.csv", package = "chromr"))
@@ -129,7 +132,7 @@ ngc
 #> # Instrument:     BioRad NGC
 #> # Run:            20191126_IMAC
 #>      volume   a260   a280 conductivity percent_b pressure
-#>       <dbl>  <mAU>  <mAU>        <dbl>     <dbl>    <dbl>
+#>        <mL>  <mAU>  <mAU>      <mS/cm>       <%>    <psi>
 #>  1 0.000500  0.747   0            28.0         0    NA   
 #>  2 0.00503   1.10    0            28.0         0     5   
 #>  3 0.0104    0.784 NaN            28.0         0     5   
@@ -142,9 +145,21 @@ ngc
 #> 10 0.0547   -6.39   -8.12         27.7         0     6.64
 #> # ℹ 6,500 more rows
 
-chrom_meta(ngc)$units
-#>       volume conductivity    percent_b     pressure 
-#>         "mL"      "mS/cm"          "%"        "psi"
+chrom_meta(ngc)
+#> $instrument
+#> [1] "BioRad NGC"
+#> 
+#> $run
+#> [1] "20191126_IMAC"
+#> 
+#> $date
+#> [1] NA
+#> 
+#> $method
+#> [1] NA
+#> 
+#> $file
+#> [1] "ngc_sec.csv"
 ```
 
 Dividing absorbance gives a plain ratio, such as A260/A280:
@@ -158,7 +173,7 @@ ngc |>
 #> # Instrument:     BioRad NGC
 #> # Run:            20191126_IMAC
 #>    volume  a260  a280 ratio
-#>     <dbl> <mAU> <mAU> <dbl>
+#>      <mL> <mAU> <mAU> <dbl>
 #>  1   10.0  507.  551. 0.921
 #>  2   10.0  507.  551. 0.921
 #>  3   10.0  506.  549. 0.922
@@ -183,17 +198,17 @@ akta <- read_akta_old(system.file("extdata", "example_akta_2.asc", package = "ch
 chrom_fractions(akta) |>
   dplyr::mutate(well = fraction_to_well(fraction))
 #> # A tibble: 73 × 4
-#>    fraction start   end well     
-#>      <frac> <dbl> <dbl> <well:96>
-#>  1        1  9.11  11.0 A01      
-#>  2        2 11.0   13.1 A02      
-#>  3        3 13.1   15.0 A03      
-#>  4        4 15.0   17.1 A04      
-#>  5        5 17.1   19.0 A05      
-#>  6        6 19.0   21.1 A06      
-#>  7        7 21.1   23.0 A07      
-#>  8        8 23.0   25.1 A08      
-#>  9        9 25.1   27.2 A09      
-#> 10       10 27.2   29.1 A10      
+#>    fraction start  end well     
+#>      <frac>  <mL> <mL> <well:96>
+#>  1        1  9.11 11.0 A01      
+#>  2        2 11.0  13.1 A02      
+#>  3        3 13.1  15.0 A03      
+#>  4        4 15.0  17.1 A04      
+#>  5        5 17.1  19.0 A05      
+#>  6        6 19.0  21.1 A06      
+#>  7        7 21.1  23.0 A07      
+#>  8        8 23.0  25.1 A08      
+#>  9        9 25.1  27.2 A09      
+#> 10       10 27.2  29.1 A10      
 #> # ℹ 63 more rows
 ```

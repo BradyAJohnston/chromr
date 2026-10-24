@@ -50,10 +50,10 @@ trace_wavelength <- function(name, unit) {
   as.numeric(dplyr::coalesce(nm, uv))
 }
 
-# Gives the standard columns their types, puts them first (time, volume,
-# fraction, then absorbance), and makes a chromatogram. `units` are the
-# instrument's units for each column, named by column, and `...` the other
-# metadata for `chrom_meta_list()`.
+# Gives the columns their types, with their units, puts the standard columns
+# first (time, volume, fraction, then absorbance), and makes a chromatogram.
+# `units` are the instrument's units for each column, named by column, and
+# `...` the metadata for `chrom_meta_list()`.
 tidy_traces <- function(data, units, ...) {
   if ("fraction" %in% names(data)) {
     data$fraction <- fraction(data$fraction)
@@ -71,15 +71,17 @@ tidy_traces <- function(data, units, ...) {
     dplyr::any_of(c("time", "volume", "fraction")),
     dplyr::all_of(absorbance)
   )
-  other <- setdiff(names(data), c(absorbance, "fraction"))
-  units <- unlist(units)[intersect(other, names(units))]
-  if ("volume" %in% other) {
+  units <- as.list(units)
+  if ("volume" %in% names(data)) {
     units[["volume"]] <- "mL"
   }
-  new_chrom(
-    data,
-    chrom_meta_list(units = units[intersect(other, names(units))], ...)
-  )
+  other <- setdiff(names(data), c(absorbance, "fraction"))
+  for (col in intersect(other, names(units))) {
+    if (is.numeric(data[[col]]) && nzchar(stringr::str_squish(units[[col]]))) {
+      data[[col]] <- quantity(data[[col]], units[[col]])
+    }
+  }
+  new_chrom(data, chrom_meta_list(...))
 }
 
 # Combines traces that were each recorded at their own volumes, as NGC and

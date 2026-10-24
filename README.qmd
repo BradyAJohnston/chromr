@@ -104,13 +104,13 @@ dat |>
 
 ## Units, fractions and wells
 
-Every reader gives the same columns, and records the run it came from. Absorbance columns know their wavelength and unit, so plots are labelled with the unit, and joining runs in AU and mAU converts them to mAU.
+Every reader gives the same columns, and records the run it came from. Each column keeps the unit recorded in the file, shown under its name: absorbance also knows its wavelength. Plots are labelled with the units, and joining runs recorded in different units, such as AU and mAU or psi and MPa, converts them to the units of the first. The columns still compare and do arithmetic with plain numbers.
 
 ```{r}
 ngc <- chrom_read_ngc(system.file("extdata", "ngc_sec.csv", package = "chromr"))
 ngc
 
-chrom_meta(ngc)$units
+chrom_meta(ngc)
 ```
 
 Dividing absorbance gives a plain ratio, such as A260/A280:

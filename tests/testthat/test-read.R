@@ -53,14 +53,14 @@ test_that("chrom_read_ngc() gives one ungrouped row per volume", {
   )
   # Pressure is recorded at fewer volumes, and is interpolated.
   expect_true(is.na(dat$pressure[1]))
-  expect_equal(dat$pressure[2], 5)
+  expect_equal(dat$pressure[2], quantity(5, "psi"))
 })
 
 test_that("read_akta_old() aligns the traces by volume", {
   dat <- read_akta_old(example_file("example_akta_2.asc"))
 
   # The UV trace gives the volumes; conductivity is recorded at other volumes.
-  expect_equal(dat$volume[1:3], c(0, 0.16, 0.32))
+  expect_equal(dat$volume[1:3], quantity(c(0, 0.16, 0.32), "mL"))
   expect_equal(nrow(dat), 962)
   # Only the last UV point is past the end of the conductivity trace.
   expect_equal(which(is.na(dat$conductivity)), 962)

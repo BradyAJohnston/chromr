@@ -17,8 +17,9 @@ reference:
       - fraction_to_well
       - pivot_wl_longer
       - pivot_wl_wider
-  - title: Absorbance and fractions
+  - title: Units, absorbance and fractions
     contents:
+      - quantity
       - absorbance
       - fraction
   - title: Plotting

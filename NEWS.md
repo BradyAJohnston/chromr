@@ -31,11 +31,20 @@
   A260/A280, and plots label the axis with the unit. `absorbance_convert()`,
   `absorbance_wavelength()` and `absorbance_unit()` work with it.
 
+* The other columns are a new type of numbers with a unit, created with
+  `quantity()`, using the unit recorded in the file: `time` in s, `volume` in
+  mL, `pressure` in psi or MPa, and so on. They compare and do arithmetic with
+  plain numbers, so `volume > 10` works as before. Combining runs recorded in
+  different units of the same kind, such as psi and MPa, converts them to the
+  unit of the first, and plots label the volume axis with its unit.
+  `quantity_convert()` and `quantity_unit()` work with them.
+
 * The readers return a chromatogram, a tibble that records the instrument,
-  run, date, method, file and the units of the other columns, and prints them.
-  `chrom_meta()` gives them.
+  run, date, method and file, and prints them. `chrom_meta()` gives them.
 
 * `chrom_fractions()` gives the start and end volume of each fraction.
+
+* `chrom_add_volume()` uses the unit of the `time` column.
 
 * `fraction_to_well()` gives the well of the collection plate each fraction
   went into, as wellr well IDs.
@@ -52,7 +61,8 @@
   was never used.
 
 * `chrom_append_run()` continues each run from the end of all the runs before
-  it, so a third run no longer overlaps the second. `adjust_fractions = TRUE`
+  it, in the units of the first run, so a third run no longer overlaps the
+  second. `adjust_fractions = TRUE`
   only renumbers runs whose fractions start again, and no longer warns.
 
 * `chrom_plot_fractions()` draws the fraction labels, which were never drawn,

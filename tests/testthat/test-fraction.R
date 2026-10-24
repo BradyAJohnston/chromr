@@ -79,8 +79,8 @@ test_that("chrom_fractions() gives where each fraction starts and ends", {
   expect_equal(fractions$fraction, fraction(1:73))
   # The fraction collector marked fraction 1 at 9.02 mL and fraction 2 at
   # 11.02 mL; the points are 0.16 mL apart.
-  expect_equal(fractions$start[1], 9.02, tolerance = 0.2)
-  expect_equal(fractions$end[1], 11.02, tolerance = 0.2)
+  expect_equal(vctrs::vec_data(fractions$start[1]), 9.02, tolerance = 0.2)
+  expect_equal(vctrs::vec_data(fractions$end[1]), 11.02, tolerance = 0.2)
   expect_equal(fractions$end[-73], fractions$start[-1])
 })
 

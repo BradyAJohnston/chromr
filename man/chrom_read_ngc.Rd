@@ -36,8 +36,9 @@ the instrument doesn't record the wavelength.
 }
 
 \code{fraction} is a \link{fraction} vector and the absorbance columns are
-\link{absorbance} vectors, which record their wavelength and unit. The units of
-the other columns are in \code{\link[=chrom_meta]{chrom_meta()}}.
+\link{absorbance} vectors, which record their wavelength and unit. The other
+columns are \link{quantity} vectors with the unit recorded in the file, such as
+\code{s}, \code{mL}, \code{mS/cm}, \code{psi} or \code{MPa}.
 }
 
 \examples{

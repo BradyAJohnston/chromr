@@ -23,9 +23,10 @@ as any tibble does, and prints the instrument and run above the data.
 \item \code{date} and \code{method}: the date and method of the run, as recorded, if the
 instrument records them.
 \item \code{file}: the name of the file it was read from.
-\item \code{units}: the units of the columns other than absorbance, whose units are
-part of the \link{absorbance} values.
 }
+
+The units of the columns are part of the columns: see \code{\link[=quantity]{quantity()}} and
+\code{\link[=absorbance]{absorbance()}}.
 
 Appended runs, from \code{\link[=chrom_append_run]{chrom_append_run()}}, have one \code{run}, \code{date}, \code{method}
 and \code{file} for each run.
@@ -41,5 +42,4 @@ dat <- chrom_read_quadtech(fl)
 dat
 
 chrom_meta(dat)
-chrom_meta(dat)$units
 }
