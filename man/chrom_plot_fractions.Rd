@@ -15,7 +15,8 @@ chrom_plot_fractions(
 )
 }
 \arguments{
-\item{data}{Datafram containing values.}
+\item{data}{A chromatogram from \verb{chrom_read_*()}, plotted against \code{volume},
+or \code{time} if it has no volume.}
 
 \item{wl_frac}{Wavelengths to show the fractionation scheme for.}
 

@@ -1,7 +1,9 @@
 #' Plot a Chromatogram
 #'
 #' @param data A chromatogram from `chrom_read_*()`, or a data frame with a
-#'   `volume` column and absorbance columns named like `a280`.
+#'   `volume` column and absorbance columns named like `a280`. Chromatograms
+#'   without a volume, such as QuadTec runs that only record the time, are
+#'   plotted against `time`.
 #' @param xlim Limits for the x axis.
 #' @param ylim Limits for the y axis.
 #'
@@ -23,6 +25,7 @@
 chrom_plot <-
   function(data, xlim = NULL, ylim = NULL) {
     absorbance <- absorbance_columns(data)
+    x <- plot_x(data)
     dat <- tidyr::pivot_longer(
       data,
       dplyr::all_of(absorbance),
@@ -31,7 +34,7 @@ chrom_plot <-
 
     plt <- ggplot2::ggplot(
       data = dat,
-      ggplot2::aes(.data$volume, .data$value, colour = factor(.data$wl))
+      ggplot2::aes(.data[[x$column]], .data$value, colour = factor(.data$wl))
     ) +
       ggplot2::geom_line() +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +
@@ -51,7 +54,7 @@ chrom_plot <-
         )
       ) +
       ggplot2::labs(
-        x = unit_title("Volume", data$volume),
+        x = x$title,
         y = absorbance_title(data, absorbance),
         colour = "Wavelength (nm)"
       )
@@ -61,7 +64,8 @@ chrom_plot <-
 
 #' Plot Chromatogram with Fractions
 #'
-#' @param data Datafram containing values.
+#' @param data A chromatogram from `chrom_read_*()`, plotted against `volume`,
+#'   or `time` if it has no volume.
 #' @param wl_frac Wavelengths to show the fractionation scheme for.
 #' @param fractions Logical, whether to incude fractions on the plot.
 #' @param frac_include Specific fractions to include. Either "all" for all
@@ -126,14 +130,14 @@ chrom_plot_fractions <- function(
 
   absorbance <- absorbance_columns(data)
   y_title <- absorbance_title(data, absorbance)
-  x_title <- unit_title("Volume", data$volume)
+  x <- plot_x(data)
   data <- tidyr::pivot_longer(
     data,
     dplyr::all_of(absorbance),
     names_to = "wl"
   )
 
-  plt <- ggplot2::ggplot(data, ggplot2::aes(.data$volume, .data$value))
+  plt <- ggplot2::ggplot(data, ggplot2::aes(.data[[x$column]], .data$value))
 
   if (fractions_present) {
     lab_data <- data |>
@@ -144,7 +148,7 @@ chrom_plot_fractions <- function(
         wl_number(.data$wl) %in% wl_frac
       ) |>
       dplyr::group_by(.data$fraction) |>
-      dplyr::summarise(volume = mean(.data$volume))
+      dplyr::summarise("{x$column}" := mean(.data[[x$column]]))
 
     plt <- plt +
       ggplot2::geom_area(
@@ -178,7 +182,7 @@ chrom_plot_fractions <- function(
     ggplot2::coord_cartesian(ylim = c(0, NA)) +
     ggplot2::labs(
       colour = "Wavelength (nm)",
-      x = x_title,
+      x = x$title,
       y = y_title
     ) +
     ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
@@ -197,6 +201,25 @@ chrom_plot_fractions <- function(
         linewidth = 0.8
       )
     )
+}
+
+# The column to plot along the x axis, `volume` or else `time`, and its axis
+# title.
+plot_x <- function(data, call = rlang::caller_env()) {
+  column <- intersect(c("volume", "time"), names(data))
+  if (length(column) == 0) {
+    cli::cli_abort(
+      c(
+        "{.arg data} must have a {.field volume} or {.field time} column.",
+        i = "Add a volume to runs that only record the time with
+          {.fn chrom_add_volume}."
+      ),
+      call = call
+    )
+  }
+  column <- column[[1]]
+  title <- if (column == "volume") "Volume" else "Time"
+  list(column = column, title = unit_title(title, data[[column]]))
 }
 
 # The wavelength of absorbance column names such as "a280".
