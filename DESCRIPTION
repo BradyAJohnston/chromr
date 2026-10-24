@@ -34,7 +34,8 @@ Suggests:
     plotly,
     rmarkdown,
     testthat (>= 3.0.0),
-    wellr (>= 0.4.0)
+    wellr (>= 0.4.0),
+    withr
 Remotes: 
     BradyAJohnston/wellr
 Config/Needs/website: quarto

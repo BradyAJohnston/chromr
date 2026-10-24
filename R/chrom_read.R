@@ -106,11 +106,21 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     skip = start_line - 2,
     col_types = readr::cols()
   )
+  header <- readr::read_lines(file, skip = start_line - 2, n_max = 1)
+  first <- readr::read_lines(file, skip = start_line - 1, n_max = 1)
+  if (stringr::str_count(header, ",") != stringr::str_count(first, ",")) {
+    cli::cli_abort(c(
+      "Can't read the column names of {.file {file}}.",
+      i = "Line {start_line - 1} should name each column of the data, but it
+        has {stringr::str_count(header, ',') + 1} name{?s} for
+        {stringr::str_count(first, ',') + 1} columns."
+    ))
+  }
 
   channels <- chrom_get_meta_quadtech(file, start_line = start_line)
   units <- channels$unit[match(names(data), channels$name)]
   units <- dplyr::coalesce(units, "")
-  names(data) <- trace_column(names(data), units)
+  names(data) <- trace_columns(names(data), units)
   names(units) <- names(data)
 
   if (interp_volume && "volume" %in% names(data)) {
@@ -128,7 +138,8 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
     run = info("Run Name"),
     date = stringr::str_squish(info("Run Date")),
     method = info("Method Name"),
-    file = file
+    file = file,
+    absorbance_unit = "AU"
   )
 }
 

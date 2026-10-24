@@ -60,6 +60,17 @@
   without injection or logbook columns. `fraction_size` is deprecated, as it
   was never used.
 
+* `read_akta_old()` reads UNICORN exports whose traces are named without the
+  run, such as "UV" and "Gradient Concentration", and fraction marks that name
+  the tube, such as "T12". It drops the run log, numbers repeated traces (a
+  second UV trace is `uv_2`), warns about fraction marks it can't read, and
+  errors for UNICORN exports that aren't curves, such as methods and peak
+  tables.
+
+* `chrom_read_quadtech()` reads files whose header has been removed, and
+  errors when the column names don't match the data instead of giving
+  meaningless columns.
+
 * `chrom_append_run()` continues each run from the end of all the runs before
   it, in the units of the first run, so a third run no longer overlaps the
   second. `adjust_fractions = TRUE`

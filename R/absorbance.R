@@ -266,7 +266,7 @@ absorbance_columns <- function(data) {
   if (any(typed)) {
     return(names(data)[typed])
   }
-  stringr::str_subset(names(data), "(?i)^(a\\d{2,3}|uv)$")
+  names(data)[is_absorbance_name(tolower(names(data)))]
 }
 
 # Axis title for the absorbance columns of a data frame, with their unit if

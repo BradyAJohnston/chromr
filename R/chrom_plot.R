@@ -201,10 +201,10 @@ chrom_plot_fractions <- function(
 
 # The wavelength of absorbance column names such as "a280".
 wl_number <- function(x) {
-  as.numeric(stringr::str_extract(x, "\\d+"))
+  as.numeric(stringr::str_match(x, "^a(\\d+)")[, 2])
 }
 
 # Legend labels for absorbance column names: the wavelength, or "UV".
 wl_label <- function(x) {
-  dplyr::coalesce(stringr::str_extract(x, "\\d+"), toupper(x))
+  dplyr::coalesce(stringr::str_match(x, "^a(\\d+)")[, 2], toupper(x))
 }

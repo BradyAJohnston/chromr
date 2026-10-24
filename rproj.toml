@@ -45,6 +45,7 @@ plotly = "*"
 rmarkdown = "*"
 testthat = ">= 3.0.0"
 wellr = { version = ">= 0.4.0", git = "https://github.com/BradyAJohnston/wellr.git", ref = "BradyAJohnston/wellr" }
+withr = "*"
 
 [config.testthat]
 edition = 3

@@ -63,6 +63,14 @@ read_akta_old <- function(file, fraction_size = deprecated()) {
   }
 
   locale <- readr::locale(encoding = akta_encoding(file))
+  if (
+    stringr::str_starts(readr::read_lines(file, n_max = 1), "UNICORN start")
+  ) {
+    cli::cli_abort(c(
+      "{.file {file}} isn't an export of chromatogram curves.",
+      i = "It is another UNICORN export, such as a method or a peak table."
+    ))
+  }
   header <- readr::read_lines(file, skip = 1, n_max = 2, locale = locale) |>
     stringr::str_split("\t")
   dat <- readr::read_tsv(
@@ -78,17 +86,28 @@ read_akta_old <- function(file, fraction_size = deprecated()) {
   # unit of each column on the line below.
   starts <- seq(1, length(header[[1]]) - 1, by = 2)
   labels <- header[[1]][starts]
+  # Some exports name traces "<run>_<trace>", and others just "<trace>".
   prefix <- stringr::str_extract(.find_common_start(labels), "^.*_")
+  prefix <- dplyr::coalesce(prefix, "")
   traces <- purrr::map(starts, \(i) {
     list(
-      name = stringr::str_remove(header[[1]][[i]], stringr::fixed(prefix)),
+      name = stringr::str_sub(header[[1]][[i]], nchar(prefix) + 1),
       unit = header[[2]][[i + 1]],
       volume = as.numeric(dat[[i]]),
       value = dat[[i + 1]]
     )
   })
-  names <- purrr::map_chr(traces, "name")
-  traces <- traces[!stringr::str_detect(names, "(?i)inject|logbook")]
+  # Drop the injection marks and the logbook.
+  events <- paste(
+    purrr::map_chr(traces, "name"),
+    purrr::map_chr(traces, "unit")
+  )
+  traces <- traces[
+    !stringr::str_detect(
+      events,
+      "(?i)inject|logbook|run log|set marks"
+    )
+  ]
   is_fraction <- stringr::str_detect(
     purrr::map_chr(traces, "name"),
     "(?i)^fraction"
@@ -101,7 +120,7 @@ read_akta_old <- function(file, fraction_size = deprecated()) {
   combine_traces(
     traces,
     instrument = "\u00c4KTA",
-    run = stringr::str_remove(prefix, "_$"),
+    run = if (nzchar(prefix)) stringr::str_remove(prefix, "_$") else NA,
     file = file
   )
 }

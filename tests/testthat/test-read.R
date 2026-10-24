@@ -111,4 +111,139 @@ test_that("fraction_at() follows the fraction marks", {
     fraction_at(c(0, 1, 3), c(0.5, 2), c("1", "Waste")),
     c(NA, 1L, NA)
   )
+  expect_equal(
+    fraction_at(c(1, 2, 3), c(1, 2, 3), c('"T1"', '"T2"', '"Waste"')),
+    c(1L, 2L, NA)
+  )
+  expect_snapshot(
+    out <- fraction_at(c(1, 2), c(1, 2), c("1", "1.A.2"))
+  )
+  expect_equal(out, c(1L, NA))
+})
+
+test_that("read_akta_old() reads exports without a run prefix", {
+  path <- withr::local_tempfile(fileext = ".asc")
+  writeLines(
+    c(
+      paste(
+        "Chrom.1",
+        "",
+        "Chrom.1",
+        "",
+        "Chrom.1",
+        "",
+        "Chrom.1",
+        "",
+        "Chrom.1",
+        "",
+        sep = "\t"
+      ),
+      paste(
+        "UV",
+        "",
+        "Gradient Concentration",
+        "",
+        "System Flow",
+        "",
+        "Fraction",
+        "",
+        "Run Log",
+        "",
+        sep = "\t"
+      ),
+      paste(
+        "ml",
+        "mAU",
+        "ml",
+        "%B",
+        "ml",
+        "ml/min",
+        "ml",
+        "Fraction",
+        "ml",
+        "Logbook",
+        sep = "\t"
+      ),
+      paste(
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0.5",
+        '"T1"',
+        "0",
+        '"Method Run"',
+        sep = "\t"
+      ),
+      paste("1", "2", "1", "10", "1", "1", "1.5", '"T2"', "", "", sep = "\t"),
+      paste(
+        "2",
+        "3",
+        "2",
+        "20",
+        "2",
+        "1",
+        "2.5",
+        '"Waste"',
+        "",
+        "",
+        sep = "\t"
+      ),
+      paste("3", "4", "", "", "", "", "", "", "", "", sep = "\t")
+    ),
+    path
+  )
+
+  dat <- read_akta_old(path)
+  expect_named(dat, c("volume", "fraction", "uv", "percent_b", "flow"))
+  expect_equal(dat$fraction, fraction(c(NA, 1, 2, NA)))
+  expect_equal(quantity_unit(dat$percent_b), "%")
+  expect_equal(quantity_unit(dat$flow), "mL/min")
+  expect_true(is.na(chrom_meta(dat)$run))
+})
+
+test_that("repeated traces are numbered", {
+  expect_equal(
+    trace_columns(c("UV", "Cond", "UV@01,BASEM"), c("mAU", "mS/cm", "mAU")),
+    c("uv", "conductivity", "uv_2")
+  )
+  expect_equal(
+    trace_columns(c("Trace 5", "Trace 5"), c("", "")),
+    c("trace_5", "trace_5_2")
+  )
+})
+
+test_that("read_akta_old() errors for other UNICORN exports", {
+  path <- withr::local_tempfile(fileext = ".asc")
+  writeLines(c("UNICORN start 1.0", "", "Variable list"), path)
+
+  expect_snapshot(read_akta_old(path), error = TRUE, transform = \(x) {
+    gsub(path, "<file>", x, fixed = TRUE)
+  })
+})
+
+test_that("chrom_read_quadtech() reads files without the header", {
+  path <- withr::local_tempfile(fileext = ".TXT")
+  writeLines(
+    c("", "Time,QuadTec 3", "     0.0,0.000000", "     1.0,0.000100"),
+    path
+  )
+
+  dat <- chrom_read_quadtech(path)
+  expect_named(dat, c("time", "uv"))
+  expect_equal(absorbance_unit(dat$uv), "AU")
+})
+
+test_that("chrom_read_quadtech() errors when the column names don't match", {
+  path <- withr::local_tempfile(fileext = ".TXT")
+  writeLines(
+    c("Run Name,x", "Time,Second", "Time", "", "     0.0,0.000000"),
+    path
+  )
+
+  expect_snapshot(chrom_read_quadtech(path), error = TRUE, transform = \(x) {
+    gsub(path, "<file>", x, fixed = TRUE)
+  })
 })

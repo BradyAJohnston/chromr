@@ -21,24 +21,42 @@ trace_column <- function(name, unit) {
     label == "volume" ~ "volume",
     stringr::str_detect(label, "^fraction") ~ "fraction",
     !is.na(wavelength) ~ paste0("a", wavelength),
-    stringr::str_detect(label, "^uv") | unit %in% c("au", "mau") ~ "uv",
+    stringr::str_detect(label, "^(uv|quad ?tec)") | unit %in% c("au", "mau") ~
+      "uv",
     stringr::str_detect(label, "^cond") & unit == "%" ~ "conductivity_percent",
     stringr::str_detect(label, "^cond") ~ "conductivity",
-    stringr::str_detect(label, "gradient pump|%b|^conc") ~ "percent_b",
+    stringr::str_detect(label, "gradient|%b|^conc") | unit == "%b" ~
+      "percent_b",
     stringr::str_detect(label, "pressure") ~ "pressure",
-    stringr::str_detect(label, "^flow") ~ "flow",
+    stringr::str_detect(label, "flow") ~ "flow",
     stringr::str_detect(label, "^temp") ~ "temperature",
     .default = janitor::make_clean_names(name, allow_dupes = TRUE)
   )
 }
 
-# The absorbance unit in a unit string such as "(280.0 nm), AU" or " mAU".
-absorbance_unit_from <- function(unit) {
+# Column names for traces, numbering repeats: a second UV trace is `uv_2`.
+trace_columns <- function(name, unit) {
+  columns <- trace_column(name, unit)
+  n <- stats::ave(seq_along(columns), columns, FUN = seq_along)
+  ifelse(n > 1, paste0(columns, "_", n), columns)
+}
+
+# Absorbance column names: `a280`, `uv`, and repeats such as `uv_2`.
+is_absorbance_name <- function(x) {
+  stringr::str_detect(x, "^(a\\d+|uv)(_\\d+)?$")
+}
+
+# The absorbance unit in a unit string such as "(280.0 nm), AU" or " mAU", or
+# `default` if it has none.
+absorbance_unit_from <- function(unit, default) {
   unit <- stringr::str_extract(unit, "(?i)\\bm?au\\b")
   if (is.na(unit)) {
-    cli::cli_abort("Can't find the unit of absorbance.", .internal = TRUE)
+    default
+  } else if (tolower(unit) == "mau") {
+    "mAU"
+  } else {
+    "AU"
   }
-  if (tolower(unit) == "mau") "mAU" else "AU"
 }
 
 # The wavelength in nm of an absorbance trace, from names and units such as
@@ -53,17 +71,18 @@ trace_wavelength <- function(name, unit) {
 # Gives the columns their types, with their units, puts the standard columns
 # first (time, volume, fraction, then absorbance), and makes a chromatogram.
 # `units` are the instrument's units for each column, named by column, and
-# `...` the metadata for `chrom_meta_list()`.
-tidy_traces <- function(data, units, ...) {
+# `...` the metadata for `chrom_meta_list()`. Absorbance whose unit isn't
+# recorded is in `absorbance_unit`.
+tidy_traces <- function(data, units, ..., absorbance_unit = "mAU") {
   if ("fraction" %in% names(data)) {
     data$fraction <- fraction(data$fraction)
   }
-  absorbance <- stringr::str_subset(names(data), "^(a\\d+|uv)$")
+  absorbance <- names(data)[is_absorbance_name(names(data))]
   for (col in absorbance) {
     data[[col]] <- absorbance(
       data[[col]],
       wavelength = wl_number(col),
-      unit = absorbance_unit_from(units[[col]])
+      unit = absorbance_unit_from(units[[col]] %||% "", absorbance_unit)
     )
   }
   data <- dplyr::relocate(
@@ -93,13 +112,17 @@ tidy_traces <- function(data, units, ...) {
 # with the most points; the other traces are interpolated onto them. Fraction
 # marks give the fraction each volume was collected into: the last mark at or
 # before it, or `NA` before the first mark and after a mark that isn't a
-# fraction number, such as "Waste".
+# fraction, such as "Waste". Marks are fraction numbers or tubes, such as "12"
+# or "T12".
 combine_traces <- function(traces, ...) {
-  columns <- purrr::map_chr(traces, \(x) trace_column(x$name, x$unit))
+  columns <- trace_columns(
+    purrr::map_chr(traces, "name"),
+    purrr::map_chr(traces, "unit")
+  )
   is_fraction <- columns == "fraction"
 
   numeric <- which(!is_fraction)
-  absorbance <- numeric[stringr::str_detect(columns[numeric], "^(a\\d+|uv)$")]
+  absorbance <- numeric[is_absorbance_name(columns[numeric])]
   points <- purrr::map_int(traces[numeric], \(x) sum(!is.na(x$volume)))
   grid <- if (length(absorbance) > 0) {
     absorbance[[1]]
@@ -152,8 +175,15 @@ fraction_at <- function(volume, mark_volume, mark_label) {
   mark_volume <- mark_volume[ok][ord]
   mark_label <- mark_label[ok][ord]
   mark_label <- stringr::str_squish(stringr::str_remove_all(mark_label, '"'))
-  number <- suppressWarnings(as.integer(mark_label))
-  number[!grepl("^\\d+$", mark_label)] <- NA
+  # Fractions are marked with their number, or with a tube such as "T12".
+  number <- as.integer(stringr::str_match(mark_label, "^T?(\\d+)$")[, 2])
+  unknown <- unique(mark_label[is.na(number) & tolower(mark_label) != "waste"])
+  if (length(unknown) > 0) {
+    cli::cli_warn(c(
+      "Can't find the fraction number of {length(unknown)} fraction mark{?s}.",
+      i = "Points after {?it/them} have no fraction: {.val {unknown}}."
+    ))
+  }
 
   i <- findInterval(volume, mark_volume)
   out <- rep(NA_integer_, length(volume))
