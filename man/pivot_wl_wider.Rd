@@ -26,7 +26,8 @@ A data frame in wide format where each wavelength becomes a separate column
 Converts wavelength data from long to wide format, specifically handling
 columns containing absorbance values and wavelength identifiers. By default,
 looks for absorbance columns matching "abs|absorbance" and wavelength columns
-matching "wl|wavelength".
+matching "wl|wavelength". \link[=absorbance]{Absorbance} columns named like
+\code{"a280"} get back their wavelength.
 }
 \examples{
 \dontrun{

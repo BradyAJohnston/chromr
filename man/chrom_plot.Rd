@@ -7,8 +7,8 @@
 chrom_plot(data, xlim = NULL, ylim = NULL)
 }
 \arguments{
-\item{data}{Data frame that contains columns for wavelength ('wl'), volume
-('volume') and absorbance ('abs').}
+\item{data}{A chromatogram from \verb{chrom_read_*()}, or a data frame with a
+\code{volume} column and absorbance columns named like \code{a280}.}
 
 \item{xlim}{Limits for the x axis.}
 

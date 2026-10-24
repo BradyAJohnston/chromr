@@ -48,7 +48,7 @@ test_that("chrom_read_ngc() gives one ungrouped row per volume", {
   expect_false(dplyr::is_grouped_df(dat))
   expect_equal(nrow(dat), 6510)
   expect_equal(
-    dat$a260[1:3],
+    vctrs::vec_data(dat$a260[1:3]),
     c(0.746999983675778, 1.10100000165403, 0.783999974373728)
   )
   # Pressure is recorded at fewer volumes, and is interpolated.

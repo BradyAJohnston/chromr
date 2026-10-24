@@ -32,6 +32,15 @@ trace_column <- function(name, unit) {
   )
 }
 
+# The absorbance unit in a unit string such as "(280.0 nm), AU" or " mAU".
+absorbance_unit_from <- function(unit) {
+  unit <- stringr::str_extract(unit, "(?i)\\bm?au\\b")
+  if (is.na(unit)) {
+    cli::cli_abort("Can't find the unit of absorbance.", .internal = TRUE)
+  }
+  if (tolower(unit) == "mau") "mAU" else "AU"
+}
+
 # The wavelength in nm of an absorbance trace, from names and units such as
 # "UV1 (260 nm)", "(280.0 nm), AU" or "UV1_280nm".
 trace_wavelength <- function(name, unit) {
@@ -42,12 +51,20 @@ trace_wavelength <- function(name, unit) {
 }
 
 # Gives the standard columns their types, and puts them first: time, volume,
-# fraction, then absorbance.
-tidy_traces <- function(data) {
+# fraction, then absorbance. `units` are the instrument's units for each
+# column, named by column.
+tidy_traces <- function(data, units) {
   if ("fraction" %in% names(data)) {
     data$fraction <- fraction(data$fraction)
   }
   absorbance <- stringr::str_subset(names(data), "^(a\\d+|uv)$")
+  for (col in absorbance) {
+    data[[col]] <- absorbance(
+      data[[col]],
+      wavelength = wl_number(col),
+      unit = absorbance_unit_from(units[[col]])
+    )
+  }
   dplyr::relocate(
     data,
     dplyr::any_of(c("time", "volume", "fraction")),
@@ -81,10 +98,12 @@ combine_traces <- function(traces) {
   volume <- volume[keep]
 
   out <- list(volume = volume)
+  units <- list()
   for (i in which(is_fraction)) {
     out$fraction <- fraction_at(volume, traces[[i]]$volume, traces[[i]]$value)
   }
   for (i in numeric) {
+    units[[columns[[i]]]] <- traces[[i]]$unit
     out[[columns[[i]]]] <- if (i == grid) {
       as.numeric(traces[[i]]$value[keep])
     } else {
@@ -92,7 +111,7 @@ combine_traces <- function(traces) {
     }
   }
 
-  tidy_traces(tibble::as_tibble(out))
+  tidy_traces(tibble::as_tibble(out), units)
 }
 
 interpolate_trace <- function(trace, volume) {

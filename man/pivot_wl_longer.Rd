@@ -17,8 +17,11 @@ pivot_wl_longer(data, values_to = "abs", names_to = "wl")
 A data frame in long format with wavelength measurements
 }
 \description{
-Converts wavelength data from wide to long format, specifically handling
-columns that match the pattern \code{"(a|A)\\\\d{2,3}"} (e.g., "A280", "a340").
+Converts wavelength data from wide to long format, with a row for each
+absorbance column of each point. The absorbance columns are those of the
+\link{absorbance} type, or for plain data frames, columns named like \code{"a280"} or
+\code{"uv"}. The values keep their unit, converted to mAU if the columns have
+different units.
 }
 \examples{
 \dontrun{

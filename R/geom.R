@@ -237,6 +237,7 @@ StatFractionGroup <- ggplot2::ggproto(
   `_class` = "StatFractionLabel",
   `_inherit` = ggplot2::Stat,
   required_aes = c("x", "y", "fraction"),
+  setup_data = function(data, params) drop_uncollected(data, params),
   compute_group = .compute_group_frac
 )
 
@@ -251,5 +252,12 @@ StatFraction <- ggplot2::ggproto(
   `_class` = "StatFraction",
   `_inherit` = ggplot2::Stat,
   required_aes = c("x", "y", "fraction"),
+  setup_data = function(data, params) drop_uncollected(data, params),
   compute_group = .comput_frac_identity
 )
+
+# Points that weren't collected into a fraction have no fraction to draw, so
+# are dropped before ggplot2 warns about their missing fraction numbers.
+drop_uncollected <- function(data, params) {
+  data[is_collected(data$fraction), , drop = FALSE]
+}

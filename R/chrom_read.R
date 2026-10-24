@@ -95,13 +95,15 @@ chrom_read_quadtech <- function(file, interp_volume = TRUE) {
 
   channels <- chrom_get_meta_quadtech(file, start_line = start_line)
   units <- channels$unit[match(names(data), channels$name)]
-  names(data) <- trace_column(names(data), dplyr::coalesce(units, ""))
+  units <- dplyr::coalesce(units, "")
+  names(data) <- trace_column(names(data), units)
+  names(units) <- names(data)
 
   if (interp_volume && "volume" %in% names(data)) {
     data$volume <- stats::approx(unique(data$volume), n = nrow(data))$y
   }
 
-  tidy_traces(data)
+  tidy_traces(data, units)
 }
 
 

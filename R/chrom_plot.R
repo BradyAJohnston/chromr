@@ -1,7 +1,7 @@
 #' Plot a Chromatogram
 #'
-#' @param data Data frame that contains columns for wavelength ('wl'), volume
-#'   ('volume') and absorbance ('abs').
+#' @param data A chromatogram from `chrom_read_*()`, or a data frame with a
+#'   `volume` column and absorbance columns named like `a280`.
 #' @param xlim Limits for the x axis.
 #' @param ylim Limits for the y axis.
 #'
@@ -22,9 +22,10 @@
 #'   chrom_plot(xlim = c(0, 3), ylim = c(NA, 0.01))
 chrom_plot <-
   function(data, xlim = NULL, ylim = NULL) {
+    absorbance <- absorbance_columns(data)
     dat <- tidyr::pivot_longer(
       data,
-      dplyr::matches("a\\d{2,3}"),
+      dplyr::all_of(absorbance),
       names_to = "wl"
     )
 
@@ -34,9 +35,7 @@ chrom_plot <-
     ) +
       ggplot2::geom_line() +
       ggplot2::scale_x_continuous(expand = c(0, 0)) +
-      ggplot2::scale_colour_discrete(
-        labels = function(x) stringr::str_extract(x, "\\d+")
-      ) +
+      ggplot2::scale_colour_discrete(labels = wl_label) +
       ggplot2::coord_cartesian(
         xlim = xlim,
         ylim = ylim
@@ -53,7 +52,7 @@ chrom_plot <-
       ) +
       ggplot2::labs(
         x = "Volume (mL)",
-        y = "Absorbance (AU)",
+        y = absorbance_title(data, absorbance),
         colour = "Wavelength (nm)"
       )
 
@@ -125,9 +124,11 @@ chrom_plot_fractions <- function(
     stringr::str_detect(colnames(data), "frac") &
     fractions
 
+  absorbance <- absorbance_columns(data)
+  y_title <- absorbance_title(data, absorbance)
   data <- tidyr::pivot_longer(
     data,
-    dplyr::matches("a\\d{2,3}"),
+    dplyr::all_of(absorbance),
     names_to = "wl"
   )
 
@@ -177,12 +178,10 @@ chrom_plot_fractions <- function(
     ggplot2::labs(
       colour = "Wavelength (nm)",
       x = "Volume (mL)",
-      y = "Absorbance (AU)"
+      y = y_title
     ) +
     ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
-    ggplot2::scale_colour_discrete(
-      labels = function(x) stringr::str_extract(x, "\\d{3}"),
-    ) +
+    ggplot2::scale_colour_discrete(labels = wl_label) +
     ggplot2::scale_fill_manual(
       # values = RColorBrewer::brewer.pal(7, "Greys")[2:6]
       values = grDevices::gray(seq(0.85, 0.65, length.out = shade_period))
@@ -202,4 +201,9 @@ chrom_plot_fractions <- function(
 # The wavelength of absorbance column names such as "a280".
 wl_number <- function(x) {
   as.numeric(stringr::str_extract(x, "\\d+"))
+}
+
+# Legend labels for absorbance column names: the wavelength, or "UV".
+wl_label <- function(x) {
+  dplyr::coalesce(stringr::str_extract(x, "\\d+"), toupper(x))
 }

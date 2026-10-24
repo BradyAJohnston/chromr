@@ -7,7 +7,7 @@ test_that("read quadtech file no volume", {
         package = "chromr"
       )
 
-      head(chrom_read_quadtech(fl))
+      plain(head(chrom_read_quadtech(fl)))
     },
     tibble::tribble(
       ~time,
@@ -45,7 +45,8 @@ test_that("read quadtech file no volume", {
       fl |>
         chrom_read_quadtech() |>
         chrom_add_volume(0.3) |>
-        head()
+        head() |>
+        plain()
     },
     tibble::tribble(
       ~time,
@@ -91,7 +92,8 @@ test_that("read quadtech file with volume", {
 
       fl |>
         chrom_read_quadtech() |>
-        head()
+        head() |>
+        plain()
     },
     tibble::tribble(
       ~time,
@@ -179,7 +181,8 @@ test_that("read quadtech file with volume", {
 
       fl |>
         chrom_read_quadtech(interp_volume = FALSE) |>
-        head()
+        head() |>
+        plain()
     },
     tibble::tribble(
       ~time,
