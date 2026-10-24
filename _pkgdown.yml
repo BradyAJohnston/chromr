@@ -2,3 +2,27 @@ url: https://bradyajohnston.github.io/chromr
 
 template:
   bootstrap: 5
+
+reference:
+  - title: Reading chromatograms
+    contents:
+      - starts_with("chrom_read_")
+      - read_akta_old
+      - chrom_meta
+  - title: Working with runs
+    contents:
+      - chrom_append_run
+      - chrom_add_volume
+      - chrom_fractions
+      - fraction_to_well
+      - pivot_wl_longer
+      - pivot_wl_wider
+  - title: Absorbance and fractions
+    contents:
+      - absorbance
+      - fraction
+  - title: Plotting
+    contents:
+      - chrom_plot
+      - chrom_plot_fractions
+      - starts_with("geom_")

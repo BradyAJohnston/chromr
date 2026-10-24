@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of chromr is to ...
+chromr reads chromatograms exported from FPLC instruments, the BioRad QuadTec and NGC and the ÄKTA, into tidy data frames, and plots them with their fractions.
 
 ## Installation
 
@@ -102,3 +102,31 @@ dat |>
   theme_bw()
 ```
 
+## Units, fractions and wells
+
+Every reader gives the same columns, and records the run it came from. Absorbance columns know their wavelength and unit, so plots are labelled with the unit, and joining runs in AU and mAU converts them to mAU.
+
+```{r}
+ngc <- chrom_read_ngc(system.file("extdata", "ngc_sec.csv", package = "chromr"))
+ngc
+
+chrom_meta(ngc)$units
+```
+
+Dividing absorbance gives a plain ratio, such as A260/A280:
+
+```{r}
+ngc |>
+  dplyr::filter(volume > 10) |>
+  dplyr::mutate(ratio = a260 / a280) |>
+  dplyr::select(volume, a260, a280, ratio)
+```
+
+`chrom_fractions()` gives the volumes each fraction covers, and `fraction_to_well()` the well of the collection plate each fraction went into, as [wellr](https://bradyajohnston.github.io/wellr/) well IDs, ready to join to plate-reader data.
+
+```{r}
+akta <- read_akta_old(system.file("extdata", "example_akta_2.asc", package = "chromr"))
+
+chrom_fractions(akta) |>
+  dplyr::mutate(well = fraction_to_well(fraction))
+```

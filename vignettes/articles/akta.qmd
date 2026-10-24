@@ -13,42 +13,36 @@ library(chromr)
 
 ```{r}
 library(ggplot2)
-library(tidyr)
 library(dplyr)
 
-
 fl <- system.file(
-   "extdata",
-   "example_akta_1.asc",
-   package = "chromr"
- )
+  "extdata",
+  "example_akta_1.asc",
+  package = "chromr"
+)
 
-df <- readr::read_tsv(fl, skip = 2)
-head(df)
+dat <- read_akta_old(fl)
+dat
+```
 
-colnames(df) <- c("ml_1", "m_au", "ml_2", "fractions")
-head(df)
+The fraction marks give the fraction each point was collected into, and
+`chrom_fractions()` gives the volumes each fraction covers.
 
-df_fractions <- df |>
-  dplyr::select(matches("fraction") - 1, matches("fraction")) |>
-    dplyr::rename(ml = 1) |>
-  drop_na()
-data <- df |>
-  dplyr::select(
-    -c(matches("fraction"), matches("fraction") - 1)
-  ) |>
-  dplyr::rename(ml = 1)
+```{r}
+chrom_fractions(dat)
+```
 
-data |>
-  mutate(
-    m_au = m_au - 2050,
-    frac = cut(ml, breaks = df_fractions$ml, labels = FALSE)
-  ) |>
-  ggplot(aes(ml, m_au)) +
-  geom_area(aes(fill = factor(frac %% 5), group = frac), na.rm = TRUE) +
+```{r}
+plt <- dat |>
+  mutate(uv = uv - 2050) |>
+  ggplot(aes(volume, uv)) +
+  geom_area(
+    aes(fill = factor(fraction %% 5), group = fraction),
+    data = \(d) filter(d, !is.na(fraction))
+  ) +
   geom_line() +
   scale_fill_brewer(palette = 5) +
-  theme_bw() -> plt
+  theme_bw()
 
 plt
 ```
